@@ -13,7 +13,7 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, Hospital, LayoutGrid, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -22,6 +22,17 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Pasien',
+        href: '/patients',
+        icon: Users,
+    },
+    {
+        title: 'Fasilitas',
+        href: '/facilities',
+        icon: Hospital,
+    },
+    
 ];
 
 const footerNavItems: NavItem[] = [
@@ -52,7 +63,7 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent className='mt-4'>
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 

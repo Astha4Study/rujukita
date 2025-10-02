@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FacilitiesController;
 use App\Http\Controllers\PatientsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('patients', PatientsController::class);
+    Route::resource('facilities', FacilitiesController::class);
 });
 
 require __DIR__ . '/settings.php';

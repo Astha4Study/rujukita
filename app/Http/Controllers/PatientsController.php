@@ -13,10 +13,8 @@ class PatientsController extends Controller
      */
     public function index()
     {
-        $patients = Patients::all();
-
         return Inertia::render('patients/Index', [
-            'patients' => $patients,
+            'patients' => Patients::all(),
         ]);
     }
 
@@ -60,10 +58,8 @@ class PatientsController extends Controller
      */
     public function edit(string $id)
     {
-        $patient = Patients::findOrFail($id);
-
         return Inertia::render('patients/Edit', [
-            'patient' => $patient,
+            'patient' => Patients::findOrFail($id),
         ]);
     }
 
@@ -74,7 +70,7 @@ class PatientsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'nik' => 'required|string|unique:patients,nik,'.$patient->id,
+            'nik' => 'required|string|unique:patients,nik,' . $patient->id,
             'gender' => 'required|in:L,P',
             'age' => 'required|integer',
             'address' => 'required|string',
@@ -83,7 +79,7 @@ class PatientsController extends Controller
 
         $patient->update($request->all());
 
-        return redirect()->route('patients.index');
+        return to_route('patients.index');
     }
 
     /**
