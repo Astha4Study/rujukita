@@ -14,7 +14,7 @@ class FacilitiesController extends Controller
     public function index()
     {
         return Inertia::render('facilities/Index', [
-            'facilities' => Facilities::all()
+            'facilities' => Facilities::all(),
         ]);
     }
 
@@ -33,7 +33,7 @@ class FacilitiesController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
-            'type' => 'required|in:Puskesmas,Klinik,Rumah Sakit Umum,Rumah Sakit Rujukan',
+            'type' => 'required|in:Puskesmas,Klinik,RSU,Rumah Sakit Rujukan',
             'address' => 'required|string',
             'city' => 'required|string',
             'latitude' => 'required|string',
@@ -64,8 +64,8 @@ class FacilitiesController extends Controller
      */
     public function edit(string $id)
     {
-        return Inertia::render('facilities/Edit',  [
-            'facilities' => Facilities::findOrFail($id)
+        return Inertia::render('facilities/Edit', [
+            'facilities' => Facilities::findOrFail($id),
         ]);
     }
 
@@ -74,7 +74,7 @@ class FacilitiesController extends Controller
      */
     public function update(Request $request, Facilities $facility)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:100',
             'type' => 'required|in:Puskesmas,Klinik,Rumah Sakit Umum,Rumah Sakit Rujukan',
             'address' => 'required|string',
@@ -87,7 +87,7 @@ class FacilitiesController extends Controller
             'image' => 'nullable|string',
         ]);
 
-        $facility->update($validated);
+        $facility->update($request->all());
 
         return to_route('facilities.index');
     }
@@ -95,9 +95,9 @@ class FacilitiesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Facilities $facilities)
+    public function destroy(Facilities $facility)
     {
-        $facilities->delete();
+        $facility->delete();
 
         return to_route('facilities.index');
     }

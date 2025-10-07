@@ -135,8 +135,8 @@ export default function Create() {
                         type="submit"
                         disabled={loading}
                         className={`flex w-full items-center justify-center rounded-lg px-4 py-2 font-semibold text-white ${loading
-                                ? 'cursor-not-allowed bg-gray-400'
-                                : 'bg-blue-600 hover:bg-blue-500'
+                            ? 'cursor-not-allowed bg-gray-400'
+                            : 'bg-blue-600 hover:bg-blue-500'
                             }`}
                     >
                         {loading ? (

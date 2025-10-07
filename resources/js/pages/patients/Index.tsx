@@ -40,17 +40,17 @@ export default function IndexPasien() {
                         </tr>
                     </thead>
                     <tbody>
-                        {patients.map((p: any) => (
-                            <tr key={p.id}>
-                                <td>{p.name}</td>
-                                <td>{p.nik}</td>
-                                <td>{p.gender}</td>
-                                <td>{p.age}</td>
+                        {patients.map((patients: any) => (
+                            <tr key={patients.id}>
+                                <td>{patients.name}</td>
+                                <td>{patients.nik}</td>
+                                <td>{patients.gender}</td>
+                                <td>{patients.age}</td>
                                 <td>
-                                    <Link href={`/patients/${p.id}/edit`}>
+                                    <Link href={`/patients/${patients.id}/edit`}>
                                         Edit
                                     </Link>
-                                    <button onClick={() => deletePatient(p.id)}>
+                                    <button onClick={() => deletePatient(patients.id)}>
                                         Hapus
                                     </button>
                                 </td>
