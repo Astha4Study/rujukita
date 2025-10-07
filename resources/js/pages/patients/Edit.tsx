@@ -1,5 +1,6 @@
-import { useForm, Link } from "@inertiajs/react";
 import AppLayout from '@/layouts/app-layout';
+import { BreadcrumbItem } from '@/types';
+import { Link, useForm } from '@inertiajs/react';
 
 type Patient = {
     id: number;
@@ -15,14 +16,25 @@ type Props = {
     patient: Patient;
 };
 
-export default function Edit({ patient }: Props) {
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Daftar Pasien',
+        href: '/patients',
+    },
+    {
+        title: 'Edit Pasien',
+        href: '',
+    },
+];
+
+export default function EditPasien({ patient }: Props) {
     const { data, setData, put, processing, errors } = useForm({
-        name: patient.name || "",
-        nik: patient.nik || "",
-        gender: patient.gender || "L",
-        age: patient.age || 0,
-        address: patient.address || "",
-        phone: patient.phone || "",
+        name: patient.name || '',
+        nik: patient.nik || '',
+        gender: patient.gender || 'L',
+        age: patient.age || '',
+        address: patient.address || '',
+        phone: patient.phone || '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -31,95 +43,186 @@ export default function Edit({ patient }: Props) {
     };
 
     return (
-        <AppLayout>
-            <div className="max-w-2xl mx-auto p-6 bg-white text-gray-800 shadow rounded">
-                <h1 className="text-2xl font-bold mb-6">Edit Pasien</h1>
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <div className="p-6">
+                {/* Header */}
+                <div className="mb-6">
+                    <h1 className="text-2xl font-semibold text-gray-900">
+                        Edit Pasien
+                    </h1>
+                    <p className="mt-1 text-sm text-gray-500">
+                        Perbarui informasi data pasien
+                    </p>
+                </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block">Nama</label>
-                        <input
-                            type="text"
-                            value={data.name}
-                            onChange={(e) => setData("name", e.target.value)}
-                            className="w-full border rounded p-2"
-                        />
-                        {errors.name && <div className="text-red-600">{errors.name}</div>}
-                    </div>
+                {/* Form Card */}
+                <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                    <form onSubmit={handleSubmit} autoComplete='off'>
+                        <div className="p-6">
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                {/* Nama */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Nama Lengkap
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.name}
+                                        onChange={(e) =>
+                                            setData('name', e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
+                                        placeholder="Masukkan nama lengkap"
+                                    />
+                                    {errors.name && (
+                                        <p className="mt-1.5 text-sm text-red-600">
+                                            {errors.name}
+                                        </p>
+                                    )}
+                                </div>
 
-                    <div>
-                        <label className="block">NIK</label>
-                        <input
-                            type="text"
-                            value={data.nik}
-                            onChange={(e) => setData("nik", e.target.value)}
-                            className="w-full border rounded p-2"
-                        />
-                        {errors.nik && <div className="text-red-600">{errors.nik}</div>}
-                    </div>
+                                {/* NIK */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        NIK
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.nik}
+                                        onChange={(e) =>
+                                            setData('nik', e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
+                                        placeholder="Masukkan NIK"
+                                        maxLength={16}
+                                    />
+                                    {errors.nik && (
+                                        <p className="mt-1.5 text-sm text-red-600">
+                                            {errors.nik}
+                                        </p>
+                                    )}
+                                </div>
 
-                    <div>
-                        <label className="block">Jenis Kelamin</label>
-                        <select
-                            value={data.gender}
-                            onChange={(e) => setData("gender", e.target.value)}
-                            className="w-full border rounded p-2"
-                        >
-                            <option value="L">Laki-laki</option>
-                            <option value="P">Perempuan</option>
-                        </select>
-                        {errors.gender && <div className="text-red-600">{errors.gender}</div>}
-                    </div>
+                                {/* Jenis Kelamin */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Jenis Kelamin
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <select
+                                        value={data.gender}
+                                        onChange={(e) =>
+                                            setData('gender', e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
+                                    >
+                                        <option value="L">Laki-laki</option>
+                                        <option value="P">Perempuan</option>
+                                    </select>
+                                    {errors.gender && (
+                                        <p className="mt-1.5 text-sm text-red-600">
+                                            {errors.gender}
+                                        </p>
+                                    )}
+                                </div>
 
-                    <div>
-                        <label className="block">Umur</label>
-                        <input
-                            type="number"
-                            value={data.age}
-                            onChange={(e) => setData("age", Number(e.target.value))}
-                            className="w-full border rounded p-2"
-                        />
-                        {errors.age && <div className="text-red-600">{errors.age}</div>}
-                    </div>
+                                {/* Umur */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Umur
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={data.age}
+                                        onChange={(e) =>
+                                            setData(
+                                                'age',
+                                                Number(e.target.value),
+                                            )
+                                        }
+                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
+                                        placeholder="Masukkan umur"
+                                        min="0"
+                                        max="150"
+                                    />
+                                    {errors.age && (
+                                        <p className="mt-1.5 text-sm text-red-600">
+                                            {errors.age}
+                                        </p>
+                                    )}
+                                </div>
 
-                    <div>
-                        <label className="block">Alamat</label>
-                        <input
-                            type="text"
-                            value={data.address}
-                            onChange={(e) => setData("address", e.target.value)}
-                            className="w-full border rounded p-2"
-                        />
-                        {errors.address && <div className="text-red-600">{errors.address}</div>}
-                    </div>
+                                {/* Nomor HP */}
+                                <div>
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Nomor Telepon
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.phone}
+                                        onChange={(e) =>
+                                            setData('phone', e.target.value)
+                                        }
+                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
+                                        placeholder="Contoh: 08123456789"
+                                    />
+                                    {errors.phone && (
+                                        <p className="mt-1.5 text-sm text-red-600">
+                                            {errors.phone}
+                                        </p>
+                                    )}
+                                </div>
 
-                    <div>
-                        <label className="block">Nomor HP</label>
-                        <input
-                            type="text"
-                            value={data.phone}
-                            onChange={(e) => setData("phone", e.target.value)}
-                            className="w-full border rounded p-2"
-                        />
-                        {errors.phone && <div className="text-red-600">{errors.phone}</div>}
-                    </div>
+                                {/* Alamat */}
+                                <div className="md:col-span-2">
+                                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                                        Alamat
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <textarea
+                                        value={data.address}
+                                        onChange={(e) =>
+                                            setData('address', e.target.value)
+                                        }
+                                        rows={3}
+                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
+                                        placeholder="Masukkan alamat lengkap"
+                                    />
+                                    {errors.address && (
+                                        <p className="mt-1.5 text-sm text-red-600">
+                                            {errors.address}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
 
-                    <div className="flex justify-between items-center mt-6">
-                        <Link
-                            href="/patients"
-                            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-                        >
-                            Kembali
-                        </Link>
-                        <button
-                            type="submit"
-                            disabled={processing}
-                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                        >
-                            Simpan Perubahan
-                        </button>
-                    </div>
-                </form>
+                        {/* Footer */}
+                        <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
+                            <div className="flex items-center justify-end gap-3">
+                                <Link
+                                    href="/patients"
+                                    className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                                >
+                                    Batal
+                                </Link>
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    {processing
+                                        ? 'Menyimpan...'
+                                        : 'Simpan Perubahan'}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </AppLayout>
     );
