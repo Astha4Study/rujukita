@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function CreatePasien() {
     const { data, setData, post, processing, errors } = useForm({
@@ -19,7 +19,7 @@ export default function CreatePasien() {
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-        >
+        >,
     ) => {
         setData(e.target.name as keyof typeof data, e.target.value);
     };
@@ -41,6 +41,7 @@ export default function CreatePasien() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Tambah Pasien" />
             <div className="p-6">
                 <div className="mb-6">
                     <h1 className="text-2xl font-semibold text-gray-900">
@@ -58,7 +59,8 @@ export default function CreatePasien() {
                                 {/* Nama Lengkap */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Nama Lengkap <span className="text-red-500">*</span>
+                                        Nama Lengkap{' '}
+                                        <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -69,14 +71,17 @@ export default function CreatePasien() {
                                         placeholder="Masukkan nama lengkap pasien"
                                     />
                                     {errors.nama_lengkap && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.nama_lengkap}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.nama_lengkap}
+                                        </p>
                                     )}
                                 </div>
 
                                 {/* NIK */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        NIK <span className="text-red-500">*</span>
+                                        NIK{' '}
+                                        <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -87,13 +92,18 @@ export default function CreatePasien() {
                                         className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                         placeholder="16 digit NIK"
                                     />
-                                    {errors.nik && <p className="mt-1 text-sm text-red-600">{errors.nik}</p>}
+                                    {errors.nik && (
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.nik}
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Jenis Kelamin */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Jenis Kelamin <span className="text-red-500">*</span>
+                                        Jenis Kelamin{' '}
+                                        <span className="text-red-500">*</span>
                                     </label>
                                     <select
                                         name="jenis_kelamin"
@@ -105,7 +115,9 @@ export default function CreatePasien() {
                                         <option value="P">Perempuan</option>
                                     </select>
                                     {errors.jenis_kelamin && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.jenis_kelamin}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.jenis_kelamin}
+                                        </p>
                                     )}
                                 </div>
 
@@ -122,7 +134,9 @@ export default function CreatePasien() {
                                         className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                     />
                                     {errors.tanggal_lahir && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.tanggal_lahir}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.tanggal_lahir}
+                                        </p>
                                     )}
                                 </div>
 
@@ -140,7 +154,9 @@ export default function CreatePasien() {
                                         placeholder="Masukkan tempat lahir"
                                     />
                                     {errors.tempat_lahir && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.tempat_lahir}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.tempat_lahir}
+                                        </p>
                                     )}
                                 </div>
 
@@ -158,7 +174,9 @@ export default function CreatePasien() {
                                         className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                     />
                                     {errors.golongan_darah && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.golongan_darah}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.golongan_darah}
+                                        </p>
                                     )}
                                 </div>
 
@@ -176,14 +194,17 @@ export default function CreatePasien() {
                                         className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                     />
                                     {errors.no_hp && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.no_hp}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.no_hp}
+                                        </p>
                                     )}
                                 </div>
 
                                 {/* Alamat */}
                                 <div className="md:col-span-2">
                                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Alamat <span className="text-red-500">*</span>
+                                        Alamat{' '}
+                                        <span className="text-red-500">*</span>
                                     </label>
                                     <textarea
                                         name="alamat"
@@ -194,7 +215,9 @@ export default function CreatePasien() {
                                         className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                     />
                                     {errors.alamat && (
-                                        <p className="mt-1 text-sm text-red-600">{errors.alamat}</p>
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.alamat}
+                                        </p>
                                     )}
                                 </div>
 
@@ -231,7 +254,7 @@ export default function CreatePasien() {
                         </div>
 
                         {/* Tombol */}
-                        <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 flex justify-end gap-3">
+                        <div className="flex justify-end gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4">
                             <Link
                                 href="/pasien"
                                 className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"

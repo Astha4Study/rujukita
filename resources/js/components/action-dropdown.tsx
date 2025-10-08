@@ -15,11 +15,15 @@ interface Fasilitas {
     jenis_fasilitas: string;
     alamat: string;
     kota: string;
-    latitude: string;
-    longitude: string;
+    provinsi: string;
+    no_telepon: string;
+    email: string;
     kapasitas_total: number;
     kapasitas_tersedia: number;
     spesialisasi: string;
+    deskripsi: string;
+    latitude: string;
+    longitude: string;
     gambar: string;
 }
 

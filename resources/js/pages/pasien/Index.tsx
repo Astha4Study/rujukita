@@ -33,7 +33,9 @@ const listTable = [
     'Alamat',
 ];
 
-const breadcrumbs: BreadcrumbItem[] = [{ title: 'Daftar Pasien', href: '/pasien' }];
+const breadcrumbs: BreadcrumbItem[] = [
+    { title: 'Daftar Pasien', href: '/pasien' },
+];
 
 export default function IndexPasien() {
     const { pasien } = usePage<PageProps>().props;
@@ -75,7 +77,9 @@ export default function IndexPasien() {
             <div className="p-6">
                 {/* Header */}
                 <div>
-                    <h1 className="text-2xl font-semibold text-gray-900">Daftar Pasien</h1>
+                    <h1 className="text-2xl font-semibold text-gray-900">
+                        Daftar Pasien
+                    </h1>
                     <p className="mt-1 text-sm text-gray-500">
                         Kelola data pasien yang Anda daftarkan
                     </p>
@@ -91,7 +95,7 @@ export default function IndexPasien() {
                                 placeholder="Cari pasien berdasarkan nama atau NIK..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full min-w-[300px] rounded-lg border border-gray-200 bg-white py-2.5 pr-4 pl-10 text-sm text-gray-900 placeholder-gray-400 transition focus:border-emerald-400 focus:ring-emerald-400"
+                                className="w-full min-w-[400px] rounded-lg border border-gray-200 bg-white py-2.5 pr-4 pl-10 text-sm text-gray-900 placeholder-gray-400 transition focus:border-emerald-400 focus:ring-emerald-400"
                             />
                         </div>
                         <button className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
@@ -118,7 +122,11 @@ export default function IndexPasien() {
                                     <th className="px-6 py-3 text-left">
                                         <input
                                             type="checkbox"
-                                            checked={selectedIds.length === pasien.length && pasien.length > 0}
+                                            checked={
+                                                selectedIds.length ===
+                                                    pasien.length &&
+                                                pasien.length > 0
+                                            }
                                             onChange={toggleSelectAll}
                                             className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                         />
@@ -126,51 +134,71 @@ export default function IndexPasien() {
                                     {listTable.map((item) => (
                                         <th
                                             key={item}
-                                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                                            className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
                                         >
                                             {item}
                                         </th>
                                     ))}
-                                    <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500 uppercase">
                                         Aksi
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {filteredPasien.length > 0 ? (
-                                    filteredPasien.map((p) => (
-                                        <tr key={p.id} className="transition hover:bg-gray-50">
+                                    filteredPasien.map((item) => (
+                                        <tr
+                                            key={item.id}
+                                            className="transition hover:bg-gray-50"
+                                        >
                                             <td className="px-6 py-4">
                                                 <input
                                                     type="checkbox"
-                                                    checked={selectedIds.includes(p.id)}
-                                                    onChange={() => toggleSelect(p.id)}
+                                                    checked={selectedIds.includes(
+                                                        item.id,
+                                                    )}
+                                                    onChange={() =>
+                                                        toggleSelect(item.id)
+                                                    }
                                                     className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                                 />
                                             </td>
                                             <td className="px-6 py-4 font-medium text-gray-900">
-                                                {p.nama_lengkap}
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-700">{p.nik}</td>
-                                            <td className="px-6 py-4 text-gray-700">
-                                                {p.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}
+                                                {item.nama_lengkap}
                                             </td>
                                             <td className="px-6 py-4 text-gray-700">
-                                                {p.tanggal_lahir
-                                                    ? new Date(p.tanggal_lahir).toLocaleDateString('id-ID', {
-                                                        day: '2-digit',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                    })
+                                                {item.nik}
+                                            </td>
+                                            <td className="px-6 py-4 text-gray-700">
+                                                {item.jenis_kelamin === 'L'
+                                                    ? 'Laki-laki'
+                                                    : 'Perempuan'}
+                                            </td>
+                                            <td className="px-6 py-4 text-gray-700">
+                                                {item.tanggal_lahir
+                                                    ? new Date(
+                                                          item.tanggal_lahir,
+                                                      ).toLocaleDateString(
+                                                          'id-ID',
+                                                          {
+                                                              day: '2-digit',
+                                                              month: 'long',
+                                                              year: 'numeric',
+                                                          },
+                                                      )
                                                     : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-gray-700">
-                                                {p.umur ? `${p.umur} tahun` : '-'}
+                                                {item.umur
+                                                    ? `${item.umur} tahun`
+                                                    : '-'}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-700">{p.alamat}</td>
+                                            <td className="px-6 py-4 text-gray-700">
+                                                {item.alamat}
+                                            </td>
                                             <td className="px-6 py-4 text-center">
                                                 <Link
-                                                    href={`/pasien/${p.id}/edit`}
+                                                    href={`/pasien/${item.id}/edit`}
                                                     className="text-emerald-600 hover:text-emerald-700"
                                                 >
                                                     Edit
@@ -196,7 +224,8 @@ export default function IndexPasien() {
                 {/* Footer */}
                 <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
                     <p>
-                        Menampilkan {filteredPasien.length} dari {pasien.length} pasien
+                        Menampilkan {filteredPasien.length} dari {pasien.length}{' '}
+                        pasien
                     </p>
                 </div>
 

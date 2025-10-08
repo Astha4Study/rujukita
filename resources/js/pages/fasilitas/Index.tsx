@@ -13,11 +13,15 @@ type Fasilitas = {
     jenis_fasilitas: string;
     alamat: string;
     kota: string;
-    latitude: string;
-    longitude: string;
+    provinsi: string;
+    no_telepon: string;
+    email: string;
     kapasitas_total: number;
     kapasitas_tersedia: number;
     spesialisasi: string;
+    deskripsi: string;
+    latitude: string;
+    longitude: string;
     gambar: string;
 };
 
@@ -30,8 +34,7 @@ const listTable = [
     'Jenis Fasilitas',
     'Alamat',
     'Kota',
-    'Latitude',
-    'Longitude',
+    'Provinsi',
     'Total Kamar',
     'Kamar Tersedia',
     'Spesialisasi',
@@ -54,9 +57,14 @@ export default function IndexFasilitas() {
 
     const filteredFasilitas = fasilitas.filter(
         (item) =>
-            item.nama_fasilitas.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.jenis_fasilitas.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.kota.toLowerCase().includes(searchQuery.toLowerCase()),
+            item.nama_fasilitas
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+            item.jenis_fasilitas
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+            item.kota.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.provinsi.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     return (
@@ -68,7 +76,7 @@ export default function IndexFasilitas() {
                         Daftar Fasilitas
                     </h1>
                     <p className="mt-1 text-sm text-gray-500">
-                        Fasilitas Yang Ada
+                        Fasilitas Yang Ada Di Rujukita
                     </p>
                 </div>
                 <div className="my-4 flex items-center justify-between gap-3">
@@ -77,10 +85,10 @@ export default function IndexFasilitas() {
                             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Search"
+                                placeholder="Cari fasilitas berdasarkan nama, jenis, kota, provinsi..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full min-w-[400px] rounded-lg border border-gray-200 bg-white py-2.5 pr-4 pl-10 text-sm text-gray-900 placeholder-gray-400 transition"
+                                className="w-full min-w-[400px] rounded-lg border border-gray-200 bg-white py-2.5 pr-4 pl-10 text-sm text-gray-900 placeholder-gray-400 transition focus:border-emerald-400 focus:ring-emerald-400"
                             />
                         </div>
                         <button className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
@@ -93,7 +101,7 @@ export default function IndexFasilitas() {
                         className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700"
                     >
                         <Plus className="h-4 w-4" />
-                        Tambah Pasien
+                        Tambah Fasilitas
                     </Link>
                 </div>
 
@@ -112,7 +120,7 @@ export default function IndexFasilitas() {
                                         </th>
                                     ))}
                                     <th className="px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500 uppercase">
-                                        Action
+                                        Aksi
                                     </th>
                                 </tr>
                             </thead>
@@ -144,12 +152,7 @@ export default function IndexFasilitas() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="text-sm text-gray-600">
-                                                {item.latitude}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="text-sm text-gray-600">
-                                                {item.longitude}
+                                                {item.provinsi}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -183,7 +186,9 @@ export default function IndexFasilitas() {
                                         <td className="px-6 py-4 text-center">
                                             <ActionDropdown
                                                 fasilitas={item}
-                                                deletefasilitas={deleteFasilitas}
+                                                deletefasilitas={
+                                                    deleteFasilitas
+                                                }
                                             />
                                         </td>
                                     </tr>

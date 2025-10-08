@@ -9,6 +9,9 @@ use Inertia\Inertia;
 
 class PasienController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $user = Auth::user();
@@ -24,11 +27,17 @@ class PasienController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return Inertia::render('pasien/Create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -51,6 +60,17 @@ class PasienController extends Controller
         return redirect()->route('pasien.index')->with('success', 'Pasien berhasil ditambahkan.');
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Pasien $pasien)
     {
         $user = Auth::user();
@@ -64,6 +84,9 @@ class PasienController extends Controller
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Pasien $pasien)
     {
         $user = Auth::user();
@@ -89,6 +112,9 @@ class PasienController extends Controller
         return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil diperbarui.');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Pasien $pasien)
     {
         $user = Auth::user();

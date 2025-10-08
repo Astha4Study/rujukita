@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('tempat_lahir')->nullable();
             $table->string('alamat');
             $table->string('no_hp', 18)->nullable();
-            $table->enum('golongan_darah')->nullable();
+            $table->string('golongan_darah')->nullable();
             $table->text('riwayat_penyakit')->nullable();
             $table->text('alergi')->nullable();
 
