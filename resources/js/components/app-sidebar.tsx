@@ -24,15 +24,15 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Pasien',
-        href: '/patients',
+        href: '/pasien',
         icon: Users,
     },
     {
         title: 'Fasilitas',
-        href: '/facilities',
+        href: '/fasilitas',
         icon: Hospital,
     },
-    
+
 ];
 
 const footerNavItems: NavItem[] = [

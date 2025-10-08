@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\FacilitiesController;
-use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\PasienController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,8 +14,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::resource('patients', PatientsController::class);
-    Route::resource('facilities', FacilitiesController::class);
+    Route::resource('pasien', PasienController::class);
+    Route::resource('fasilitas', FasilitasController::class);
 });
 
 require __DIR__.'/settings.php';

@@ -9,28 +9,28 @@ import {
 import { Link } from '@inertiajs/react';
 import { MoreHorizontal } from 'lucide-react';
 
-interface Facilities {
+interface Fasilitas {
     id: number;
-    name: string;
-    type: string;
-    address: string;
-    city: string;
+    nama_fasilitas: string;
+    jenis_fasilitas: string;
+    alamat: string;
+    kota: string;
     latitude: string;
     longitude: string;
-    capacity: number;
-    available_beds: number;
-    specialization: string;
-    image: string;
+    kapasitas_total: number;
+    kapasitas_tersedia: number;
+    spesialisasi: string;
+    gambar: string;
 }
 
 interface ActionDropdownProps {
-    facilities: Facilities;
-    deleteFacilities: (id: number) => void;
+    fasilitas: Fasilitas;
+    deletefasilitas: (id: number) => void;
 }
 
 export default function ActionDropdown({
-    facilities,
-    deleteFacilities,
+    fasilitas,
+    deletefasilitas,
 }: ActionDropdownProps) {
     return (
         <DropdownMenu>
@@ -43,7 +43,7 @@ export default function ActionDropdown({
             <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                     <Link
-                        href={`/facilities/${facilities.id}/edit`}
+                        href={`/fasilitas/${fasilitas.id}/edit`}
                         className="w-full text-yellow-600 hover:text-yellow-700 focus:text-yellow-700"
                     >
                         Edit Fasilitas
@@ -52,7 +52,7 @@ export default function ActionDropdown({
 
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                    onClick={() => deleteFacilities(facilities.id)}
+                    onClick={() => deletefasilitas(fasilitas.id)}
                     className="w-full cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700"
                 >
                     Hapus

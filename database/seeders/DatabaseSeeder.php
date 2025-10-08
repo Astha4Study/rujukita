@@ -17,15 +17,38 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(FacilitySeeder::class);
 
-        $admin = User::firstOrCreate(
+        $SuperAdmin = User::firstOrCreate(
             ['email' => 'superadmin@example.com'],
             [
-                'name' => 'admin',
+                'name' => 'Super Admin',
                 'password' => Hash::make('12345678'),
                 'email_verified_at' => now(),
             ]
         );
 
-        $admin->assignRole('super admin');
+        $SuperAdmin->assignRole('super_admin');
+
+        $perawat = User::firstOrCreate(
+            ['email' => 'Perawat@example.com'],
+            [
+                'name' => 'Perawat',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $perawat->assignRole('perawat');
+
+        $pasien = User::firstOrCreate(
+            ['email' => 'iyandabes1@gmail.com'],
+            [
+                'name' => 'Astha',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $pasien->assignRole('pasien');
+
     }
 }
