@@ -75,7 +75,7 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if (! $user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
+        if (!$user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit data ini.');
         }
 
@@ -91,7 +91,7 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if (! $user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
+        if (!$user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk memperbarui data ini.');
         }
 
@@ -119,7 +119,7 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if (! $user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
+        if (!$user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus data ini.');
         }
 

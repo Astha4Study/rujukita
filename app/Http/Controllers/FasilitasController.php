@@ -18,12 +18,12 @@ class FasilitasController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('super_admin')) {
-            $fasilitas = Fasilitas::latest()->get();
+            $fasilita = Fasilitas::latest()->get();
         } else {
-            $fasilitas = Fasilitas::where('created_by', $user->id)->latest()->get();
+            $fasilita = Fasilitas::where('created_by', $user->id)->latest()->get();
         }
 
-        return Inertia::render('fasilitas/Index', ['fasilitas' => $fasilitas]);
+        return Inertia::render('fasilitas/Index', ['fasilitas' => $fasilita]);
     }
 
     /**
@@ -41,8 +41,8 @@ class FasilitasController extends Controller
     {
         $validated = $request->validate([
             'nama_fasilitas' => 'required|string|max:255',
-            'jenis_fasilitas' => 'required|in:Rumah Sakit Umum,Klinik,Puskesmas, Dokter Mandiri',
-            'spesialisasi' => 'required|in:Umum,Anak,Kandungan,Bedah,Gigi, Mata, Jantung, Kulit, Saraf, Lainnya',
+            'jenis_fasilitas' => 'required|in:Rumah Sakit Umum,Klinik,Puskesmas,Dokter Mandiri',
+            'spesialisasi' => 'required|in:Umum,Anak,Kandungan,Bedah,Gigi,Mata,Jantung,Kulit,Saraf,Lainnya',
             'alamat' => 'required|string',
             'kota' => 'required|string',
             'provinsi' => 'nullable|string|max:255',
@@ -78,33 +78,33 @@ class FasilitasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fasilitas $fasilitas)
+    public function edit(Fasilitas $fasilita)
     {
         $user = Auth::user();
 
-        if (! $user->hasRole('super_admin') && $fasilitas->created_by !== $user->id) {
+        if (!$user->hasRole('super_admin') && $fasilita->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit data ini.');
         }
 
         return Inertia::render('fasilitas/Edit', [
-            'fasilitas' => $fasilitas,
+            'fasilitas' => $fasilita,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fasilitas $fasilitas)
+    public function update(Request $request, Fasilitas $fasilita)
     {
         $user = Auth::user();
-        if (! $user->hasRole('super_admin') && $fasilitas->created_by !== $user->id) {
+        if (!$user->hasRole('super_admin') && $fasilita->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk memperbarui data ini.');
         }
 
         $validated = $request->validate([
             'nama_fasilitas' => 'required|string|max:255',
-            'jenis_fasilitas' => 'required|in:Rumah Sakit Umum,Klinik,Puskesmas, Dokter Mandiri',
-            'spesialisasi' => 'required|in:Umum,Anak,Kandungan,Bedah,Gigi, Mata, Jantung, Kulit, Saraf, Lainnya',
+            'jenis_fasilitas' => 'required|in:Rumah Sakit Umum,Klinik,Puskesmas,Dokter Mandiri',
+            'spesialisasi' => 'required|in:Umum,Anak,Kandungan,Bedah,Gigi,Mata,Jantung,Kulit,Saraf,Lainnya',
             'alamat' => 'required|string',
             'kota' => 'required|string',
             'provinsi' => 'nullable|string|max:255',
@@ -118,15 +118,14 @@ class FasilitasController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            if ($fasilitas->gambar && Storage::disk('public')->exists($fasilitas->gambar)) {
-                Storage::disk('public')->delete($fasilitas->gambar);
-
-                $path = $request->file('gambar')->store('fasilitas', 'public');
-                $validated['gambar'] = $path;
+            if ($fasilita->gambar && Storage::disk('public')->exists($fasilita->gambar)) {
+                Storage::disk('public')->delete($fasilita->gambar);
             }
+            $path = $request->file('gambar')->store('fasilitas', 'public');
+            $validated['gambar'] = $path;
         }
 
-        $fasilitas->update($validated);
+        $fasilita->update($validated);
 
         return redirect()->route('fasilitas.index')->with('success', 'Data fasilitas berhasil diperbarui.');
     }
@@ -134,18 +133,18 @@ class FasilitasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fasilitas $fasilitas)
+    public function destroy(Fasilitas $fasilita)
     {
         $user = Auth::user();
 
-        if (! $user->hasRole('super_admin') && $fasilitas->created_by !== $user->id) {
+        if (!$user->hasRole('super_admin') && $fasilita->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus data ini.');
         }
-        if ($fasilitas->gambar && Storage::disk('public')->exists($fasilitas->gambar)) {
-            Storage::disk('public')->delete($fasilitas->gambar);
+        if ($fasilita->gambar && Storage::disk('public')->exists($fasilita->gambar)) {
+            Storage::disk('public')->delete($fasilita->gambar);
         }
 
-        $fasilitas->delete();
+        $fasilita->delete();
 
         return redirect()->route('fasilitas.index')->with('success', 'Data fasilitas berhasil dihapus.');
     }

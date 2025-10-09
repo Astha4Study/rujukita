@@ -100,9 +100,6 @@ export default function CreateFasilitas() {
                                         }
                                         className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                     >
-                                        <option value="">
-                                            -- Pilih Jenis Fasilitas --
-                                        </option>
                                         <option value="Rumah Sakit Umum">
                                             Rumah Sakit Umum
                                         </option>
@@ -144,57 +141,59 @@ export default function CreateFasilitas() {
                                     )}
                                 </div>
 
-                                {/* Kota */}
-                                <div>
-                                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Kota{' '}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="kota"
-                                        value={data.kota}
-                                        onChange={(e) =>
-                                            setData('kota', e.target.value)
-                                        }
-                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
-                                        placeholder="Masukan kota tempat fasilitas"
-                                    />
-                                    {errors.kota && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.kota}
-                                        </p>
-                                    )}
-                                </div>
+                                {/* Kota & Provinsi */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Kota{' '}
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="kota"
+                                            value={data.kota}
+                                            onChange={(e) =>
+                                                setData('kota', e.target.value)
+                                            }
+                                            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
+                                            placeholder="Masukan kota tempat fasilitas"
+                                        />
+                                        {errors.kota && (
+                                            <p className="mt-1 text-sm text-red-500">
+                                                {errors.kota}
+                                            </p>
+                                        )}
+                                    </div>
 
-                                {/* Provinsi */}
-                                <div>
-                                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                                        Provinsi{' '}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="provinsi"
-                                        value={data.provinsi}
-                                        onChange={(e) =>
-                                            setData('provinsi', e.target.value)
-                                        }
-                                        className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
-                                        placeholder="Masukan provinsi tempat fasilitas"
-                                    />
-                                    {errors.provinsi && (
-                                        <p className="mt-1 text-sm text-red-500">
-                                            {errors.provinsi}
-                                        </p>
-                                    )}
+                                    {/* Provinsi */}
+                                    <div>
+                                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                                            Provinsi{' '}
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="provinsi"
+                                            value={data.provinsi}
+                                            onChange={(e) =>
+                                                setData('provinsi', e.target.value)
+                                            }
+                                            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
+                                            placeholder="Masukan provinsi tempat fasilitas"
+                                        />
+                                        {errors.provinsi && (
+                                            <p className="mt-1 text-sm text-red-500">
+                                                {errors.provinsi}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Nomor Telepon & Email */}
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                                            Nomor Telepon
+                                            Nomor Telepon <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -217,7 +216,7 @@ export default function CreateFasilitas() {
                                     </div>
                                     <div>
                                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                                            Nomor Telepon
+                                            Email
                                         </label>
                                         <input
                                             type="text"
@@ -304,6 +303,11 @@ export default function CreateFasilitas() {
                                             className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                             placeholder="Contoh: -7.797068"
                                         />
+                                        {errors.latitude && (
+                                            <p className="text-sm text-red-500">
+                                                {errors.latitude}
+                                            </p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -322,10 +326,15 @@ export default function CreateFasilitas() {
                                             className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                             placeholder="Contoh: 110.370529"
                                         />
+                                        {errors.longitude && (
+                                            <p className="text-sm text-red-500">
+                                                {errors.longitude}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
 
-                                {/* Kapasitas dan Tempat Tersedia */}
+                                {/* Kapasitas & Tempat Tersedia */}
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -347,6 +356,11 @@ export default function CreateFasilitas() {
                                             className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                             placeholder="100"
                                         />
+                                        {errors.kapasitas_total && (
+                                            <p className="text-sm text-red-500">
+                                                {errors.kapasitas_total}
+                                            </p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -368,6 +382,11 @@ export default function CreateFasilitas() {
                                             className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                                             placeholder="80"
                                         />
+                                        {errors.kapasitas_tersedia && (
+                                            <p className="text-sm text-red-500">
+                                                {errors.kapasitas_tersedia}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>

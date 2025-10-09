@@ -12,19 +12,19 @@ import { MoreHorizontal } from 'lucide-react';
 interface Fasilitas {
     id: number;
     nama_fasilitas: string;
-    jenis_fasilitas: string;
+    jenis_fasilitas: 'Rumah Sakit Umum' | 'Klinik' | 'Puskesmas' | 'Dokter Mandiri';
     alamat: string;
     kota: string;
     provinsi: string;
     no_telepon: string;
-    email: string;
+    email: string | null;
     kapasitas_total: number;
     kapasitas_tersedia: number;
-    spesialisasi: string;
+    spesialisasi: 'Umum' | 'Anak' | 'Kandungan' | 'Bedah' | 'Gigi' | 'Mata' | 'Jantung' | 'Kulit' | 'Saraf' | 'Lainnya';
     deskripsi: string;
     latitude: string;
     longitude: string;
-    gambar: string;
+    gambar: string | null;
 }
 
 interface ActionDropdownProps {
