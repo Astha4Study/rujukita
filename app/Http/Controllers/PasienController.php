@@ -13,21 +13,41 @@ class PasienController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
         if ($user->hasRole('super_admin')) {
-            $pasien = Pasien::with('fasilitas')->latest()->get();
-        } else {
-            $pasien = Pasien::with('fasilitas')
-                ->where('created_by', $user->id)
-                ->latest()
-                ->get();
+            $fasilitasId = $request->query('fasilitas');
+
+            if ($fasilitasId) {
+                $pasien = Pasien::with('fasilitas')
+                    ->where('fasilitas_id', $fasilitasId)
+                    ->latest()
+                    ->get();
+
+                $fasilitas = Fasilitas::find($fasilitasId);
+            } else {
+                $pasien = collect();
+                $fasilitas = null;
+            }
+
+            return Inertia::render('superAdmin/Pasien/Index', [
+                'pasien' => $pasien,
+                'fasilitas' => $fasilitas,
+                'isSuperAdmin' => true,
+            ]);
         }
 
-        return Inertia::render('pasien/Index', [
+        // Jika perawat, tampilkan pasien milik perawat tersebut
+        $pasien = Pasien::with('fasilitas')
+            ->where('created_by', $user->id)
+            ->latest()
+            ->get();
+
+        return Inertia::render('Perawat/Pasien/Index', [
             'pasien' => $pasien,
+            'isSuperAdmin' => false,
         ]);
     }
 
@@ -38,14 +58,26 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
+        // Hanya perawat yang boleh menambahkan pasien
         if ($user->hasRole('super_admin')) {
-            abort(403, 'Super admin tidak dapat menambahkan pasien.');
+            return redirect()->back()->with([
+                'error' => 'Super admin tidak dapat menambahkan pasien.'
+            ]);
         }
 
+        // Ambil fasilitas yang dibuat oleh perawat ini
         $fasilitas = Fasilitas::where('created_by', $user->id)->get();
 
-        return Inertia::render('pasien/Create', [
+        // Jika perawat belum punya fasilitas, arahkan ke halaman fasilitas
+        if ($fasilitas->isEmpty()) {
+            return redirect()->route('perawat.fasilitas.index')->with([
+                'warning' => 'Anda belum memiliki fasilitas. Buat fasilitas terlebih dahulu sebelum menambahkan pasien.'
+            ]);
+        }
+
+        return Inertia::render('Perawat/Pasien/Create', [
             'fasilitas' => $fasilitas,
+            'isSuperAdmin' => false,
         ]);
     }
 

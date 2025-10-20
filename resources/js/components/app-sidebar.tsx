@@ -30,7 +30,7 @@ export function AppSidebar() {
                 ? '/perawat'
                 : '';
 
-    const mainNavItems: NavItem[] = [
+    let mainNavItems: NavItem[] = [
         {
             title: 'Dashboard',
             href: dashboard(),
@@ -47,6 +47,10 @@ export function AppSidebar() {
             icon: Hospital,
         },
     ];
+
+    if (role === 'super_admin') {
+        mainNavItems = mainNavItems.filter(item => item.title !== 'Pasien');
+    }
 
     const footerNavItems: NavItem[] = [
         {

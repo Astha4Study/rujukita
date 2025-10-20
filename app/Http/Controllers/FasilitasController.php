@@ -38,11 +38,18 @@ class FasilitasController extends Controller
     {
         $user = Auth::user();
 
+        // Super admin tidak boleh membuat pasien
         if ($user->hasRole('super_admin')) {
-            abort(403, 'Super admin tidak bisa membuat fasilitas.');
+            abort(403, 'Super admin tidak dapat menambahkan pasien.');
         }
 
-        return Inertia::render('Fasilitas/Create');
+        // Ambil fasilitas yang dibuat oleh perawat yang sedang login
+        $fasilitas = Fasilitas::where('created_by', $user->id)->get();
+
+        // Render halaman Inertia ke folder Perawat/Pasien/Create
+        return Inertia::render('Perawat/Fasilitas/Create', [
+            'fasilitas' => $fasilitas,
+        ]);
     }
 
     /**

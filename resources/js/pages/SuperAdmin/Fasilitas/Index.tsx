@@ -96,13 +96,13 @@ export default function IndexFasilitas() {
                             Filter
                         </button>
                     </div>
-                    <Link
+                    {/* <Link
                         href="/fasilitas/create"
                         className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700"
                     >
                         <Plus className="h-4 w-4" />
                         Tambah Fasilitas
-                    </Link>
+                    </Link> */}
                 </div>
 
                 {/* Table */}
