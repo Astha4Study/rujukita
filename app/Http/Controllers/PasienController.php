@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasien;
+use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -17,9 +18,12 @@ class PasienController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('super_admin')) {
-            $pasien = Pasien::latest()->get();
+            $pasien = Pasien::with('fasilitas')->latest()->get();
         } else {
-            $pasien = Pasien::where('created_by', $user->id)->latest()->get();
+            $pasien = Pasien::with('fasilitas')
+                ->where('created_by', $user->id)
+                ->latest()
+                ->get();
         }
 
         return Inertia::render('pasien/Index', [
@@ -32,7 +36,17 @@ class PasienController extends Controller
      */
     public function create()
     {
-        return Inertia::render('pasien/Create');
+        $user = Auth::user();
+
+        if ($user->hasRole('super_admin')) {
+            abort(403, 'Super admin tidak dapat menambahkan pasien.');
+        }
+
+        $fasilitas = Fasilitas::where('created_by', $user->id)->get();
+
+        return Inertia::render('pasien/Create', [
+            'fasilitas' => $fasilitas,
+        ]);
     }
 
     /**
@@ -40,6 +54,12 @@ class PasienController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+
+        if ($user->hasRole('super_admin')) {
+            abort(403, 'Super admin tidak dapat menambahkan pasien.');
+        }
+
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'nik' => 'required|string|size:16|unique:pasien,nik',
@@ -51,21 +71,14 @@ class PasienController extends Controller
             'golongan_darah' => 'nullable|string|max:3',
             'riwayat_penyakit' => 'nullable|string',
             'alergi' => 'nullable|string',
+            'fasilitas_id' => 'required|exists:fasilitas,id',
         ]);
 
-        $validated['created_by'] = Auth::id();
+        $validated['created_by'] = $user->id;
 
         Pasien::create($validated);
 
         return redirect()->route('pasien.index')->with('success', 'Pasien berhasil ditambahkan.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -75,12 +88,19 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin untuk mengedit data ini.');
+        if ($user->hasRole('super_admin')) {
+            abort(403, 'Super admin tidak dapat mengedit data pasien.');
         }
+
+        if ($pasien->created_by !== $user->id) {
+            abort(403, 'Anda tidak memiliki izin untuk mengedit pasien ini.');
+        }
+
+        $fasilitas = Fasilitas::where('created_by', $user->id)->get();
 
         return Inertia::render('pasien/Edit', [
             'pasien' => $pasien,
+            'fasilitas' => $fasilitas,
         ]);
     }
 
@@ -91,8 +111,12 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin untuk memperbarui data ini.');
+        if ($user->hasRole('super_admin')) {
+            abort(403, 'Super admin tidak dapat memperbarui data pasien.');
+        }
+
+        if ($pasien->created_by !== $user->id) {
+            abort(403, 'Anda tidak memiliki izin untuk memperbarui pasien ini.');
         }
 
         $validated = $request->validate([
@@ -105,6 +129,7 @@ class PasienController extends Controller
             'golongan_darah' => 'nullable|string|max:3',
             'riwayat_penyakit' => 'nullable|string',
             'alergi' => 'nullable|string',
+            'fasilitas_id' => 'required|exists:fasilitas,id',
         ]);
 
         $pasien->update($validated);
@@ -119,8 +144,12 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasRole('super_admin') && $pasien->created_by !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin untuk menghapus data ini.');
+        if ($user->hasRole('super_admin')) {
+            abort(403, 'Super admin tidak dapat menghapus data pasien.');
+        }
+
+        if ($pasien->created_by !== $user->id) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus pasien ini.');
         }
 
         $pasien->delete();

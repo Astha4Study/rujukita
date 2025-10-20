@@ -12,43 +12,55 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, Hospital, LayoutGrid, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Pasien',
-        href: '/pasien',
-        icon: Users,
-    },
-    {
-        title: 'Fasilitas',
-        href: '/fasilitas',
-        icon: Hospital,
-    },
 
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
 
 export function AppSidebar() {
+    const { props } = usePage<{ auth?: { roles?: string[] } }>();
+    const roles = props.auth?.roles || [];
+    const role = roles[0] || '';
+
+    const prefix =
+        role === 'super_admin'
+            ? '/super-admin'
+            : role === 'perawat'
+                ? '/perawat'
+                : '';
+
+    const mainNavItems: NavItem[] = [
+        {
+            title: 'Dashboard',
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Pasien',
+            href: `${prefix}/pasien`,
+            icon: Users,
+        },
+        {
+            title: 'Fasilitas',
+            href: `${prefix}/fasilitas`,
+            icon: Hospital,
+        },
+    ];
+
+    const footerNavItems: NavItem[] = [
+        {
+            title: 'Repository',
+            href: 'https://github.com/laravel/react-starter-kit',
+            icon: Folder,
+        },
+        {
+            title: 'Documentation',
+            href: 'https://laravel.com/docs/starter-kits#react',
+            icon: BookOpen,
+        },
+    ];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>

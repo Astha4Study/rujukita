@@ -44,4 +44,9 @@ class Pasien extends Model
             ? Carbon::parse($this->tanggal_lahir)->translatedFormat('d F Y')
             : '-';
     }
+
+    public function fasilitas()
+    {
+        return $this->belongsTo(Fasilitas::class);
+    }
 }
