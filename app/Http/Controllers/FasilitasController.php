@@ -87,7 +87,7 @@ class FasilitasController extends Controller
 
         Fasilitas::create($validated);
 
-        return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil ditambahkan.');
+        return redirect()->route('perawat.fasilitas.index')->with('success', 'Fasilitas berhasil ditambahkan.');
 
     }
 
@@ -133,7 +133,7 @@ class FasilitasController extends Controller
             abort(403, 'Anda tidak memiliki izin untuk mengedit data ini.');
         }
 
-        return Inertia::render('Fasilitas/Edit', [
+        return Inertia::render('Perawat/Fasilitas/Edit', [
             'fasilitas' => $fasilita,
         ]);
     }
@@ -173,13 +173,16 @@ class FasilitasController extends Controller
             if ($fasilita->gambar && Storage::disk('public')->exists($fasilita->gambar)) {
                 Storage::disk('public')->delete($fasilita->gambar);
             }
+
             $path = $request->file('gambar')->store('fasilitas', 'public');
             $validated['gambar'] = $path;
         }
 
         $fasilita->update($validated);
 
-        return redirect()->route('fasilitas.index')->with('success', 'Data fasilitas berhasil diperbarui.');
+        return redirect()
+            ->route('perawat.fasilitas.index')
+            ->with('success', 'Data fasilitas berhasil diperbarui.');
     }
 
     /**

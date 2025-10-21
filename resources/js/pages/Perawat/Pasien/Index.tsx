@@ -37,7 +37,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Daftar Pasien', href: '/pasien' },
 ];
 
-export default function IndexPasien() {
+export default function IndexPasienPerawat() {
     const { pasien } = usePage<PageProps>().props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState('');

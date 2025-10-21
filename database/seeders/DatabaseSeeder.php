@@ -39,6 +39,18 @@ class DatabaseSeeder extends Seeder
 
         $perawat->assignRole('perawat');
 
+        $perawat2 = User::firstOrCreate(
+            ['email' => 'Perawat2@example.com'],
+            [
+                'name' => 'Perawat2',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $perawat2->assignRole('perawat');
+
+
         $pasien = User::firstOrCreate(
             ['email' => 'iyandabes1@gmail.com'],
             [
