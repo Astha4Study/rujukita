@@ -127,7 +127,7 @@ const FormCreatePasien: React.FC<FormCreatePasienProps> = ({
                     {/* Nomor HP */}
                     <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Nomor HP
+                            Nomor HP <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"
@@ -137,6 +137,11 @@ const FormCreatePasien: React.FC<FormCreatePasienProps> = ({
                             placeholder="08123456789"
                             className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
                         />
+                        {errors.no_hp && (
+                            <p className="mt-1 text-sm text-red-600">
+                                {errors.no_hp}
+                            </p>
+                        )}
                     </div>
 
                     {/* Alamat */}

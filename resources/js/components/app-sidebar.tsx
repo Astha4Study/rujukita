@@ -13,10 +13,8 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, Hospital, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, Folder, Hospital, LayoutGrid, Users, Stethoscope } from 'lucide-react';
 import AppLogo from './app-logo';
-
-
 
 export function AppSidebar() {
     const { props } = usePage<{ auth?: { roles?: string[] } }>();
@@ -37,15 +35,21 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         {
+            title: 'Fasilitas',
+            href: `${prefix}/fasilitas`,
+            icon: Hospital,
+        },
+        {
             title: 'Pasien',
             href: `${prefix}/pasien`,
             icon: Users,
         },
         {
-            title: 'Fasilitas',
-            href: `${prefix}/fasilitas`,
-            icon: Hospital,
-        },
+            title: 'Rekam Medis',
+            href: `${prefix}/rekam-medis`,
+            icon: Stethoscope,
+        }
+
     ];
 
     if (role === 'super_admin') {

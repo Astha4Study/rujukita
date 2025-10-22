@@ -9,7 +9,7 @@ class RekamMedis extends Model
 {
 
     use HasFactory;
-    
+
     protected $table = 'rekam_medis';
 
     protected $fillable = [
@@ -41,6 +41,7 @@ class RekamMedis extends Model
 
     public function rujukan()
     {
-        return $this->belongsTo(Rujukan::class);
+        return $this->hasOne(Rujukan::class);
     }
+
 }

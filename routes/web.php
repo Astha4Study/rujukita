@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\PasienController;
+use App\Http\Controllers\RekamMedisController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
             Route::get('/pasien/create', [PasienController::class, 'create'])->name('pasien.create');
             Route::resource('pasien', PasienController::class)->except(['index', 'create', 'show']);
+
+            Route::get('/rekam-medis', [RekamMedisController::class, 'index'])->name('rekam-medis.index');
+            Route::resource('rekam-medis', RekamMedisController::class)->except(['index']);
         });
 
 

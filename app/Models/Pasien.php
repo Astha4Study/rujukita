@@ -23,7 +23,7 @@ class Pasien extends Model
         'golongan_darah',
         'riwayat_penyakit',
         'alergi',
-        'fasilitas_id', 
+        'fasilitas_id',
         'created_by',
     ];
 
@@ -44,6 +44,11 @@ class Pasien extends Model
         return $this->tanggal_lahir
             ? Carbon::parse($this->tanggal_lahir)->translatedFormat('d F Y')
             : '-';
+    }
+
+    public function rekamMedis()
+    {
+        return $this->hasMany(RekamMedis::class);
     }
 
     public function fasilitas()

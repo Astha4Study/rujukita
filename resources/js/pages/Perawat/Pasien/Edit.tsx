@@ -22,7 +22,7 @@ type Props = {
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Daftar Pasien', href: '/pasien' },
+    { title: 'Daftar Pasien', href: '/perawat/pasien' },
     { title: 'Edit Pasien', href: '' },
 ];
 
