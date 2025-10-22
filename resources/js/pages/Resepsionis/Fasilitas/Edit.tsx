@@ -66,29 +66,26 @@ export default function Edit({ fasilitas }: Props) {
         e.preventDefault();
 
         const formData = new FormData();
+
         Object.entries(data).forEach(([key, value]) => {
-          if (value !== undefined && value !== null) {
-            const safeValue = value as unknown;
-            if (safeValue instanceof Blob) {
-              formData.append(key, safeValue);
-            } else {
-              formData.append(key, String(safeValue));
+            if (value instanceof File) {
+                formData.append(key, value);
+            } else if (value !== undefined && value !== null) {
+                formData.append(
+                    key,
+                    typeof value === 'number' ? value.toString() : value,
+                );
             }
-          }
         });
 
-        router.post(
-            `/resepsionis/fasilitas/${fasilitas.id}?_method=PUT`,
-            formData,
-            {
-                onSuccess: () => {
-                    console.log('✅ Data fasilitas berhasil diperbarui');
-                },
-                onError: (err) => {
-                    console.error('❌ Error:', err);
-                },
+        router.put(`/resepsionis/fasilitas/${fasilitas.id}`, formData, {
+            onSuccess: () => {
+                console.log('✅ Data fasilitas berhasil diperbarui');
             },
-        );
+            onError: (err) => {
+                console.error('❌ Error:', err);
+            },
+        });
     };
 
     return (
@@ -117,7 +114,7 @@ export default function Edit({ fasilitas }: Props) {
                     </div>
 
                     {/* Preview sebelah kanan */}
-                    <div className='self-start'>
+                    <div className="self-start">
                         <PreviewEditFasilitas data={{ ...data, preview }} />
                     </div>
                 </div>

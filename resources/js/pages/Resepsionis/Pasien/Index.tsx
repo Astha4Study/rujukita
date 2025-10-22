@@ -59,7 +59,9 @@ export default function IndexPasienResepsionis() {
     const deleteSelected = () => {
         if (selectedIds.length === 0) return;
         if (confirm(`Yakin ingin menghapus ${selectedIds.length} pasien?`)) {
-            selectedIds.forEach((id) => Inertia.delete(`/pasien/${id}`));
+            selectedIds.forEach((id) =>
+                Inertia.delete(`/resepsionis/pasien/${id}`),
+            );
             setSelectedIds([]);
         }
     };
@@ -124,7 +126,7 @@ export default function IndexPasienResepsionis() {
                                             type="checkbox"
                                             checked={
                                                 selectedIds.length ===
-                                                pasien.length &&
+                                                    pasien.length &&
                                                 pasien.length > 0
                                             }
                                             onChange={toggleSelectAll}
@@ -177,15 +179,15 @@ export default function IndexPasienResepsionis() {
                                             <td className="px-6 py-4 text-gray-700">
                                                 {item.tanggal_lahir
                                                     ? new Date(
-                                                        item.tanggal_lahir,
-                                                    ).toLocaleDateString(
-                                                        'id-ID',
-                                                        {
-                                                            day: '2-digit',
-                                                            month: 'long',
-                                                            year: 'numeric',
-                                                        },
-                                                    )
+                                                          item.tanggal_lahir,
+                                                      ).toLocaleDateString(
+                                                          'id-ID',
+                                                          {
+                                                              day: '2-digit',
+                                                              month: 'long',
+                                                              year: 'numeric',
+                                                          },
+                                                      )
                                                     : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-gray-700">

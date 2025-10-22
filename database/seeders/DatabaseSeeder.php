@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(FasilitasSeeder::class);
         $this->call(RoleSeeder::class);
 
-        $SuperAdmin = User::firstOrCreate(
+        $superAdmin = User::firstOrCreate(
             ['email' => 'superadmin@example.com'],
             [
                 'name' => 'Super Admin',
@@ -26,41 +26,18 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $SuperAdmin->assignRole('super_admin');
+        $superAdmin->assignRole('super_admin');
 
-        $dokter = User::firstOrCreate(
-            ['email' => 'dokter@example.com'],
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
             [
-                'name' => 'Dokter',
+                'name' => 'admin',
                 'password' => Hash::make('12345678'),
                 'email_verified_at' => now(),
             ]
         );
 
-        $dokter->assignRole('dokter');
-
-        $resepsionis = User::firstOrCreate(
-            ['email' => 'Resepsionis@example.com'],
-            [
-                'name' => 'Resepsionis',
-                'password' => Hash::make('12345678'),
-                'email_verified_at' => now(),
-            ]
-        );
-
-        $resepsionis->assignRole('resepsionis');
-
-        $resepsionis2 = User::firstOrCreate(
-            ['email' => 'Resepsionis2@example.com'],
-            [
-                'name' => 'Resepsionis2',
-                'password' => Hash::make('12345678'),
-                'email_verified_at' => now(),
-            ]
-        );
-
-        $resepsionis2->assignRole('resepsionis');
-
+        $admin->assignRole('admin');
 
         $pasien = User::firstOrCreate(
             ['email' => 'iyandabes1@gmail.com'],

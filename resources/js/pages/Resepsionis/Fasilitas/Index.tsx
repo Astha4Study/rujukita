@@ -38,45 +38,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function DashboardFasilitas() {
     const { props } = usePage<PageProps>();
-    const currentFasilitas = props.fasilitas[0] || null;
+    const f = props.fasilitas[0] || null;
 
-    if (!currentFasilitas) {
-        return (
-            <AppLayout breadcrumbs={breadcrumbs}>
-                <Head title="Fasilitas" />
-                <div className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
-                    <div className="relative mb-6">
-                        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100">
-                            <Building2 className="h-12 w-12 text-emerald-600" />
-                        </div>
-                    </div>
-                    <h2 className="mb-2 text-2xl font-bold text-gray-900">
-                        Belum Ada Fasilitas Terdaftar
-                    </h2>
-                    <p className="mb-8 max-w-md text-sm leading-relaxed text-gray-600">
-                        Mulai kelola fasilitas kesehatan Anda dengan menambahkan
-                        informasi lengkap tentang layanan dan kapasitas yang
-                        tersedia.
-                    </p>
-                    <Link
-                        href="/resepsionis/fasilitas/create"
-                        className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 transition-all hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-xl hover:shadow-emerald-600/30"
-                    >
-                        <Building2 className="h-4 w-4" />
-                        Tambah Fasilitas Baru
-                    </Link>
-                </div>
-            </AppLayout>
-        );
-    }
-
-    const f = currentFasilitas;
     const gambar = f.gambar
         ? f.gambar.startsWith('http')
             ? f.gambar
             : `/storage/${f.gambar}`
         : null;
-
     const kapasitasTerisi =
         (f.kapasitas_total ?? 0) - (f.kapasitas_tersedia ?? 0);
     const okupansi =
@@ -103,7 +71,6 @@ export default function DashboardFasilitas() {
                         </div>
                     )}
 
-                    {/* Overlay ringan agar teks tetap terbaca */}
                     <div className="absolute inset-0 bg-black/40" />
 
                     {/* Edit Button */}
@@ -112,13 +79,12 @@ export default function DashboardFasilitas() {
                         className="absolute top-6 right-6 inline-flex items-center gap-2 rounded-xl bg-white/20 px-5 py-2.5 text-sm font-semibold text-white shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-gray-900"
                     >
                         <Pencil className="h-4 w-4" />
-                        Edit Fasilitas
+                        Edit Kapasitas
                     </Link>
 
                     {/* Facility Info */}
                     <div className="absolute right-0 bottom-0 left-0 p-6 text-white md:p-8">
                         <div className="mx-auto max-w-7xl">
-                            {/* Badge Section */}
                             <div className="mb-3 flex flex-wrap items-center gap-2">
                                 {f.jenis_fasilitas && (
                                     <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/90 px-3 py-1.5 text-xs font-semibold text-white shadow-sm">
@@ -134,12 +100,10 @@ export default function DashboardFasilitas() {
                                 )}
                             </div>
 
-                            {/* Nama Fasilitas */}
                             <h1 className="mb-2 text-3xl font-bold drop-shadow-lg md:text-4xl">
                                 {f.nama_fasilitas}
                             </h1>
 
-                            {/* Alamat */}
                             {f.alamat && (
                                 <div className="flex max-w-3xl items-start gap-2 text-white/95">
                                     <MapPin className="mt-0.5 h-5 w-5 flex-shrink-0" />
@@ -149,7 +113,6 @@ export default function DashboardFasilitas() {
                                 </div>
                             )}
 
-                            {/* Informasi singkat tambahan */}
                             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-white/90">
                                 {f.kapasitas_total && (
                                     <div className="flex items-center gap-1.5">
@@ -260,7 +223,6 @@ export default function DashboardFasilitas() {
                                         </div>
                                     </div>
                                 )}
-
                                 {f.email && (
                                     <div className="flex items-center gap-3 p-3">
                                         <div className="flex h-10 w-10 items-center justify-center">

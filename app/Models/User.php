@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'created_by',
     ];
 
     /**
@@ -47,4 +48,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function fasilitas()
+    {
+        return $this->belongsTo(Fasilitas::class, 'fasilitas_id');
+    }
+
 }

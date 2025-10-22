@@ -13,7 +13,15 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, Hospital, LayoutGrid, Users, Stethoscope } from 'lucide-react';
+import {
+    BookOpen,
+    Folder,
+    Hospital,
+    LayoutGrid,
+    Stethoscope,
+    UserRoundPlus,
+    Users,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
@@ -21,12 +29,18 @@ export function AppSidebar() {
     const roles = props.auth?.roles || [];
     const role = roles[0] || '';
 
-    const prefix =
-        role === 'super_admin'
-            ? '/super-admin'
-            : role === 'resepsionis'
-                ? '/resepsionis'
-                : '';
+    const prefix = (() => {
+        switch (role) {
+            case 'super_admin':
+                return '/super-admin';
+            case 'admin':
+                return '/admin';
+            case 'resepsionis':
+                return '/resepsionis';
+            default:
+                return '';
+        }
+    })();
 
     let mainNavItems: NavItem[] = [
         {
@@ -48,12 +62,28 @@ export function AppSidebar() {
             title: 'Rekam Medis',
             href: `${prefix}/rekam-medis`,
             icon: Stethoscope,
-        }
-
+        },
+        {
+            title: 'Tambah User',
+            href: `${prefix}/tambah-user`,
+            icon: UserRoundPlus,
+        },
     ];
 
     if (role === 'super_admin') {
-        mainNavItems = mainNavItems.filter(item => item.title !== 'Pasien');
+        mainNavItems = mainNavItems.filter((item) => item.title !== 'Pasien');
+    }
+
+    if (role === 'admin') {
+        mainNavItems = mainNavItems.filter(
+            (item) => item.title !== 'Pasien' && item.title !== 'Rekam Medis',
+        );
+    }
+
+    if (role === 'resepsionis' || role === 'dokter') {
+        mainNavItems = mainNavItems.filter(
+            (item) => item.title !== 'Tambah User',
+        );
     }
 
     const footerNavItems: NavItem[] = [
@@ -83,7 +113,7 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent className='mt-4'>
+            <SidebarContent className="mt-4">
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 

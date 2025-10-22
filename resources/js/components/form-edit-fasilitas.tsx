@@ -177,7 +177,7 @@ const FormEditFasilitas: React.FC<FormEditFasilitasProps> = ({
                         onChange={(e) =>
                             setData(
                                 'kapasitas_tersedia',
-                                Number(e.target.value),
+                                Number(e.target.value) || 0,
                             )
                         }
                         className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm"
