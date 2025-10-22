@@ -23,6 +23,7 @@ class Fasilitas extends Model
         'email',
         'kapasitas_total',
         'kapasitas_tersedia',
+        'deskripsi',
         'latitude',
         'longitude',
         'gambar',

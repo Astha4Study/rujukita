@@ -1,9 +1,9 @@
-import AppLayout from '@/layouts/app-layout';
-import PreviewCreateFasilitas from '@/components/preview-create-fasilitas';
-import { BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { ChangeEvent, FormEventHandler } from 'react';
 import FormCreateFasilitas from '@/components/form-create-fasilitas';
+import PreviewCreateFasilitas from '@/components/preview-create-fasilitas';
+import AppLayout from '@/layouts/app-layout';
+import { BreadcrumbItem } from '@/types';
+import { Head, useForm } from '@inertiajs/react';
+import { ChangeEvent, FormEventHandler } from 'react';
 
 export default function CreateFasilitas() {
     const { data, setData, post, processing, reset } = useForm({
@@ -46,25 +46,30 @@ export default function CreateFasilitas() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tambah Fasilitas" />
             <div className="p-6">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-1">
+                <h1 className="mb-1 text-2xl font-semibold text-gray-900">
                     Tambah Data Fasilitas
                 </h1>
-                <p className="text-sm text-gray-500 mb-6">
-                    Lengkapi data fasilitas di bawah untuk menambahkan ke daftar.
+                <p className="mb-6 text-sm text-gray-500">
+                    Lengkapi data fasilitas di bawah untuk menambahkan ke
+                    daftar.
                 </p>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* form */}
-                    <FormCreateFasilitas
-                        data={data}
-                        setData={setData}
-                        handleSubmit={handleSubmit}
-                        handleChangeFile={handleChangeFile}
-                        processing={processing}
-                    />
+                    <div className="lg:col-span-2">
+                        <FormCreateFasilitas
+                            data={data}
+                            setData={setData}
+                            handleSubmit={handleSubmit}
+                            handleChangeFile={handleChangeFile}
+                            processing={processing}
+                        />
+                    </div>
 
                     {/* preview */}
-                    <PreviewCreateFasilitas data={data} />
+                    <div className='self-start'>
+                        <PreviewCreateFasilitas data={data} />
+                    </div>
                 </div>
             </div>
         </AppLayout>

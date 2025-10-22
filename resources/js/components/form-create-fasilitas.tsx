@@ -1,12 +1,12 @@
 import { Link } from '@inertiajs/react';
 import {
-    Building2,
-    MapPin,
-    Phone,
-    Mail,
     BedDouble,
+    Building2,
     Globe2,
     Image as ImageIcon,
+    Mail,
+    MapPin,
+    Phone,
 } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -41,32 +41,32 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
         <form
             onSubmit={onSubmit}
             autoComplete="off"
-            className="col-span-2 bg-white border border-gray-200 rounded-xl shadow-sm p-6 space-y-6"
+            className="col-span-2 space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
         >
             {/* Nama Fasilitas */}
             <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-emerald-600" />
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <Building2 className="h-4 w-4 text-emerald-600" />
                     Nama Fasilitas <span className="text-red-500">*</span>
                 </label>
                 <input
                     type="text"
                     value={data.nama_fasilitas}
                     onChange={(e) => setData('nama_fasilitas', e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                     placeholder="Contoh: RSUD Amarta"
                 />
             </div>
 
             {/* Jenis Fasilitas */}
             <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Jenis Fasilitas
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                    Jenis Fasilitas <span className="text-red-500">*</span>
                 </label>
                 <select
                     value={data.jenis_fasilitas}
                     onChange={(e) => setData('jenis_fasilitas', e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 >
                     <option value="">Pilih Jenis Fasilitas</option>
                     <option value="Rumah Sakit Umum">Rumah Sakit Umum</option>
@@ -78,15 +78,15 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
 
             {/* Alamat */}
             <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-emerald-600" />
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <MapPin className="h-4 w-4 text-emerald-600" />
                     Alamat <span className="text-red-500">*</span>
                 </label>
                 <input
                     type="text"
                     value={data.alamat}
                     onChange={(e) => setData('alamat', e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                     placeholder="Masukkan alamat lengkap"
                 />
             </div>
@@ -98,44 +98,50 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                     placeholder="Kota"
                     value={data.kota}
                     onChange={(e) => setData('kota', e.target.value)}
-                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 />
                 <input
                     type="text"
                     placeholder="Provinsi"
                     value={data.provinsi}
                     onChange={(e) => setData('provinsi', e.target.value)}
-                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 />
             </div>
 
             {/* Telepon & Email */}
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                        <Phone className="w-4 h-4 text-emerald-600" /> Telepon <span className="text-red-500">*</span>
+                    <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <Phone className="h-4 w-4 text-emerald-600" /> Telepon{' '}
+                        <span className="text-red-500">*</span>
                     </label>
                     <input
                         type="text"
                         value={data.no_telepon}
                         onChange={(e) => setData('no_telepon', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.no_telepon ? 'border-red-400' : 'border-gray-200'
-                            } px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition`}
-                        placeholder="+62..."
+                        className={`w-full rounded-lg border ${
+                            errors.no_telepon
+                                ? 'border-red-400'
+                                : 'border-gray-200'
+                        } px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20`}
+                        placeholder="+62"
                     />
                     {errors.no_telepon && (
-                        <p className="text-xs text-red-500 mt-1">{errors.no_telepon}</p>
+                        <p className="mt-1 text-xs text-red-500">
+                            {errors.no_telepon}
+                        </p>
                     )}
                 </div>
                 <div>
-                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                        <Mail className="w-4 h-4 text-emerald-600" /> Email
+                    <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <Mail className="h-4 w-4 text-emerald-600" /> Email
                     </label>
                     <input
                         type="email"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                         placeholder="example@mail.com"
                     />
                 </div>
@@ -143,13 +149,13 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
 
             {/* Spesialisasi */}
             <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">
-                    Spesialisasi
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                    Spesialisasi <span className="text-red-500">*</span>
                 </label>
                 <select
                     value={data.spesialisasi}
                     onChange={(e) => setData('spesialisasi', e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 >
                     <option value="">Pilih Spesialisasi</option>
                     <option value="Umum">Umum</option>
@@ -166,9 +172,9 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
             {/* Kapasitas */}
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                        <BedDouble className="w-4 h-4 text-emerald-600" />
-                        Kapasitas Total
+                    <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <BedDouble className="h-4 w-4 text-emerald-600" />
+                        Kapasitas Total <span className="text-red-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -176,21 +182,24 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                         onChange={(e) =>
                             setData('kapasitas_total', Number(e.target.value))
                         }
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                         placeholder="100"
                     />
                 </div>
                 <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">
-                        Tempat Tersedia
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                        Tempat Tersedia <span className="text-red-500">*</span>
                     </label>
                     <input
                         type="number"
                         value={data.kapasitas_tersedia}
                         onChange={(e) =>
-                            setData('kapasitas_tersedia', Number(e.target.value))
+                            setData(
+                                'kapasitas_tersedia',
+                                Number(e.target.value),
+                            )
                         }
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                         placeholder="80"
                     />
                 </div>
@@ -198,9 +207,9 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
 
             {/* Koordinat */}
             <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <Globe2 className="w-4 h-4 text-emerald-600" />
-                    Koordinat Lokasi
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <Globe2 className="h-4 w-4 text-emerald-600" />
+                    Koordinat Lokasi <span className="text-red-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                     <input
@@ -208,36 +217,36 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                         placeholder="Latitude"
                         value={data.latitude}
                         onChange={(e) => setData('latitude', e.target.value)}
-                        className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                        className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                     />
                     <input
                         type="text"
                         placeholder="Longitude"
                         value={data.longitude}
                         onChange={(e) => setData('longitude', e.target.value)}
-                        className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition"
+                        className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                     />
                 </div>
             </div>
 
             {/* Deskripsi */}
             <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    Deskripsi
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                    Deskripsi <span className="text-red-500">*</span>
                 </label>
                 <textarea
                     value={data.deskripsi}
-                    onChange={(e) => setData("deskripsi", e.target.value)}
+                    onChange={(e) => setData('deskripsi', e.target.value)}
                     rows={4}
                     placeholder="Tuliskan deskripsi singkat tentang fasilitas..."
-                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm w-full focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition resize-none"
-                ></textarea>
+                    className="w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                />
             </div>
 
             {/* Gambar */}
             <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <ImageIcon className="w-4 h-4 text-emerald-600" /> Gambar
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <ImageIcon className="h-4 w-4 text-emerald-600" /> Gambar
                 </label>
                 <input
                     type="file"
@@ -246,7 +255,7 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                     className="block w-full cursor-pointer rounded-lg border border-gray-200 text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-emerald-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-emerald-700 hover:file:bg-emerald-100"
                 />
             </div>
-            <div className="flex justify-end gap-3 mt-4">
+            <div className="mt-4 flex justify-end gap-3">
                 <Link
                     href="/perawat/fasilitas"
                     className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -256,7 +265,7 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                 <button
                     type="submit"
                     disabled={processing}
-                    className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50 transition"
+                    className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:opacity-50"
                 >
                     {processing ? 'Menyimpan...' : 'Simpan'}
                 </button>

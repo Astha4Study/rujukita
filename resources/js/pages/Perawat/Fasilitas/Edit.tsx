@@ -1,9 +1,9 @@
-import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
-import { useForm, Link, Head, router } from '@inertiajs/react';
-import { useState } from 'react';
 import FormEditFasilitas from '@/components/form-edit-fasilitas';
 import PreviewEditFasilitas from '@/components/preview-edit-fasilitas';
+import AppLayout from '@/layouts/app-layout';
+import { BreadcrumbItem } from '@/types';
+import { Head, router, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 
 type Fasilitas = {
     id: number;
@@ -28,8 +28,8 @@ type Props = {
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Daftar Fasilitas', href: '/perawat/fasilitas' },
-    { title: 'Edit Fasilitas', href: '' },
+    { title: 'Fasilitas Kamu', href: '/perawat/fasilitas' },
+    { title: 'Edit Fasilitas Kamu', href: '' },
 ];
 
 export default function Edit({ fasilitas }: Props) {
@@ -49,7 +49,6 @@ export default function Edit({ fasilitas }: Props) {
         longitude: fasilitas.longitude ?? '',
         gambar: undefined as File | undefined,
     });
-
 
     const [preview, setPreview] = useState<string | null>(
         fasilitas.gambar ? `/storage/${fasilitas.gambar}` : null,
@@ -73,14 +72,18 @@ export default function Edit({ fasilitas }: Props) {
             }
         });
 
-        router.post(`/perawat/fasilitas/${fasilitas.id}?_method=PUT`, formData, {
-            onSuccess: () => {
-                console.log("✅ Data fasilitas berhasil diperbarui");
+        router.post(
+            `/perawat/fasilitas/${fasilitas.id}?_method=PUT`,
+            formData,
+            {
+                onSuccess: () => {
+                    console.log('✅ Data fasilitas berhasil diperbarui');
+                },
+                onError: (err) => {
+                    console.error('❌ Error:', err);
+                },
             },
-            onError: (err) => {
-                console.error("❌ Error:", err);
-            },
-        });
+        );
     };
 
     return (
@@ -88,26 +91,30 @@ export default function Edit({ fasilitas }: Props) {
             <Head title="Edit Fasilitas" />
 
             <div className="p-6">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-1">
+                <h1 className="mb-1 text-2xl font-semibold text-gray-900">
                     Edit Data Fasilitas
                 </h1>
-                <p className="text-sm text-gray-500 mb-6">
+                <p className="mb-6 text-sm text-gray-500">
                     Perbarui informasi fasilitas di bawah ini.
                 </p>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Form sebelah kiri */}
-                    <FormEditFasilitas
-                        data={data}
-                        setData={setData}
-                        handleSubmit={handleSubmit}
-                        handleChangeFile={handleChangeFile}
-                        processing={processing}
-                        errors={errors}
-                    />
+                    <div className="lg:col-span-2">
+                        <FormEditFasilitas
+                            data={data}
+                            setData={setData}
+                            handleSubmit={handleSubmit}
+                            handleChangeFile={handleChangeFile}
+                            processing={processing}
+                            errors={errors}
+                        />
+                    </div>
 
                     {/* Preview sebelah kanan */}
-                    <PreviewEditFasilitas data={{ ...data, preview }} />
+                    <div className='self-start'>
+                        <PreviewEditFasilitas data={{ ...data, preview }} />
+                    </div>
                 </div>
             </div>
         </AppLayout>

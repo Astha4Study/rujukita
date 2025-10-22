@@ -73,6 +73,7 @@ class FasilitasController extends Controller
             'email' => 'nullable|email|max:255',
             'kapasitas_total' => 'nullable|integer|min:0',
             'kapasitas_tersedia' => 'nullable|integer|min:0',
+            'deskripsi' => 'required|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
@@ -100,7 +101,7 @@ class FasilitasController extends Controller
 
         // Super Admin bisa lihat semua fasilitas
         // Perawat hanya bisa lihat fasilitas miliknya
-        if (!$user->hasRole('super_admin') && $fasilita->created_by !== $user->id) {
+        if (! $user->hasRole('super_admin') && $fasilita->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk melihat data ini.');
         }
 
@@ -108,10 +109,10 @@ class FasilitasController extends Controller
         $fasilita->load([
             'pasien' => function ($query) {
                 $query->select('id', 'nama_lengkap', 'nik', 'fasilitas_id');
-            }
+            },
         ]);
 
-        return Inertia::render('Fasilitas/Show', [
+        return Inertia::render('Perawat/Fasilitas/Show', [
             'fasilitas' => $fasilita,
             'pasien' => $fasilita->pasien,
             'isSuperAdmin' => $user->hasRole('super_admin'),
@@ -164,6 +165,7 @@ class FasilitasController extends Controller
             'email' => 'nullable|email|max:255',
             'kapasitas_total' => 'nullable|integer|min:0',
             'kapasitas_tersedia' => 'nullable|integer|min:0',
+            'deskripsi' => 'required|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
@@ -206,6 +208,6 @@ class FasilitasController extends Controller
 
         $fasilita->delete();
 
-        return redirect()->route('fasilitas.index')->with('success', 'Data fasilitas berhasil dihapus.');
+        return redirect()->route('perawat.fasilitas.index')->with('success', 'Data fasilitas berhasil dihapus.');
     }
 }
