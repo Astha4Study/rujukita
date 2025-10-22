@@ -23,6 +23,7 @@ class Pasien extends Model
         'golongan_darah',
         'riwayat_penyakit',
         'alergi',
+        'fasilitas_id', 
         'created_by',
     ];
 

@@ -30,16 +30,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->prefix('perawat')
         ->as('perawat.')
         ->group(function () {
-            Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('perawat.fasilitas.index');
-            Route::get('/fasilitas/create', [FasilitasController::class, 'create'])->name('perawat.fasilitas.create');
-            Route::get('/fasilitas/create', [FasilitasController::class, 'create'])->name('perawat.fasilitas.edit');
-            Route::resource('fasilitas', FasilitasController::class)->except(['perawat.fasilitas.edit', 'perawat.fasilitas.index', 'perawat.fasilitas.create']);
+            Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
+            Route::get('/fasilitas/create', [FasilitasController::class, 'create'])->name('fasilitas.create');
+            Route::get('/fasilitas/{fasilitas}/edit', [FasilitasController::class, 'edit'])->name('fasilitas.edit');
+            Route::resource('fasilitas', FasilitasController::class)->except(['index', 'create', 'edit', 'show']);
 
-            Route::get('/pasien', [PasienController::class, 'index'])->name('perawat.pasien.index');
-            Route::get('/pasien/create', [PasienController::class, 'create'])->name('perawat.pasien.create');
-            Route::resource('pasien', PasienController::class)->except(['show', 'index', 'create']);
-
-            Route::resource('pasien', PasienController::class)->except(['show', 'index', 'create']);
+            Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
+            Route::get('/pasien/create', [PasienController::class, 'create'])->name('pasien.create');
+            Route::resource('pasien', PasienController::class)->except(['index', 'create', 'show']);
         });
 
 

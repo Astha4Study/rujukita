@@ -20,26 +20,19 @@ class PasienController extends Controller
         if ($user->hasRole('super_admin')) {
             $fasilitasId = $request->query('fasilitas');
 
-            if ($fasilitasId) {
-                $pasien = Pasien::with('fasilitas')
-                    ->where('fasilitas_id', $fasilitasId)
-                    ->latest()
-                    ->get();
+            $pasien = $fasilitasId
+                ? Pasien::with('fasilitas')->where('fasilitas_id', $fasilitasId)->latest()->get()
+                : collect();
 
-                $fasilitas = Fasilitas::find($fasilitasId);
-            } else {
-                $pasien = collect();
-                $fasilitas = null;
-            }
+            $fasilitas = $fasilitasId ? Fasilitas::find($fasilitasId) : null;
 
-            return Inertia::render('superAdmin/Pasien/Index', [
+            return Inertia::render('SuperAdmin/Pasien/Index', [
                 'pasien' => $pasien,
                 'fasilitas' => $fasilitas,
                 'isSuperAdmin' => true,
             ]);
         }
 
-        // Jika perawat, tampilkan pasien milik perawat tersebut
         $pasien = Pasien::with('fasilitas')
             ->where('created_by', $user->id)
             ->latest()
@@ -58,26 +51,21 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        // Hanya perawat yang boleh menambahkan pasien
         if ($user->hasRole('super_admin')) {
-            return redirect()->back()->with([
-                'error' => 'Super admin tidak dapat menambahkan pasien.'
-            ]);
+            return redirect()->back()->with('error', 'Super admin tidak dapat menambahkan pasien.');
         }
 
-        // Ambil fasilitas yang dibuat oleh perawat ini
         $fasilitas = Fasilitas::where('created_by', $user->id)->get();
 
-        // Jika perawat belum punya fasilitas, arahkan ke halaman fasilitas
         if ($fasilitas->isEmpty()) {
-            return redirect()->route('perawat.fasilitas.index')->with([
-                'warning' => 'Anda belum memiliki fasilitas. Buat fasilitas terlebih dahulu sebelum menambahkan pasien.'
-            ]);
+            return redirect()->route('perawat.fasilitas.index')->with(
+                'warning',
+                'Anda belum memiliki fasilitas. Buat fasilitas taerlebih dahulu sebelum menambahkan pasien.'
+            );
         }
 
         return Inertia::render('Perawat/Pasien/Create', [
             'fasilitas' => $fasilitas,
-            'isSuperAdmin' => false,
         ]);
     }
 
@@ -88,29 +76,35 @@ class PasienController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole('super_admin')) {
-            abort(403, 'Super admin tidak dapat menambahkan pasien.');
+        $fasilitas = Fasilitas::where('created_by', $user->id)->first();
+
+        if (!$fasilitas) {
+            return redirect()
+                ->route('perawat.fasilitas.index')
+                ->with('warning', 'Anda belum memiliki fasilitas.');
         }
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'nik' => 'required|string|size:16|unique:pasien,nik',
             'jenis_kelamin' => 'required|in:L,P',
-            'tanggal_lahir' => 'nullable|date',
-            'tempat_lahir' => 'nullable|string|max:255',
-            'alamat' => 'required|string',
-            'no_hp' => 'nullable|string|max:18',
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:15',
             'golongan_darah' => 'nullable|string|max:3',
             'riwayat_penyakit' => 'nullable|string',
             'alergi' => 'nullable|string',
-            'fasilitas_id' => 'required|exists:fasilitas,id',
         ]);
 
+        $validated['fasilitas_id'] = $fasilitas->id;
         $validated['created_by'] = $user->id;
 
         Pasien::create($validated);
 
-        return redirect()->route('pasien.index')->with('success', 'Pasien berhasil ditambahkan.');
+        return redirect()
+            ->route('perawat.pasien.index')
+            ->with('success', 'Data pasien berhasil disimpan.');
     }
 
     /**
@@ -130,7 +124,7 @@ class PasienController extends Controller
 
         $fasilitas = Fasilitas::where('created_by', $user->id)->get();
 
-        return Inertia::render('pasien/Edit', [
+        return Inertia::render('Perawat/Pasien/Edit', [
             'pasien' => $pasien,
             'fasilitas' => $fasilitas,
         ]);
@@ -151,22 +145,30 @@ class PasienController extends Controller
             abort(403, 'Anda tidak memiliki izin untuk memperbarui pasien ini.');
         }
 
+        // Ambil fasilitas_id dari perawat yang sedang login
+        $fasilitas_id = $user->fasilitas_id;
+
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'nik' => 'required|string|size:16|unique:pasien,nik,' . $pasien->id,
             'jenis_kelamin' => 'required|in:L,P',
-            'tanggal_lahir' => 'nullable|date',
-            'tempat_lahir' => 'nullable|string|max:255',
-            'alamat' => 'required|string',
-            'no_hp' => 'nullable|string|max:18',
+            'tanggal_lahir' => 'required|date',
+            'tempat_lahir' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:15',
             'golongan_darah' => 'nullable|string|max:3',
             'riwayat_penyakit' => 'nullable|string',
             'alergi' => 'nullable|string',
-            'fasilitas_id' => 'required|exists:fasilitas,id',
         ]);
+
+        // Tambahkan fasilitas_id otomatis
+        $validated['fasilitas_id'] = $fasilitas_id;
 
         $pasien->update($validated);
 
-        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil diperbarui.');
+        return redirect()
+            ->route('perawat.pasien.index')
+            ->with('success', 'Data pasien berhasil diperbarui.');
     }
 
     /**
@@ -186,6 +188,8 @@ class PasienController extends Controller
 
         $pasien->delete();
 
-        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil dihapus.');
+        return redirect()
+            ->route('perawat.pasien.index')
+            ->with('success', 'Data pasien berhasil dihapus.');
     }
 }

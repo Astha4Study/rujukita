@@ -33,7 +33,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Edit({ fasilitas }: Props) {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, processing, errors } = useForm({
         nama_fasilitas: fasilitas.nama_fasilitas ?? '',
         jenis_fasilitas: fasilitas.jenis_fasilitas ?? '',
         alamat: fasilitas.alamat ?? '',
@@ -88,7 +88,7 @@ export default function Edit({ fasilitas }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Fasilitas" />
+            <Head title="Edit Fasilitas Kamu" />
 
             <div className="p-6">
                 <h1 className="mb-1 text-2xl font-semibold text-gray-900">

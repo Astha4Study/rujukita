@@ -198,7 +198,7 @@ export default function IndexPasienPerawat() {
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 <Link
-                                                    href={`/pasien/${item.id}/edit`}
+                                                    href={`/perawat/pasien/${item.id}/edit`}
                                                     className="text-emerald-600 hover:text-emerald-700"
                                                 >
                                                     Edit
