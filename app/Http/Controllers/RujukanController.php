@@ -21,7 +21,7 @@ class RujukanController extends Controller
         $query = Rujukan::with(['pasien', 'faskesAsal', 'faskesTujuan', 'dibuatOleh'])
             ->latest();
 
-        if ($user->hasRole('perawat')) {
+        if ($user->hasRole('resepsionis')) {
             $query->where('dibuat_oleh', $user->id);
         }
 

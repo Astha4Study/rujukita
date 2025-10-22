@@ -24,8 +24,8 @@ export function AppSidebar() {
     const prefix =
         role === 'super_admin'
             ? '/super-admin'
-            : role === 'perawat'
-                ? '/perawat'
+            : role === 'resepsionis'
+                ? '/resepsionis'
                 : '';
 
     let mainNavItems: NavItem[] = [

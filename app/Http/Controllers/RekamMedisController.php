@@ -26,7 +26,7 @@ class RekamMedisController extends Controller
             $fasilitasId = $request->query('fasilitas');
 
             $rekamMedis = $fasilitasId
-                ? RekamMedis::with(['pasien', 'fasilitas', 'perawat'])
+                ? RekamMedis::with(['pasien', 'fasilitas', 'resepsionis'])
                     ->where('fasilitas_id', $fasilitasId)
                     ->latest()
                     ->get()
@@ -42,15 +42,15 @@ class RekamMedisController extends Controller
             ]);
         }
 
-        // Untuk perawat: hanya data rekam medis milik fasilitas dia
+        // Untuk resepsionis: hanya data rekam medis milik fasilitas dia
         $fasilitas = Fasilitas::where('created_by', $user->id)->first();
 
-        $rekamMedis = RekamMedis::with(['pasien', 'fasilitas', 'perawat'])
+        $rekamMedis = RekamMedis::with(['pasien', 'fasilitas', 'resepsionis'])
             ->where('fasilitas_id', $fasilitas->id ?? null)
             ->latest()
             ->get();
 
-        return Inertia::render('Perawat/RekamMedis/Index', [
+        return Inertia::render('Resepsionis/RekamMedis/Index', [
             'pasien' => $pasien,
             'rekamMedis' => $rekamMedis,
             'isSuperAdmin' => false,
@@ -72,7 +72,7 @@ class RekamMedisController extends Controller
         $fasilitas = Fasilitas::where('created_by', $user->id)->first();
 
         if (!$fasilitas) {
-            return redirect()->route('perawat.fasilitas.index')->with(
+            return redirect()->route('resepsionis.fasilitas.index')->with(
                 'warning',
                 'Anda belum memiliki fasilitas. Buat fasilitas terlebih dahulu sebelum menambahkan rekam medis.'
             );
@@ -80,7 +80,7 @@ class RekamMedisController extends Controller
 
         $pasien = Pasien::where('fasilitas_id', $fasilitas->id)->get();
 
-        return Inertia::render('Perawat/RekamMedis/Create', [
+        return Inertia::render('Resepsionis/RekamMedis/Create', [
             'fasilitas' => $fasilitas,
             'pasien' => $pasien,
         ]);
@@ -97,7 +97,7 @@ class RekamMedisController extends Controller
 
         if (!$fasilitas) {
             return redirect()
-                ->route('perawat.fasilitas.index')
+                ->route('resepsionis.fasilitas.index')
                 ->with('warning', 'Anda belum memiliki fasilitas.');
         }
 
@@ -117,7 +117,7 @@ class RekamMedisController extends Controller
         RekamMedis::create($validated);
 
         return redirect()
-            ->route('perawat.rekam-medis.index')
+            ->route('resepsionis.rekam-medis.index')
             ->with('success', 'Rekam medis berhasil disimpan.');
 
     }
@@ -127,9 +127,9 @@ class RekamMedisController extends Controller
      */
     public function show(RekamMedis $rekamMedis)
     {
-        $rekamMedis->load(['pasien', 'fasilitas', 'perawat']);
+        $rekamMedis->load(['pasien', 'fasilitas', 'resepsionis']);
 
-        return Inertia::render('Perawat/RekamMedis/Show', [
+        return Inertia::render('Resepsionis/RekamMedis/Show', [
             'rekamMedis' => $rekamMedis,
         ]);
     }
@@ -153,7 +153,7 @@ class RekamMedisController extends Controller
 
         $pasien = Pasien::where('fasilitas_id', $fasilitas->id)->get();
 
-        return Inertia::render('Perawat/RekamMedis/Edit', [
+        return Inertia::render('Resepsionis/RekamMedis/Edit', [
             'rekamMedis' => $rekamMedis,
             'pasien' => $pasien,
         ]);
@@ -183,7 +183,7 @@ class RekamMedisController extends Controller
         $rekamMedis->update($validated);
 
         return redirect()
-            ->route('perawat.rekam-medis.index')
+            ->route('resepsionis.rekam-medis.index')
             ->with('success', 'Rekam medis berhasil diperbarui.');
     }
 
@@ -201,7 +201,7 @@ class RekamMedisController extends Controller
         $rekamMedis->delete();
 
         return redirect()
-            ->route('perawat.rekam-medis.index')
+            ->route('resepsionis.rekam-medis.index')
             ->with('success', 'Rekam medis berhasil dihapus.');
     }
 }

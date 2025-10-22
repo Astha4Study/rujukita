@@ -27,14 +27,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/pasien/{pasien}', [PasienController::class, 'show'])->name('pasien.show');
         });
 
-    Route::middleware(['role:perawat'])
-        ->prefix('perawat')
-        ->as('perawat.')
+    Route::middleware(['role:resepsionis'])
+        ->prefix('resepsionis')
+        ->as('resepsionis.')
         ->group(function () {
             Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
             Route::get('/fasilitas/create', [FasilitasController::class, 'create'])->name('fasilitas.create');
             Route::get('/fasilitas/{fasilitas}/edit', [FasilitasController::class, 'edit'])->name('fasilitas.edit');
-            Route::resource('fasilitas', FasilitasController::class)->except(['index', 'create', 'edit', 'show']);
+            Route::resource('fasilitas', FasilitasController::class)->parameters(['fasilitas' => 'fasilitas'])->except(['index', 'create', 'edit', 'show']);
 
             Route::get('/pasien', [PasienController::class, 'index'])->name('pasien.index');
             Route::get('/pasien/create', [PasienController::class, 'create'])->name('pasien.create');

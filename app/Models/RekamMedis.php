@@ -34,7 +34,7 @@ class RekamMedis extends Model
         return $this->belongsTo(Fasilitas::class);
     }
 
-    public function perawat()
+    public function resepsionis()
     {
         return $this->belongsTo(User::class, 'ditangani_oleh');
     }

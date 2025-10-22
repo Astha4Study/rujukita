@@ -257,7 +257,7 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
             </div>
             <div className="mt-4 flex justify-end gap-3">
                 <Link
-                    href="/perawat/fasilitas"
+                    href="/resepsionis/fasilitas"
                     className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                     Batal

@@ -22,7 +22,7 @@ class FasilitasController extends Controller
             $viewPath = 'SuperAdmin/Fasilitas/Index';
         } else {
             $fasilitas = Fasilitas::where('created_by', $user->id)->latest()->get();
-            $viewPath = 'Perawat/Fasilitas/Index';
+            $viewPath = 'Resepsionis/Fasilitas/Index';
         }
 
         return Inertia::render($viewPath, [
@@ -43,11 +43,11 @@ class FasilitasController extends Controller
             abort(403, 'Super admin tidak dapat menambahkan pasien.');
         }
 
-        // Ambil fasilitas yang dibuat oleh perawat yang sedang login
+        // Ambil fasilitas yang dibuat oleh resepsionis yang sedang login
         $fasilitas = Fasilitas::where('created_by', $user->id)->get();
 
-        // Render halaman Inertia ke folder Perawat/Pasien/Create
-        return Inertia::render('Perawat/Fasilitas/Create', [
+        // Render halaman Inertia ke folder Resepsionis/Pasien/Create
+        return Inertia::render('Resepsionis/Fasilitas/Create', [
             'fasilitas' => $fasilitas,
         ]);
     }
@@ -88,33 +88,33 @@ class FasilitasController extends Controller
 
         Fasilitas::create($validated);
 
-        return redirect()->route('perawat.fasilitas.index')->with('success', 'Fasilitas berhasil ditambahkan.');
+        return redirect()->route('resepsionis.fasilitas.index')->with('success', 'Fasilitas berhasil ditambahkan.');
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Fasilitas $fasilita)
+    public function show(Fasilitas $fasilitas)
     {
         $user = Auth::user();
 
         // Super Admin bisa lihat semua fasilitas
-        // Perawat hanya bisa lihat fasilitas miliknya
-        if (! $user->hasRole('super_admin') && $fasilita->created_by !== $user->id) {
+        // Resepsionis hanya bisa lihat fasilitas miliknya
+        if (! $user->hasRole('super_admin') && $fasilitas->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk melihat data ini.');
         }
 
         // Ambil fasilitas beserta pasien-pasiennya
-        $fasilita->load([
+        $fasilitas->load([
             'pasien' => function ($query) {
                 $query->select('id', 'nama_lengkap', 'nik', 'fasilitas_id');
             },
         ]);
 
-        return Inertia::render('Perawat/Fasilitas/Show', [
-            'fasilitas' => $fasilita,
-            'pasien' => $fasilita->pasien,
+        return Inertia::render('Resepsionis/Fasilitas/Show', [
+            'fasilitas' => $fasilitas,
+            'pasien' => $fasilitas->pasien,
             'isSuperAdmin' => $user->hasRole('super_admin'),
         ]);
     }
@@ -122,7 +122,7 @@ class FasilitasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fasilitas $fasilita)
+    public function edit(Fasilitas $fasilitas)
     {
         $user = Auth::user();
 
@@ -130,19 +130,19 @@ class FasilitasController extends Controller
             abort(403, 'Super admin tidak dapat mengedit fasilitas.');
         }
 
-        if ($fasilita->created_by !== $user->id) {
+        if ($fasilitas->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit data ini.');
         }
 
-        return Inertia::render('Perawat/Fasilitas/Edit', [
-            'fasilitas' => $fasilita,
+        return Inertia::render('Resepsionis/Fasilitas/Edit', [
+            'fasilitas' => $fasilitas,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fasilitas $fasilita)
+    public function update(Request $request, Fasilitas $fasilitas)
     {
         $user = Auth::user();
 
@@ -150,7 +150,7 @@ class FasilitasController extends Controller
             abort(403, 'Super admin tidak dapat memperbarui fasilitas.');
         }
 
-        if ($fasilita->created_by !== $user->id) {
+        if ($fasilitas->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk memperbarui data ini.');
         }
 
@@ -172,25 +172,25 @@ class FasilitasController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            if ($fasilita->gambar && Storage::disk('public')->exists($fasilita->gambar)) {
-                Storage::disk('public')->delete($fasilita->gambar);
+            if ($fasilitas->gambar && Storage::disk('public')->exists($fasilitas->gambar)) {
+                Storage::disk('public')->delete($fasilitas->gambar);
             }
 
             $path = $request->file('gambar')->store('fasilitas', 'public');
             $validated['gambar'] = $path;
         }
 
-        $fasilita->update($validated);
+        $fasilitas->update($validated);
 
         return redirect()
-            ->route('perawat.fasilitas.index')
+            ->route('resepsionis.fasilitas.index')
             ->with('success', 'Data fasilitas berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fasilitas $fasilita)
+    public function destroy(Fasilitas $fasilitas)
     {
         $user = Auth::user();
 
@@ -198,16 +198,16 @@ class FasilitasController extends Controller
             abort(403, 'Super admin tidak dapat menghapus fasilitas.');
         }
 
-        if ($fasilita->created_by !== $user->id) {
+        if ($fasilitas->created_by !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus data ini.');
         }
 
-        if ($fasilita->gambar && Storage::disk('public')->exists($fasilita->gambar)) {
-            Storage::disk('public')->delete($fasilita->gambar);
+        if ($fasilitas->gambar && Storage::disk('public')->exists($fasilitas->gambar)) {
+            Storage::disk('public')->delete($fasilitas->gambar);
         }
 
-        $fasilita->delete();
+        $fasilitas->delete();
 
-        return redirect()->route('perawat.fasilitas.index')->with('success', 'Data fasilitas berhasil dihapus.');
+        return redirect()->route('resepsionis.fasilitas.index')->with('success', 'Data fasilitas berhasil dihapus.');
     }
 }

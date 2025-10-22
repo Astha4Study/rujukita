@@ -226,7 +226,7 @@ const FormEditPasien: React.FC<FormEditPasienProps> = ({
             <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
                 <div className="flex items-center justify-end gap-3">
                     <Link
-                        href="/perawat/pasien"
+                        href="/resepsionis/pasien"
                         className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                     >
                         Batal

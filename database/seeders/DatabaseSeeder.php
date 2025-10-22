@@ -28,27 +28,27 @@ class DatabaseSeeder extends Seeder
 
         $SuperAdmin->assignRole('super_admin');
 
-        $perawat = User::firstOrCreate(
-            ['email' => 'Perawat@example.com'],
+        $resepsionis = User::firstOrCreate(
+            ['email' => 'Resepsionis@example.com'],
             [
-                'name' => 'Perawat',
+                'name' => 'Resepsionis',
                 'password' => Hash::make('12345678'),
                 'email_verified_at' => now(),
             ]
         );
 
-        $perawat->assignRole('perawat');
+        $resepsionis->assignRole('resepsionis');
 
-        $perawat2 = User::firstOrCreate(
-            ['email' => 'Perawat2@example.com'],
+        $resepsionis2 = User::firstOrCreate(
+            ['email' => 'Resepsionis2@example.com'],
             [
-                'name' => 'Perawat2',
+                'name' => 'Resepsionis2',
                 'password' => Hash::make('12345678'),
                 'email_verified_at' => now(),
             ]
         );
 
-        $perawat2->assignRole('perawat');
+        $resepsionis2->assignRole('resepsionis');
 
 
         $pasien = User::firstOrCreate(
