@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\UserController;
@@ -31,9 +32,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/users', [UserController::class, 'store'])->name('users.store');
             Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-            Route::get('/tambah-user', [UserController::class, 'index'])->name('users.index');
-            Route::get('/tambah-user/create/{role}', [UserController::class, 'create'])->name('users.create');
-            Route::resource('tambah-user', UserController::class)->except(['index', 'create']);
+            Route::get('/kelola-admin', [AdminController::class, 'index'])->name('admins.index');
+            Route::get('/kelola-admin/create/{role}', [AdminController::class, 'create'])->name('admins.create');
+            Route::resource('kelola-admin', AdminController::class)->except(['index', 'create']);
         });
 
     Route::middleware(['role:admin'])

@@ -168,7 +168,7 @@ class FasilitasController extends Controller
                  'provinsi' => 'nullable|string|max:255',
                  'no_telepon' => 'nullable|string|max:20',
                  'email' => 'nullable|email|max:255',
-                 'kapasitas_total' => 'nullable|integer|min:0',
+                 'kapasitas_total' => 'required|integer|min:0',
                  'kapasitas_tersedia' => 'required|integer|min:0|max:' . $fasilitas->kapasitas_total,
                  'deskripsi' => 'required|string',
                  'latitude' => 'nullable|numeric',
@@ -190,21 +190,23 @@ class FasilitasController extends Controller
          }
 
          if ($user->hasRole('resepsionis') || $user->hasRole('dokter')) {
-             if ($fasilitas->created_by !== $user->created_by) {
-                 abort(403, 'Anda hanya bisa memperbarui fasilitas dari admin yang sama.');
-             }
+                if ($fasilitas->created_by !== $user->created_by) {
+                    abort(403, 'Anda hanya bisa memperbarui fasilitas dari admin yang sama.');
+                }
 
-             $validated = $request->validate([
-                 'kapasitas_tersedia' => 'required|integer|min:0|max:' . $fasilitas->kapasitas_total,
-             ]);
+                $validated = $request->validate([
+                    'kapasitas_total' => 'required|integer|min:0',
+                    'kapasitas_tersedia' => 'required|integer|min:0|max:' . ($request->kapasitas_total ?? $fasilitas->kapasitas_total),
+                ]);
 
-             $fasilitas->update([
-                 'kapasitas_tersedia' => $validated['kapasitas_tersedia'],
-             ]);
+                $fasilitas->update([
+                    'kapasitas_total' => $validated['kapasitas_total'],
+                    'kapasitas_tersedia' => $validated['kapasitas_tersedia'],
+                ]);
 
-             return redirect()->route('resepsionis.fasilitas.index')
-                 ->with('success', 'Kapasitas fasilitas berhasil diperbarui.');
-         }
+                return redirect()->route('resepsionis.fasilitas.index')
+                    ->with('success', 'Kapasitas fasilitas berhasil diperbarui.');
+            }
      }
 
     /**

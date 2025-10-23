@@ -65,26 +65,15 @@ export default function Edit({ fasilitas }: Props) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = new FormData();
-
-        Object.entries(data).forEach(([key, value]) => {
-            if (value instanceof File) {
-                formData.append(key, value);
-            } else if (value !== undefined && value !== null) {
-                formData.append(
-                    key,
-                    typeof value === 'number' ? value.toString() : value,
-                );
-            }
-        });
-
-        router.put(`/resepsionis/fasilitas/${fasilitas.id}`, formData, {
+        router.put(`/resepsionis/fasilitas/${fasilitas.id}`, data, {
             onSuccess: () => {
                 console.log('✅ Data fasilitas berhasil diperbarui');
             },
             onError: (err) => {
                 console.error('❌ Error:', err);
             },
+            // Opsional: tambahkan preserveScroll jika perlu
+            preserveScroll: true,
         });
     };
 

@@ -68,10 +68,20 @@ export function AppSidebar() {
             href: `${prefix}/tambah-user`,
             icon: UserRoundPlus,
         },
+        {
+            title: 'Kelola Admin',
+            href: `${prefix}/kelola-admin`,
+            icon: UserRoundPlus,
+        },
     ];
 
     if (role === 'super_admin') {
-        mainNavItems = mainNavItems.filter((item) => item.title !== 'Pasien');
+        mainNavItems = mainNavItems.filter(
+            (item) =>
+                item.title !== 'Pasien' &&
+                item.title !== 'Rekam Medis' &&
+                item.title !== 'Tambah User',
+        );
     }
 
     if (role === 'admin') {
