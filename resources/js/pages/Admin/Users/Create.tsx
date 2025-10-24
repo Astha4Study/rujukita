@@ -4,7 +4,7 @@ import { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-const CreateUser = () => {
+export default function CreateUsersAdmin() {
     const { props } = usePage();
     const availableRoles: string[] = Array.isArray(props.availableRoles)
         ? props.availableRoles
@@ -57,6 +57,4 @@ const CreateUser = () => {
             </div>
         </AppLayout>
     );
-};
-
-export default CreateUser;
+}

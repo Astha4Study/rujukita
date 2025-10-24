@@ -86,13 +86,17 @@ export function AppSidebar() {
 
     if (role === 'admin') {
         mainNavItems = mainNavItems.filter(
-            (item) => item.title !== 'Pasien' && item.title !== 'Rekam Medis',
+            (item) =>
+                item.title !== 'Pasien' &&
+                item.title !== 'Rekam Medis' &&
+                item.title !== 'Kelola Admin',
         );
     }
 
     if (role === 'resepsionis' || role === 'dokter') {
         mainNavItems = mainNavItems.filter(
-            (item) => item.title !== 'Tambah User',
+            (item) =>
+                item.title !== 'Tambah User' && item.title !== 'Kelola Admin',
         );
     }
 

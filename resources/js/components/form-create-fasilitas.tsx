@@ -9,6 +9,8 @@ import {
     Phone,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import MarkerDraggable from './mark-leaflet';
 
 interface FormCreateFasilitasProps {
     data: any;
@@ -229,6 +231,29 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                 </div>
             </div>
 
+            {/* Peta Lokasi */}
+            <div className="mt-4 h-[300px] w-full overflow-hidden rounded-lg border border-gray-200">
+                <MapContainer
+                    center={[
+                        Number(data.latitude) || -7.7956,
+                        Number(data.longitude) || 110.3695,
+                    ]} // default: Yogyakarta
+                    zoom={13}
+                    style={{ height: '100%', width: '100%' }}
+                    scrollWheelZoom={true}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <MarkerDraggable
+                        latitude={data.latitude}
+                        longitude={data.longitude}
+                        setData={setData}
+                    />
+                </MapContainer>
+            </div>
+
             {/* Deskripsi */}
             <div>
                 <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
@@ -257,7 +282,7 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
             </div>
             <div className="mt-4 flex justify-end gap-3">
                 <Link
-                    href="/resepsionis/fasilitas"
+                    href="/admin/fasilitas"
                     className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                     Batal

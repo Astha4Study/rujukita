@@ -72,7 +72,7 @@ class AdminController extends Controller
 
                $admin->assignRole('admin');
 
-               return redirect()->route('superadmin.admins.index')->with('success', 'Admin berhasil ditambahkan.');
+               return redirect()->route('super_admin.admins.index')->with('success', 'Admin berhasil ditambahkan.');
     }
 
     /**
@@ -128,7 +128,7 @@ class AdminController extends Controller
                        : $admin->password,
                ]);
 
-               return redirect()->route('superadmin.admins.index')->with('success', 'Admin berhasil diperbarui.');
+               return redirect()->route('super_admin.admins.index')->with('success', 'Admin berhasil diperbarui.');
     }
 
     /**
@@ -148,6 +148,6 @@ class AdminController extends Controller
 
                $admin->delete();
 
-               return redirect()->route('superadmin.admins.index')->with('success', 'Admin berhasil dihapus.');
+               return redirect()->route('super_admin.admins.index')->with('success', 'Admin berhasil dihapus.');
     }
 }
