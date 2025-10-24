@@ -1,4 +1,4 @@
-import FormEditFasilitas from '@/components/form-edit-fasilitas';
+import FormEditFasilitasAdmin from '@/components/form-edit-fasilitas-admin';
 import PreviewEditFasilitas from '@/components/preview-edit-fasilitas';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
@@ -28,7 +28,7 @@ type Props = {
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Fasilitas Kamu', href: '/resepsionis/fasilitas' },
+    { title: 'Fasilitas Kamu', href: '/admin/fasilitas' },
     { title: 'Edit Fasilitas Kamu', href: '' },
 ];
 
@@ -102,7 +102,7 @@ export default function Edit({ fasilitas }: Props) {
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Form sebelah kiri */}
                     <div className="lg:col-span-2">
-                        <FormEditFasilitas
+                        <FormEditFasilitasAdmin
                             data={data}
                             setData={setData}
                             handleSubmit={handleSubmit}

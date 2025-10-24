@@ -1,4 +1,4 @@
-import FormCreateFasilitas from '@/components/form-create-fasilitas';
+import FormCreateFasilitas from '@/components/form-create-fasilitas-admin';
 import PreviewCreateFasilitas from '@/components/preview-create-fasilitas';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';

@@ -1,4 +1,4 @@
-import FormEditFasilitas from '@/components/form-edit-fasilitas';
+import FormEditFasilitas from '@/components/form-edit-fasilitas-resepsionis';
 import PreviewEditFasilitas from '@/components/preview-edit-fasilitas';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
