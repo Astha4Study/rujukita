@@ -5,7 +5,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar';
@@ -26,14 +25,12 @@ export function NavUser() {
             <SidebarMenuItem>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton
-                            size="lg"
-                            className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
-                            data-test="sidebar-menu-button"
-                        >
-                            <UserInfo user={auth.user} />
-                            <ChevronsUpDown className="ml-auto size-4" />
-                        </SidebarMenuButton>
+                        <button className="group flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-sidebar-accent-foreground transition-colors hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-sidebar-accent/40 focus-visible:outline-none">
+                            <div className="flex items-center gap-3">
+                                <UserInfo user={auth.user} />
+                            </div>
+                            <ChevronsUpDown className="size-4 opacity-70 transition-opacity group-hover:opacity-100" />
+                        </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                         className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"

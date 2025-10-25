@@ -91,7 +91,7 @@ class UserController extends Controller
         // Assign role dari Spatie
         $newUser->assignRole($validated['role']);
 
-        return redirect()->route('admin.users.index')->with('success', ucfirst($validated['role']) . ' berhasil ditambahkan.');
+        return redirect()->route('admin.tambah-user.index')->with('success', ucfirst($validated['role']) . ' berhasil ditambahkan.');
     }
 
     /**
@@ -144,7 +144,7 @@ class UserController extends Controller
             'password' => $validated['password'] ? Hash::make($validated['password']) : $editUser->password,
         ]);
 
-        return redirect()->route('admin.users.index')
+        return redirect()->route('admin.tambah-user.index')
             ->with('success', 'User berhasil diperbarui.');
     }
 
@@ -166,6 +166,6 @@ class UserController extends Controller
 
         $deleteUser->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('admin.tambah-user.index')->with('success', 'User berhasil dihapus.');
     }
 }
