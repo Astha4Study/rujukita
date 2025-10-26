@@ -106,7 +106,7 @@ export default function DashboardFasilitas() {
 
                             {f.alamat && (
                                 <div className="flex max-w-3xl items-start gap-2 text-white/95">
-                                    <MapPin className="mt-0.5 h-5 w-5 flex-shrink-0" />
+                                    <MapPin className="mt-0.5 flex h-5 w-5 shrink-0" />
                                     <span className="text-base leading-relaxed drop-shadow">
                                         {f.alamat}
                                     </span>

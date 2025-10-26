@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminFasilitasController;
-use App\Http\Controllers\FasilitasController;
-use App\Http\Controllers\PasienController;
+use App\Http\Controllers\DokterFasilitasController;
+use App\Http\Controllers\DokterPasienController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ResepsionisFasilitasController;
 use App\Http\Controllers\ResepsionisPasienController;
@@ -58,6 +58,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('rekam-medis', RekamMedisController::class)
                 ->parameters(['rekam-medis' => 'rekamMedis'])
                 ->only(['index', 'create', 'store', 'edit', 'update']);
+        });
+
+    Route::middleware(['role:dokter'])
+        ->prefix('dokter')
+        ->as('dokter.')
+        ->group(function () {
+            Route::resource('fasilitas', DokterFasilitasController::class)
+                ->only(['index']);
+            Route::resource('pasien', DokterPasienController::class)
+                ->parameters(['pasien' => 'pasien'])
+                ->only(['index', 'show', 'edit', 'update']);
         });
 });
 

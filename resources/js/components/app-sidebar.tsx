@@ -37,6 +37,8 @@ export function AppSidebar() {
                 return '/admin';
             case 'resepsionis':
                 return '/resepsionis';
+            case 'dokter':
+                return '/dokter';
             default:
                 return '';
         }
@@ -94,6 +96,13 @@ export function AppSidebar() {
     }
 
     if (role === 'resepsionis' || role === 'dokter') {
+        mainNavItems = mainNavItems.filter(
+            (item) =>
+                item.title !== 'Tambah User' && item.title !== 'Kelola Admin',
+        );
+    }
+
+    if (role === 'dokter') {
         mainNavItems = mainNavItems.filter(
             (item) =>
                 item.title !== 'Tambah User' && item.title !== 'Kelola Admin',

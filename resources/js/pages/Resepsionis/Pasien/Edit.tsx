@@ -1,4 +1,4 @@
-import FormEditPasien from '@/components/form-edit-pasien';
+import FormEditPasienResepsionis from '@/components/form-edit-pasien-resepsionis';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, router, useForm } from '@inertiajs/react';
@@ -50,23 +50,19 @@ export default function EditPasien({ pasien }: Props) {
             }
         });
 
-        router.post(
-            `/resepsionis/pasien/${pasien.id}?_method=PUT`,
-            formData,
-            {
-                onSuccess: () => {
-                    console.log('✅ Data pasien berhasil diperbarui');
-                },
-                onError: (err) => {
-                    console.error('❌ Error:', err);
-                },
+        router.post(`/resepsionis/pasien/${pasien.id}?_method=PUT`, formData, {
+            onSuccess: () => {
+                console.log('✅ Data pasien berhasil diperbarui');
             },
-        );
+            onError: (err) => {
+                console.error('❌ Error:', err);
+            },
+        });
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title='Edit Pasien' />
+            <Head title="Edit Pasien" />
 
             <div className="p-6">
                 <div className="mb-6">
@@ -80,7 +76,7 @@ export default function EditPasien({ pasien }: Props) {
 
                 {/* Form Card */}
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-                    <FormEditPasien
+                    <FormEditPasienResepsionis
                         data={data}
                         setData={setData}
                         handleSubmit={handleSubmit}
