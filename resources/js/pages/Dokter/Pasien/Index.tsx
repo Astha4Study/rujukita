@@ -39,12 +39,6 @@ export default function IndexPasienResepsionis() {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const toggleSelect = (id: number) => {
-        setSelectedIds((prev) =>
-            prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
-        );
-    };
-
     const filteredPasien = pasien.filter(
         (p) =>
             p.nama_lengkap.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -112,18 +106,6 @@ export default function IndexPasienResepsionis() {
                                             key={item.id}
                                             className="transition hover:bg-gray-50"
                                         >
-                                            <td className="px-6 py-4">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedIds.includes(
-                                                        item.id,
-                                                    )}
-                                                    onChange={() =>
-                                                        toggleSelect(item.id)
-                                                    }
-                                                    className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                                />
-                                            </td>
                                             <td className="px-6 py-4 font-medium text-gray-900">
                                                 {item.nama_lengkap}
                                             </td>

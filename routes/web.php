@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminFasilitasController;
 use App\Http\Controllers\DokterFasilitasController;
 use App\Http\Controllers\DokterPasienController;
 use App\Http\Controllers\RekamMedisController;
+use App\Http\Controllers\ResepsionisAntrianController;
 use App\Http\Controllers\ResepsionisFasilitasController;
 use App\Http\Controllers\ResepsionisPasienController;
 use App\Http\Controllers\SuperAdminFasilitasController;
@@ -58,6 +59,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('rekam-medis', RekamMedisController::class)
                 ->parameters(['rekam-medis' => 'rekamMedis'])
                 ->only(['index', 'create', 'store', 'edit', 'update']);
+            Route::get('antrian/create/pasien/{pasien}', [ResepsionisAntrianController::class, 'createForPasien'])
+                ->name('resepsionis.antrian.createForPasien');
+            Route::resource('antrian', ResepsionisAntrianController::class)
+                ->parameters(['antrian' => 'antrian'])
+                ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
         });
 
     Route::middleware(['role:dokter'])

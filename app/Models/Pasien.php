@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Pasien extends Model
 {
@@ -55,4 +56,23 @@ class Pasien extends Model
     {
         return $this->belongsTo(Fasilitas::class);
     }
+
+    protected static function boot()
+        {
+            parent::boot();
+
+            static::creating(function ($pasien) {
+                // Ambil user yang sedang login
+                $user = Auth::user();
+
+                if ($user && $user->hasRole('admin')) {
+                    // Ambil fasilitas yang dibuat oleh admin tersebut
+                    $fasilitas = Fasilitas::where('created_by', $user->id)->first();
+
+                    if ($fasilitas) {
+                        $pasien->fasilitas_id = $fasilitas->id;
+                    }
+                }
+            });
+        }
 }

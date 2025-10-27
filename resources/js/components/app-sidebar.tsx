@@ -15,6 +15,7 @@ import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    ClipboardList,
     Folder,
     Hospital,
     LayoutGrid,
@@ -61,6 +62,11 @@ export function AppSidebar() {
             icon: Users,
         },
         {
+            title: 'Antrian',
+            href: `${prefix}/antrian`,
+            icon: ClipboardList,
+        },
+        {
             title: 'Rekam Medis',
             href: `${prefix}/rekam-medis`,
             icon: Stethoscope,
@@ -82,7 +88,8 @@ export function AppSidebar() {
             (item) =>
                 item.title !== 'Pasien' &&
                 item.title !== 'Rekam Medis' &&
-                item.title !== 'Tambah User',
+                item.title !== 'Tambah User' &&
+                item.title !== 'Antrian',
         );
     }
 
@@ -91,7 +98,8 @@ export function AppSidebar() {
             (item) =>
                 item.title !== 'Pasien' &&
                 item.title !== 'Rekam Medis' &&
-                item.title !== 'Kelola Admin',
+                item.title !== 'Kelola Admin' &&
+                item.title !== 'Antrian',
         );
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokter;
+use App\Models\Fasilitas;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -61,38 +63,62 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $user = Auth::user();
+     public function store(Request $request)
+     {
+         $user = Auth::user();
 
-        // Validasi
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'nullable|string|min:8',
-            'role' => 'required|string',
-        ]);
+         // Validasi umum
+         $validated = $request->validate([
+             'name' => 'required|string|max:255',
+             'email' => 'required|email|unique:users,email',
+             'password' => 'nullable|string|min:8',
+             'role' => 'required|string|in:admin,resepsionis,dokter',
+             'spesialis' => 'nullable|string|max:100',
+             'max_antrian_per_hari' => 'nullable|integer|min:1|max:50',
+         ]);
 
-        // Pastikan role yang dikirim valid sesuai role user login
-        $availableRoles = $user->hasRole('super_admin') ? ['admin'] : ['resepsionis', 'dokter'];
-        if (!in_array($validated['role'], $availableRoles)) {
-            abort(403, 'Role tidak valid.');
-        }
+         // Pastikan role yang dikirim sesuai hak akses
+         $availableRoles = $user->hasRole('super_admin') ? ['admin'] : ['resepsionis', 'dokter'];
 
-        // Buat user
-        $newUser = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password'] ?? 'password123'),
-            'fasilitas_id' => $user->fasilitas_id,
-            'created_by' => $user->id,
-        ]);
+         if (!in_array($validated['role'], $availableRoles)) {
+             abort(403, 'Role tidak valid untuk pengguna ini.');
+         }
 
-        // Assign role dari Spatie
-        $newUser->assignRole($validated['role']);
+         $fasilitasId = $user->hasRole('admin')
+             ? Fasilitas::where('created_by', $user->id)->value('id')
+             : $user->fasilitas_id;
 
-        return redirect()->route('admin.tambah-user.index')->with('success', ucfirst($validated['role']) . ' berhasil ditambahkan.');
-    }
+         if (!$fasilitasId && $validated['role'] !== 'admin') {
+             return back()->withErrors('Admin belum memiliki fasilitas.');
+         }
+
+         $newUser = User::create([
+             'name' => $validated['name'],
+             'email' => $validated['email'],
+             'password' => Hash::make($validated['password'] ?? 'password123'),
+             'fasilitas_id' => $fasilitasId,
+             'created_by' => $user->id,
+         ]);
+
+         // Assign role dari Spatie
+         $newUser->assignRole($validated['role']);
+
+         // Jika role dokter, buat entri tambahan di tabel dokter
+         if ($validated['role'] === 'dokter') {
+             Dokter::create([
+                 'user_id' => $newUser->id,
+                 'fasilitas_id' => $fasilitasId,
+                 'spesialis' => $validated['spesialis'] ?? 'Umum',
+                 'status' => 'available',
+                 'antrian_saat_ini' => 0,
+                 'max_antrian_per_hari' => $validated['max_antrian_per_hari'] ?? 7,
+             ]);
+         }
+
+         return redirect()
+             ->route('admin.tambah-user.index')
+             ->with('success', ucfirst($validated['role']) . ' berhasil ditambahkan.');
+     }
 
     /**
      * Show the form for editing the specified resource.

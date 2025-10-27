@@ -1,3 +1,4 @@
+import DropdownPasienResepsionis from '@/components/ui/dropdown-pasien-resepsionis';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Inertia } from '@inertiajs/inertia';
@@ -199,12 +200,9 @@ export default function IndexPasienResepsionis() {
                                                 {item.alamat}
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <Link
-                                                    href={`/resepsionis/pasien/${item.id}/edit`}
-                                                    className="text-emerald-600 hover:text-emerald-700"
-                                                >
-                                                    Edit
-                                                </Link>
+                                                <DropdownPasienResepsionis
+                                                    id={item.id}
+                                                />
                                             </td>
                                         </tr>
                                     ))

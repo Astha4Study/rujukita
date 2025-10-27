@@ -16,12 +16,22 @@ class DokterPasienController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $pasien = Pasien::with('fasilitas')->where('created_by', $user->id)->latest()->get();
 
-        return Inertia::render('Dokter/Pasien/Index', [
-            'pasien' => $pasien,
-            'isSuperAdmin' => false,
-        ]);
+            // Hanya dokter yang bisa akses
+            if (!$user->hasRole('dokter')) {
+                abort(403, 'Hanya dokter yang dapat mengakses halaman ini.');
+            }
+
+            // Ambil pasien yang berada di fasilitas yang sama dengan dokter
+            $pasien = Pasien::with('fasilitas')
+                ->where('fasilitas_id', $user->fasilitas_id) // sama seperti dokter
+                ->latest()
+                ->get();
+
+            return Inertia::render('Dokter/Pasien/Index', [
+                'pasien' => $pasien,
+                'isDokter' => true,
+            ]);
     }
 
     /**
