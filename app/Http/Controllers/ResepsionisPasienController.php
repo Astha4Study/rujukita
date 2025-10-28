@@ -67,9 +67,9 @@ class ResepsionisPasienController extends Controller
         $validated['fasilitas_id'] = $fasilitas->id;
         $validated['created_by'] = $user->id;
 
-        Pasien::create($validated);
+        $pasien = Pasien::create($validated);
 
-        return redirect()->route('resepsionis.pasien.index')->with('success', 'Data pasien berhasil disimpan.');
+        return redirect()->route('resepsionis.antrian.createForPasien', ['pasien' => $pasien->id]);
     }
 
     /**

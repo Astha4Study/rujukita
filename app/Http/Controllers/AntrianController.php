@@ -47,43 +47,32 @@ class AntrianController extends Controller
     {
         $user = Auth::user();
 
-            if (!$user->hasRole('resepsionis')) {
-                abort(403, 'Hanya resepsionis yang dapat menambahkan antrian.');
-            }
+           $validated = $request->validate([
+               'pasien_id' => 'required|exists:pasien,id',
+               'spesialis' => 'required',
+               'keluhan' => 'nullable|string',
+               'tanggal_kunjungan' => 'required|date',
+           ]);
 
-            $validated = $request->validate([
-                'pasien_id' => 'required|exists:pasien,id',
-                'spesialis' => 'required|string|max:255',
-                'dokter_id' => 'nullable|exists:users,id',
-                'keluhan' => 'nullable|string|max:500',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
+           $validated['fasilitas_id'] = $user->fasilitas_id;
 
-            $validated['fasilitas_id'] = $user->fasilitas_id;
+           $dokter = Dokter::where('fasilitas_id', $user->fasilitas_id)
+               ->where('spesialis', $validated['spesialis'])
+               ->where('status', 'available')
+               ->first();
 
-            // Jika dokter tidak dipilih manual, pilih otomatis berdasarkan spesialis
-            if (empty($validated['dokter_id'])) {
-                $dokter = Dokter::where('fasilitas_id', $user->fasilitas_id)
-                    ->where('spesialis', $validated['spesialis'])
-                    ->where('status', 'aktif')
-                    ->first();
+           $validated['dokter_id'] = $dokter?->user_id;
 
-                if (!$dokter) {
-                    return back()->with('error', 'Tidak ada dokter aktif dengan spesialis tersebut.');
-                }
+           $lastNumber = Antrian::where('fasilitas_id', $user->fasilitas_id)
+               ->whereDate('tanggal_kunjungan', $validated['tanggal_kunjungan'])
+               ->max('nomor_antrian');
 
-                $validated['dokter_id'] = $dokter->user_id;
-            }
+           $validated['nomor_antrian'] = ($lastNumber ?? 0) + 1;
 
-            // Nomor antrian otomatis
-            $validated['nomor_antrian'] = Antrian::where('fasilitas_id', $user->fasilitas_id)
-                ->whereDate('tanggal_kunjungan', $validated['tanggal_kunjungan'])
-                ->max('nomor_antrian') + 1;
+           Antrian::create($validated);
 
-            // Buat antrian baru
-            Antrian::create($validated);
-
-            return back()->with('success', 'Antrian berhasil ditambahkan.');
+           return redirect()->route('resepsionis.antrian.index')
+               ->with('success', 'Pasien berhasil dimasukkan ke antrian.');
     }
 
     public function indexDokter()

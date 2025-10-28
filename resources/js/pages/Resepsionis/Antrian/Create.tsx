@@ -1,14 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import FormCreateAntrian from '@/components/form-create-antrian';
 import AppLayout from '@/layouts/app-layout';
-import { useForm } from '@inertiajs/react';
+import { BreadcrumbItem } from '@/types';
+import { Head, useForm } from '@inertiajs/react';
 import React from 'react';
 
-// Define interfaces for the props
 interface Pasien {
     id: number;
     nama_lengkap: string;
     golongan_darah: string;
+    riwayat_penyakit: string;
+    alergi: string;
+    jenis_kelamin: string;
+    umur: number;
 }
 
 interface Dokter {
@@ -21,18 +24,15 @@ interface CreateProps {
     dokter: Dokter[];
 }
 
-// Define an interface for the form data
-interface FormData {
-    pasien_id: number;
-    dokter_id: string;
-    keluhan: string;
-}
+const today = new Date().toISOString().split('T')[0];
 
 export default function Create({ pasien, dokter }: CreateProps) {
-    const { data, setData, post, processing, reset } = useForm<FormData>({
+    const { data, setData, post, processing, reset, errors } = useForm({
         pasien_id: pasien.id,
         dokter_id: '',
+        spesialis: '',
         keluhan: '',
+        tanggal_kunjungan: today,
     });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,44 +42,35 @@ export default function Create({ pasien, dokter }: CreateProps) {
         });
     };
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Daftar Pasien', href: '/resepsionis/pasien' },
+        { title: 'Buat Antrian Pasien', href: '' },
+    ];
+
     return (
         <AppLayout>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label>Nama Pasien</label>
-                    <Input value={pasien.nama_lengkap} disabled />
+            <Head title="Buat Antrian" />
+            <div className="p-6">
+                <div className="mb-6">
+                    <h1 className="text-2xl font-semibold text-gray-900">
+                        Buat Antrian Pasien
+                    </h1>
+                    <p className="mt-1 text-sm text-gray-500">
+                        Lengkapi data untuk membuat antrian
+                    </p>
                 </div>
-                <div>
-                    <label>Golongan Darah</label>
-                    <Input value={pasien.golongan_darah} disabled />
-                </div>
-                <div>
-                    <label>Pilih Dokter</label>
-                    <select
-                        value={data.dokter_id}
-                        onChange={(e) => setData('dokter_id', e.target.value)}
-                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    >
-                        <option value="">-- Pilih Dokter --</option>
-                        {dokter.map((d) => (
-                            <option key={d.id} value={d.id}>
-                                {d.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Keluhan</label>
-                    <Input
-                        value={data.keluhan}
-                        onChange={(e) => setData('keluhan', e.target.value)}
+                <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                    <FormCreateAntrian
+                        pasien={pasien}
+                        dokter={dokter}
+                        data={data}
+                        setData={setData}
+                        handleSubmit={handleSubmit}
+                        processing={processing}
+                        errors={errors}
                     />
                 </div>
-
-                <Button type="submit" disabled={processing}>
-                    Simpan Antrian
-                </Button>
-            </form>
+            </div>
         </AppLayout>
     );
 }

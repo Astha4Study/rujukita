@@ -46,25 +46,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
         });
 
-    Route::middleware(['role:resepsionis'])
-        ->prefix('resepsionis')
-        ->as('resepsionis.')
-        ->group(function () {
-            Route::resource('fasilitas', ResepsionisFasilitasController::class)
-                ->parameters(['fasilitas' => 'fasilitas'])
-                ->only(['index', 'edit', 'update']);
-            Route::resource('pasien', ResepsionisPasienController::class)
-                ->parameters(['pasien' => 'pasien'])
-                ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-            Route::resource('rekam-medis', RekamMedisController::class)
-                ->parameters(['rekam-medis' => 'rekamMedis'])
-                ->only(['index', 'create', 'store', 'edit', 'update']);
-            Route::get('antrian/create/pasien/{pasien}', [ResepsionisAntrianController::class, 'createForPasien'])
-                ->name('resepsionis.antrian.createForPasien');
-            Route::resource('antrian', ResepsionisAntrianController::class)
-                ->parameters(['antrian' => 'antrian'])
-                ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-        });
+        Route::middleware(['role:resepsionis'])
+            ->prefix('resepsionis')
+            ->as('resepsionis.')
+            ->group(function () {
+                Route::resource('fasilitas', ResepsionisFasilitasController::class)
+                    ->parameters(['fasilitas' => 'fasilitas'])
+                    ->only(['index', 'edit', 'update']);
+                Route::resource('pasien', ResepsionisPasienController::class)
+                    ->parameters(['pasien' => 'pasien'])
+                    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+                Route::resource('rekam-medis', RekamMedisController::class)
+                    ->parameters(['rekam-medis' => 'rekamMedis'])
+                    ->only(['index', 'create', 'store', 'edit', 'update']);
+                Route::get('antrian/create/pasien/{pasien}', [ResepsionisAntrianController::class, 'createForPasien'])
+                    ->name('antrian.createForPasien');
+                Route::resource('antrian', ResepsionisAntrianController::class)
+                    ->parameters(['antrian' => 'antrian'])
+                    ->only(['index', 'store', 'edit', 'update', 'destroy']);
+            });
 
     Route::middleware(['role:dokter'])
         ->prefix('dokter')

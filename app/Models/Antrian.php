@@ -17,7 +17,6 @@ class Antrian extends Model
             'pasien_id',
             'dokter_id',
             'fasilitas_id',
-            'rekam_medis_id',
             'spesialis',
             'keluhan',
             'status',
