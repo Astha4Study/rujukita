@@ -58,21 +58,21 @@ class Pasien extends Model
     }
 
     protected static function boot()
-        {
-            parent::boot();
+    {
+        parent::boot();
 
-            static::creating(function ($pasien) {
-                // Ambil user yang sedang login
-                $user = Auth::user();
+        static::creating(function ($pasien) {
+            // Ambil user yang sedang login
+            $user = Auth::user();
 
-                if ($user && $user->hasRole('admin')) {
-                    // Ambil fasilitas yang dibuat oleh admin tersebut
-                    $fasilitas = Fasilitas::where('created_by', $user->id)->first();
+            if ($user && $user->hasRole('admin')) {
+                // Ambil fasilitas yang dibuat oleh admin tersebut
+                $fasilitas = Fasilitas::where('created_by', $user->id)->first();
 
-                    if ($fasilitas) {
-                        $pasien->fasilitas_id = $fasilitas->id;
-                    }
+                if ($fasilitas) {
+                    $pasien->fasilitas_id = $fasilitas->id;
                 }
-            });
-        }
+            }
+        });
+    }
 }

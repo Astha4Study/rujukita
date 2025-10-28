@@ -32,21 +32,21 @@ class Dokter extends Model
     }
 
     protected static function boot()
-        {
-            parent::boot();
+    {
+        parent::boot();
 
-            static::creating(function ($dokter) {
-                // Ambil user yang sedang login
-                $user = Auth::user();
+        static::creating(function ($dokter) {
+            // Ambil user yang sedang login
+            $user = Auth::user();
 
-                if ($user && $user->hasRole('admin')) {
-                    // Ambil fasilitas yang dibuat oleh admin tersebut
-                    $fasilitas = Fasilitas::where('created_by', $user->id)->first();
+            if ($user && $user->hasRole('admin')) {
+                // Ambil fasilitas yang dibuat oleh admin tersebut
+                $fasilitas = Fasilitas::where('created_by', $user->id)->first();
 
-                    if ($fasilitas) {
-                        $dokter->fasilitas_id = $fasilitas->id;
-                    }
+                if ($fasilitas) {
+                    $dokter->fasilitas_id = $fasilitas->id;
                 }
-            });
-        }
+            }
+        });
+    }
 }

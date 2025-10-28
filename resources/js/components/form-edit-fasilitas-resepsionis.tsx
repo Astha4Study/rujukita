@@ -258,9 +258,8 @@ const FormEditFasilitas: React.FC<FormEditFasilitasProps> = ({
                 <button
                     type="submit"
                     disabled={processing}
-                    className={`rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50 ${
-                        processing ? 'cursor-not-allowed opacity-70' : ''
-                    }`}
+                    className={`rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50 ${processing ? 'cursor-not-allowed opacity-70' : ''
+                        }`}
                 >
                     {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>

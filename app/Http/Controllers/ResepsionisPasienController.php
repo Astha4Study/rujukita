@@ -107,7 +107,7 @@ class ResepsionisPasienController extends Controller
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|size:16|unique:pasien,nik,'.$pasien->id,
+            'nik' => 'required|string|size:16|unique:pasien,nik,' . $pasien->id,
             'jenis_kelamin' => 'required|in:L,P',
             'tanggal_lahir' => 'required|date',
             'tempat_lahir' => 'required|string|max:255',

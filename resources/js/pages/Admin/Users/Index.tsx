@@ -117,7 +117,7 @@ export default function UsersIndex() {
                                             type="checkbox"
                                             checked={
                                                 selectedIds.length ===
-                                                    users.length &&
+                                                users.length &&
                                                 users.length > 0
                                             }
                                             onChange={toggleSelectAll}

@@ -120,15 +120,15 @@ export default function IndexPasienResepsionis() {
                                             <td className="px-6 py-4 text-gray-700">
                                                 {item.tanggal_lahir
                                                     ? new Date(
-                                                          item.tanggal_lahir,
-                                                      ).toLocaleDateString(
-                                                          'id-ID',
-                                                          {
-                                                              day: '2-digit',
-                                                              month: 'long',
-                                                              year: 'numeric',
-                                                          },
-                                                      )
+                                                        item.tanggal_lahir,
+                                                    ).toLocaleDateString(
+                                                        'id-ID',
+                                                        {
+                                                            day: '2-digit',
+                                                            month: 'long',
+                                                            year: 'numeric',
+                                                        },
+                                                    )
                                                     : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-gray-700">

@@ -17,21 +17,21 @@ class DokterPasienController extends Controller
     {
         $user = Auth::user();
 
-            // Hanya dokter yang bisa akses
-            if (!$user->hasRole('dokter')) {
-                abort(403, 'Hanya dokter yang dapat mengakses halaman ini.');
-            }
+        // Hanya dokter yang bisa akses
+        if (!$user->hasRole('dokter')) {
+            abort(403, 'Hanya dokter yang dapat mengakses halaman ini.');
+        }
 
-            // Ambil pasien yang berada di fasilitas yang sama dengan dokter
-            $pasien = Pasien::with('fasilitas')
-                ->where('fasilitas_id', $user->fasilitas_id) // sama seperti dokter
-                ->latest()
-                ->get();
+        // Ambil pasien yang berada di fasilitas yang sama dengan dokter
+        $pasien = Pasien::with('fasilitas')
+            ->where('fasilitas_id', $user->fasilitas_id) // sama seperti dokter
+            ->latest()
+            ->get();
 
-            return Inertia::render('Dokter/Pasien/Index', [
-                'pasien' => $pasien,
-                'isDokter' => true,
-            ]);
+        return Inertia::render('Dokter/Pasien/Index', [
+            'pasien' => $pasien,
+            'isDokter' => true,
+        ]);
     }
 
     /**
@@ -57,15 +57,15 @@ class DokterPasienController extends Controller
     {
         $user = Auth::user();
 
-        if($pasien->created_by !== $user->id) {
+        if ($pasien->created_by !== $user->id) {
             abort(403);
         }
 
         $pasien->load('fasilitas');
 
         return Inertia::render('Dokter/Pasien/Show', [
-                    'pasien' => $pasien,
-                ]);
+            'pasien' => $pasien,
+        ]);
     }
 
     /**
@@ -95,7 +95,7 @@ class DokterPasienController extends Controller
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|size:16|unique:pasien,nik,'.$pasien->id,
+            'nik' => 'required|string|size:16|unique:pasien,nik,' . $pasien->id,
             'jenis_kelamin' => 'required|in:L,P',
             'tanggal_lahir' => 'required|date',
             'tempat_lahir' => 'required|string|max:255',

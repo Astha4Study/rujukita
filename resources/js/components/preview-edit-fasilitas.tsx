@@ -33,7 +33,7 @@ const PreviewEditFasilitas: React.FC<PreviewEditProps> = ({ data }) => {
                         data.gambar
                             ? URL.createObjectURL(data.gambar)
                             : data.preview ||
-                              'https://via.placeholder.com/400x250?text=Preview'
+                            'https://via.placeholder.com/400x250?text=Preview'
                     }
                     alt={data.nama_fasilitas || 'Preview'}
                     className="absolute inset-0 h-full w-full object-cover"

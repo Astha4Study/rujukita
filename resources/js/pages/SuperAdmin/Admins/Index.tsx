@@ -116,7 +116,7 @@ export default function AdminsIndexSuperAdmin() {
                                             type="checkbox"
                                             checked={
                                                 selectedIds.length ===
-                                                    admins.length &&
+                                                admins.length &&
                                                 admins.length > 0
                                             }
                                             onChange={toggleSelectAll}

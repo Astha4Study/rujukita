@@ -16,7 +16,7 @@ class DokterFasilitasController extends Controller
     {
         $user = Auth::user();
 
-        if (! ($user->hasRole('resepsionis') || $user->hasRole('dokter'))) {
+        if (!($user->hasRole('resepsionis') || $user->hasRole('dokter'))) {
             abort(403, 'Anda tidak memiliki izin mengakses fasilitas.');
         }
 

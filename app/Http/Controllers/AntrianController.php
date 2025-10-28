@@ -17,19 +17,19 @@ class AntrianController extends Controller
     {
         $user = Auth::user();
 
-                if (!$user->hasRole('resepsionis')) {
-                    abort(403, 'Hanya resepsionis yang dapat mengakses halaman ini.');
-                }
+        if (!$user->hasRole('resepsionis')) {
+            abort(403, 'Hanya resepsionis yang dapat mengakses halaman ini.');
+        }
 
-                $antrian = Antrian::with(['pasien', 'dokter', 'fasilitas'])
-                    ->where('fasilitas_id', $user->fasilitas_id)
-                    ->whereDate('tanggal_kunjungan', now()->toDateString())
-                    ->orderBy('nomor_antrian')
-                    ->get();
+        $antrian = Antrian::with(['pasien', 'dokter', 'fasilitas'])
+            ->where('fasilitas_id', $user->fasilitas_id)
+            ->whereDate('tanggal_kunjungan', now()->toDateString())
+            ->orderBy('nomor_antrian')
+            ->get();
 
-                return Inertia::render('Dokter/Antrian/Index', [
-                    'antrian' => $antrian,
-                ]);
+        return Inertia::render('Dokter/Antrian/Index', [
+            'antrian' => $antrian,
+        ]);
     }
 
     /**
@@ -47,88 +47,88 @@ class AntrianController extends Controller
     {
         $user = Auth::user();
 
-           $validated = $request->validate([
-               'pasien_id' => 'required|exists:pasien,id',
-               'spesialis' => 'required',
-               'keluhan' => 'nullable|string',
-               'tanggal_kunjungan' => 'required|date',
-           ]);
+        $validated = $request->validate([
+            'pasien_id' => 'required|exists:pasien,id',
+            'spesialis' => 'required',
+            'keluhan' => 'nullable|string',
+            'tanggal_kunjungan' => 'required|date',
+        ]);
 
-           $validated['fasilitas_id'] = $user->fasilitas_id;
+        $validated['fasilitas_id'] = $user->fasilitas_id;
 
-           $dokter = Dokter::where('fasilitas_id', $user->fasilitas_id)
-               ->where('spesialis', $validated['spesialis'])
-               ->where('status', 'available')
-               ->first();
+        $dokter = Dokter::where('fasilitas_id', $user->fasilitas_id)
+            ->where('spesialis', $validated['spesialis'])
+            ->where('status', 'available')
+            ->first();
 
-           $validated['dokter_id'] = $dokter?->user_id;
+        $validated['dokter_id'] = $dokter?->user_id;
 
-           $lastNumber = Antrian::where('fasilitas_id', $user->fasilitas_id)
-               ->whereDate('tanggal_kunjungan', $validated['tanggal_kunjungan'])
-               ->max('nomor_antrian');
+        $lastNumber = Antrian::where('fasilitas_id', $user->fasilitas_id)
+            ->whereDate('tanggal_kunjungan', $validated['tanggal_kunjungan'])
+            ->max('nomor_antrian');
 
-           $validated['nomor_antrian'] = ($lastNumber ?? 0) + 1;
+        $validated['nomor_antrian'] = ($lastNumber ?? 0) + 1;
 
-           Antrian::create($validated);
+        Antrian::create($validated);
 
-           return redirect()->route('resepsionis.antrian.index')
-               ->with('success', 'Pasien berhasil dimasukkan ke antrian.');
+        return redirect()->route('resepsionis.antrian.index')
+            ->with('success', 'Pasien berhasil dimasukkan ke antrian.');
     }
 
     public function indexDokter()
-        {
-            $user = Auth::user();
+    {
+        $user = Auth::user();
 
-            if (!$user->hasRole('dokter')) {
-                abort(403);
-            }
-
-            $antrian = Antrian::with(['pasien'])
-                ->where('dokter_id', $user->id)
-                ->whereDate('tanggal_kunjungan', now()->toDateString())
-                ->orderBy('nomor_antrian')
-                ->get();
-
-            return Inertia::render('Dokter/Antrian', [
-                'antrian' => $antrian,
-            ]);
+        if (!$user->hasRole('dokter')) {
+            abort(403);
         }
 
-        public function updateStatus(Request $request, $id)
-           {
-               $user = Auth::user();
+        $antrian = Antrian::with(['pasien'])
+            ->where('dokter_id', $user->id)
+            ->whereDate('tanggal_kunjungan', now()->toDateString())
+            ->orderBy('nomor_antrian')
+            ->get();
 
-               if (!$user->hasRole('dokter')) {
-                   abort(403);
-               }
+        return Inertia::render('Dokter/Antrian', [
+            'antrian' => $antrian,
+        ]);
+    }
 
-               $antrian = Antrian::where('dokter_id', $user->id)->findOrFail($id);
+    public function updateStatus(Request $request, $id)
+    {
+        $user = Auth::user();
 
-               $validated = $request->validate([
-                   'status' => 'required|in:Menunggu,Sedang Diperiksa,Selesai',
-               ]);
+        if (!$user->hasRole('dokter')) {
+            abort(403);
+        }
 
-               $antrian->update($validated);
+        $antrian = Antrian::where('dokter_id', $user->id)->findOrFail($id);
 
-               return back()->with('success', 'Status antrian diperbarui.');
-           }
+        $validated = $request->validate([
+            'status' => 'required|in:Menunggu,Sedang Diperiksa,Selesai',
+        ]);
 
-           public function indexAll()
-               {
-                   $user = Auth::user();
+        $antrian->update($validated);
 
-                   if (!$user->hasRole(['admin', 'super_admin'])) {
-                       abort(403);
-                   }
+        return back()->with('success', 'Status antrian diperbarui.');
+    }
 
-                   $antrian = Antrian::with(['pasien', 'dokter', 'fasilitas'])
-                       ->orderByDesc('tanggal_kunjungan')
-                       ->paginate(20);
+    public function indexAll()
+    {
+        $user = Auth::user();
 
-                   return Inertia::render('Admin/AntrianAll', [
-                       'antrian' => $antrian,
-                   ]);
-               }
+        if (!$user->hasRole(['admin', 'super_admin'])) {
+            abort(403);
+        }
+
+        $antrian = Antrian::with(['pasien', 'dokter', 'fasilitas'])
+            ->orderByDesc('tanggal_kunjungan')
+            ->paginate(20);
+
+        return Inertia::render('Admin/AntrianAll', [
+            'antrian' => $antrian,
+        ]);
+    }
 
     /**
      * Display the specified resource.

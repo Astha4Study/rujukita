@@ -122,11 +122,10 @@ const FormCreateFasilitas: React.FC<FormCreateFasilitasProps> = ({
                         type="text"
                         value={data.no_telepon}
                         onChange={(e) => setData('no_telepon', e.target.value)}
-                        className={`w-full rounded-lg border ${
-                            errors.no_telepon
-                                ? 'border-red-400'
-                                : 'border-gray-200'
-                        } px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20`}
+                        className={`w-full rounded-lg border ${errors.no_telepon
+                            ? 'border-red-400'
+                            : 'border-gray-200'
+                            } px-4 py-2.5 text-sm transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20`}
                         placeholder="+62"
                     />
                     {errors.no_telepon && (

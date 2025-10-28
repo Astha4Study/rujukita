@@ -16,7 +16,7 @@ class ResepsionisFasilitasController extends Controller
     {
         $user = Auth::user();
 
-        if (! ($user->hasRole('resepsionis') || $user->hasRole('dokter'))) {
+        if (!($user->hasRole('resepsionis') || $user->hasRole('dokter'))) {
             abort(403, 'Anda tidak memiliki izin mengakses fasilitas.');
         }
 
@@ -34,7 +34,7 @@ class ResepsionisFasilitasController extends Controller
     {
         $user = Auth::user();
 
-        if (! ($user->hasRole('resepsionis') || $user->hasRole('dokter')) || $fasilitas->created_by !== $user->created_by) {
+        if (!($user->hasRole('resepsionis') || $user->hasRole('dokter')) || $fasilitas->created_by !== $user->created_by) {
             abort(403, 'Anda tidak memiliki izin mengakses fasilitas ini.');
         }
 
@@ -53,7 +53,7 @@ class ResepsionisFasilitasController extends Controller
     {
         $user = Auth::user();
 
-        if (! ($user->hasRole('resepsionis') || $user->hasRole('dokter')) || $fasilitas->created_by !== $user->created_by) {
+        if (!($user->hasRole('resepsionis') || $user->hasRole('dokter')) || $fasilitas->created_by !== $user->created_by) {
             abort(403, 'Anda tidak memiliki izin mengedit fasilitas ini.');
         }
 
@@ -69,13 +69,13 @@ class ResepsionisFasilitasController extends Controller
     {
         $user = Auth::user();
 
-        if (! ($user->hasRole('resepsionis') || $user->hasRole('dokter')) || $fasilitas->created_by !== $user->created_by) {
+        if (!($user->hasRole('resepsionis') || $user->hasRole('dokter')) || $fasilitas->created_by !== $user->created_by) {
             abort(403, 'Anda tidak memiliki izin memperbarui fasilitas ini.');
         }
 
         $validated = $request->validate([
             'kapasitas_total' => 'required|integer|min:0',
-            'kapasitas_tersedia' => 'required|integer|min:0|max:'.($request->kapasitas_total ?? $fasilitas->kapasitas_total),
+            'kapasitas_tersedia' => 'required|integer|min:0|max:' . ($request->kapasitas_total ?? $fasilitas->kapasitas_total),
         ]);
 
         $fasilitas->update([

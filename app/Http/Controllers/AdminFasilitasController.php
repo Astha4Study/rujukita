@@ -113,41 +113,41 @@ class AdminFasilitasController extends Controller
     {
         $user = Auth::user();
 
-           if ($fasilitas->created_by !== $user->id) {
-               abort(403, 'Admin hanya bisa memperbarui fasilitas yang dibuatnya.');
-           }
+        if ($fasilitas->created_by !== $user->id) {
+            abort(403, 'Admin hanya bisa memperbarui fasilitas yang dibuatnya.');
+        }
 
-           $validated = $request->validate([
-               'nama_fasilitas' => 'required|string|max:255',
-               'jenis_fasilitas' => 'required|in:Rumah Sakit Umum,Klinik,Puskesmas,Dokter Mandiri',
-               'spesialisasi' => 'required|in:Umum,Anak,Kandungan,Bedah,Gigi,Mata,Jantung,Kulit,Saraf,Lainnya',
-               'alamat' => 'required|string',
-               'kota' => 'required|string',
-               'provinsi' => 'nullable|string|max:255',
-               'no_telepon' => 'nullable|string|max:20',
-               'email' => 'nullable|email|max:255',
-               'kapasitas_total' => 'required|integer|min:0',
-               'kapasitas_tersedia' => 'required|integer|min:0|lte:kapasitas_total',
-               'deskripsi' => 'required|string',
-               'latitude' => 'nullable|numeric',
-               'longitude' => 'nullable|numeric',
-               'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
-           ]);
+        $validated = $request->validate([
+            'nama_fasilitas' => 'required|string|max:255',
+            'jenis_fasilitas' => 'required|in:Rumah Sakit Umum,Klinik,Puskesmas,Dokter Mandiri',
+            'spesialisasi' => 'required|in:Umum,Anak,Kandungan,Bedah,Gigi,Mata,Jantung,Kulit,Saraf,Lainnya',
+            'alamat' => 'required|string',
+            'kota' => 'required|string',
+            'provinsi' => 'nullable|string|max:255',
+            'no_telepon' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'kapasitas_total' => 'required|integer|min:0',
+            'kapasitas_tersedia' => 'required|integer|min:0|lte:kapasitas_total',
+            'deskripsi' => 'required|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
+        ]);
 
-           $dataToUpdate = $validated;
+        $dataToUpdate = $validated;
 
-           if ($request->hasFile('gambar')) {
-               if ($fasilitas->gambar) {
-                   Storage::disk('public')->delete($fasilitas->gambar);
-               }
+        if ($request->hasFile('gambar')) {
+            if ($fasilitas->gambar) {
+                Storage::disk('public')->delete($fasilitas->gambar);
+            }
 
-               $path = $request->file('gambar')->store('fasilitas', 'public');
-               $dataToUpdate['gambar'] = $path;
-           }
+            $path = $request->file('gambar')->store('fasilitas', 'public');
+            $dataToUpdate['gambar'] = $path;
+        }
 
-           $fasilitas->update($dataToUpdate);
+        $fasilitas->update($dataToUpdate);
 
-           return redirect()->route('admin.fasilitas.index')->with('success', 'Data fasilitas berhasil diperbarui.');
+        return redirect()->route('admin.fasilitas.index')->with('success', 'Data fasilitas berhasil diperbarui.');
     }
 
     /**
