@@ -16,8 +16,7 @@ class Antrian extends Model
         'nomor_antrian',
         'pasien_id',
         'dokter_id',
-        'fasilitas_id',
-        'spesialis',
+        'klinik_id',
         'keluhan',
         'status',
         'tanggal_kunjungan',
@@ -33,14 +32,9 @@ class Antrian extends Model
         return $this->belongsTo(User::class, 'dokter_id');
     }
 
-    public function fasilitas()
+    public function klinik()
     {
-        return $this->belongsTo(Fasilitas::class);
-    }
-
-    public function rekamMedis()
-    {
-        return $this->belongsTo(RekamMedis::class);
+        return $this->belongsTo(Klinik::class);
     }
 
     protected static function boot()
@@ -48,30 +42,34 @@ class Antrian extends Model
         parent::boot();
 
         static::creating(function ($antrian) {
+
             $user = Auth::user();
 
             if (!$user || !$user->hasRole('resepsionis')) {
                 throw new \Exception('Hanya resepsionis yang dapat menambahkan antrian.');
             }
 
-            $antrian->fasilitas_id = $user->fasilitas_id;
+            // Klinik resepsionis
+            $antrian->klinik_id = $user->klinik_id;
 
-            if ($antrian->fasilitas_id && $antrian->tanggal_kunjungan) {
-                $lastNumber = self::where('fasilitas_id', $antrian->fasilitas_id)
-                    ->whereDate('tanggal_kunjungan', $antrian->tanggal_kunjungan)
-                    ->max('nomor_antrian') ?? 0;
-                $antrian->nomor_antrian = $lastNumber + 1;
-            }
+            // Nomor antrian otomatis
+            $lastNumber = self::where('klinik_id', $antrian->klinik_id)
+                ->whereDate('tanggal_kunjungan', $antrian->tanggal_kunjungan)
+                ->max('nomor_antrian') ?? 0;
 
-            if (!$antrian->dokter_id && $antrian->spesialis) {
-                $dokter = Dokter::where('fasilitas_id', $antrian->fasilitas_id)
-                    ->where('spesialis', $antrian->spesialis)
-                    ->where('status', 'aktif')
-                    ->first();
+            $antrian->nomor_antrian = $lastNumber + 1;
 
-                if ($dokter) {
-                    $antrian->dokter_id = $dokter->user_id;
-                }
+            // Pilih dokter otomatis
+            $dokter = Dokter::where('klinik_id', $antrian->klinik_id)
+                ->where('status', 'tersedia')
+                ->orderBy('antrian_saat_ini', 'asc')
+                ->first();
+
+            if ($dokter) {
+                $antrian->dokter_id = $dokter->user_id;
+
+                // Update antrian dokter
+                $dokter->increment('antrian_saat_ini');
             }
         });
     }

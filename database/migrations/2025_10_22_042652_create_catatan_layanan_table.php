@@ -10,20 +10,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('rekam_medis', function (Blueprint $table) {
+        Schema::create('catatan_layanan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pasien_id')->constrained('pasien')->onDelete('cascade');
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->foreignId('ditangani_oleh')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('klinik_id')->constrained('klinik')->onDelete('cascade');
+            $table->foreignId('dokter_id')->nullable()->constrained('dokter')->onDelete('set null');
+            $table->foreignId('antrian_id')->nullable()->constrained('antrian')->onDelete('set null');
+
             $table->date('tanggal_kunjungan')->nullable();
             $table->text('keluhan')->nullable();
-            $table->text('diagnosa')->nullable();
             $table->text('tindakan')->nullable();
-            $table->text('resep_obat')->nullable();
             $table->text('catatan_lain')->nullable();
             $table->timestamps();
-
-            $table->index(['pasien_id', 'fasilitas_id', 'tanggal_kunjungan']);
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('rekam_medis');
+        Schema::dropIfExists('catatan_layanan');
     }
 };

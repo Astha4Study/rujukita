@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
-class AdminController extends Controller
+class SuperAdminAddAdminController extends Controller
 {
     /**
      * Display a listing of the resource.

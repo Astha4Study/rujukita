@@ -6,34 +6,40 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class Fasilitas extends Model
+class Klinik extends Model
 {
     use HasFactory;
 
-    protected $table = 'fasilitas';
+    protected $table = 'klinik';
 
     protected $fillable = [
-        'nama_fasilitas',
-        'jenis_fasilitas',
-        'spesialisasi',
+        'nama_klinik',
+        'jenis_klinik',
         'alamat',
         'kota',
         'provinsi',
         'no_telepon',
         'email',
-        'kapasitas_total',
-        'kapasitas_tersedia',
         'deskripsi',
         'latitude',
         'longitude',
         'gambar',
+        'rating',
+        'kapasitas_total',
+        'kapasitas_tersedia',
         'created_by',
     ];
 
-    public function pengguna()
+    public function owner()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function pasien()
+    {
+        return $this->hasMany(Pasien::class);
+    }
+
 
     public function getGambarUrlAttribute()
     {
@@ -46,4 +52,6 @@ class Fasilitas extends Model
             Storage::disk('public')->delete($this->gambar);
         }
     }
+
+
 }

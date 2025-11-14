@@ -15,9 +15,7 @@ return new class extends Migration {
             $table->integer('nomor_antrian')->default(1);
             $table->foreignId('pasien_id')->constrained('pasien')->onDelete('cascade');
             $table->foreignId('dokter_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->foreignId('rekam_medis_id')->nullable()->constrained('rekam_medis')->onDelete('set null');
-            $table->enum('spesialis', ['Umum', 'Anak', 'Kandungan', 'Bedah', 'Gigi', 'Mata', 'Jantung', 'Kulit', 'Saraf', 'Lainnya']);
+            $table->foreignId('klinik_id')->constrained('klinik')->onDelete('cascade');
             $table->text('keluhan')->nullable();
             $table->enum('status', ['Menunggu', 'Sedang Diperiksa', 'Selesai'])->default('Menunggu');
             $table->date('tanggal_kunjungan');

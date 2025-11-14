@@ -25,7 +25,7 @@ class UserController extends Controller
         } elseif ($user->hasRole('admin')) {
             $users = User::where('created_by', $user->id)->get();
         } else {
-            abort(403, 'Anda tidak memiliki izin mengakses daftar user');
+            abort(403, 'Anda tidak memiliki izin mengakses daftar user.');
         }
 
         return Inertia::render('Admin/Users/Index', [
@@ -44,20 +44,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
 
-        // Tentukan role yang bisa dipilih sesuai role login
-        if ($user->hasRole('super_admin')) {
-            $availableRoles = ['admin'];
-        } elseif ($user->hasRole('admin')) {
-            $availableRoles = ['resepsionis', 'dokter'];
-        } else {
-            abort(403, 'Anda tidak memiliki izin menambahkan user.');
-        }
-
-        return Inertia::render('Admin/Users/Create', [
-            'availableRoles' => $availableRoles,
-        ]);
     }
 
     /**
@@ -65,59 +52,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
 
-        // Validasi umum
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'nullable|string|min:8',
-            'role' => 'required|string|in:admin,resepsionis,dokter',
-            'spesialis' => 'nullable|string|max:100',
-            'max_antrian_per_hari' => 'nullable|integer|min:1|max:50',
-        ]);
-
-        // Pastikan role yang dikirim sesuai hak akses
-        $availableRoles = $user->hasRole('super_admin') ? ['admin'] : ['resepsionis', 'dokter'];
-
-        if (!in_array($validated['role'], $availableRoles)) {
-            abort(403, 'Role tidak valid untuk pengguna ini.');
-        }
-
-        $fasilitasId = $user->hasRole('admin')
-            ? Fasilitas::where('created_by', $user->id)->value('id')
-            : $user->fasilitas_id;
-
-        if (!$fasilitasId && $validated['role'] !== 'admin') {
-            return back()->withErrors('Admin belum memiliki fasilitas.');
-        }
-
-        $newUser = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password'] ?? 'password123'),
-            'fasilitas_id' => $fasilitasId,
-            'created_by' => $user->id,
-        ]);
-
-        // Assign role dari Spatie
-        $newUser->assignRole($validated['role']);
-
-        // Jika role dokter, buat entri tambahan di tabel dokter
-        if ($validated['role'] === 'dokter') {
-            Dokter::create([
-                'user_id' => $newUser->id,
-                'fasilitas_id' => $fasilitasId,
-                'spesialis' => $validated['spesialis'] ?? 'Umum',
-                'status' => 'available',
-                'antrian_saat_ini' => 0,
-                'max_antrian_per_hari' => $validated['max_antrian_per_hari'] ?? 7,
-            ]);
-        }
-
-        return redirect()
-            ->route('admin.tambah-user.index')
-            ->with('success', ucfirst($validated['role']) . ' berhasil ditambahkan.');
     }
 
     /**
@@ -128,12 +63,14 @@ class UserController extends Controller
         $user = Auth::user();
         $editUser = User::findOrFail($id);
 
+        // Super admin hanya boleh edit admin
         if ($user->hasRole('super_admin') && !$editUser->hasRole('admin')) {
             abort(403, 'Super admin hanya bisa mengedit admin.');
         }
 
+        // Admin hanya boleh edit user yang dia buat
         if ($user->hasRole('admin') && $editUser->created_by !== $user->id) {
-            abort(403, 'Admin hanya bisa mengedit user yang dibuatnya.');
+            abort(403, 'Anda tidak boleh mengedit user ini.');
         }
 
         return Inertia::render('Admin/Users/Edit', [
@@ -155,7 +92,7 @@ class UserController extends Controller
         }
 
         if ($user->hasRole('admin') && $editUser->created_by !== $user->id) {
-            abort(403, 'Admin hanya bisa mengedit user yang dibuatnya.');
+            abort(403, 'Anda tidak boleh mengedit user ini.');
         }
 
         $validated = $request->validate([
@@ -167,10 +104,13 @@ class UserController extends Controller
         $editUser->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => $validated['password'] ? Hash::make($validated['password']) : $editUser->password,
+            'password' => $validated['password']
+                ? Hash::make($validated['password'])
+                : $editUser->password,
         ]);
 
-        return redirect()->route('admin.tambah-user.index')
+        return redirect()
+            ->route('admin.tambah-user.index')
             ->with('success', 'User berhasil diperbarui.');
     }
 
@@ -187,11 +127,13 @@ class UserController extends Controller
         }
 
         if ($user->hasRole('admin') && $deleteUser->created_by !== $user->id) {
-            abort(403, 'Admin hanya bisa menghapus user yang dibuatnya.');
+            abort(403, 'Anda tidak boleh menghapus user ini.');
         }
 
         $deleteUser->delete();
 
-        return redirect()->route('admin.tambah-user.index')->with('success', 'User berhasil dihapus.');
+        return redirect()
+            ->route('admin.tambah-user.index')
+            ->with('success', 'User berhasil dihapus.');
     }
 }

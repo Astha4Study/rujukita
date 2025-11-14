@@ -14,8 +14,7 @@ class Dokter extends Model
 
     protected $fillable = [
         'user_id',
-        'fasilitas_id',
-        'spesialis',
+        'klinik_id',
         'status',
         'antrian_saat_ini',
         'max_antrian_per_hari',
@@ -26,9 +25,9 @@ class Dokter extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function fasilitas()
+    public function klinik()
     {
-        return $this->belongsTo(Fasilitas::class);
+        return $this->belongsTo(Klinik::class);
     }
 
     protected static function boot()
@@ -40,11 +39,11 @@ class Dokter extends Model
             $user = Auth::user();
 
             if ($user && $user->hasRole('admin')) {
-                // Ambil fasilitas yang dibuat oleh admin tersebut
-                $fasilitas = Fasilitas::where('created_by', $user->id)->first();
+                // Ambil klinik yang dibuat oleh admin tersebut
+                $klinik = Klinik::where('created_by', $user->id)->first();
 
-                if ($fasilitas) {
-                    $dokter->fasilitas_id = $fasilitas->id;
+                if ($klinik) {
+                    $dokter->klinik_id = $klinik->id;
                 }
             }
         });

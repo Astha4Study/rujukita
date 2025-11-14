@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fasilitas;
+use App\Models\Klinik;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class SuperAdminFasilitasController extends Controller
+class SuperAdminKlinikController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $fasilitas = Fasilitas::latest()->get();
+        $klinik = Klinik::latest()->get();
 
-        return Inertia::render('SuperAdmin/Fasilitas/Index', [
-            'fasilitas' => $fasilitas,
+        return Inertia::render('SuperAdmin/Klinik/Index', [
+            'klinik' => $klinik,
             'isSuperAdmin' => true,
         ]);
     }
@@ -40,13 +40,13 @@ class SuperAdminFasilitasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fasilitas $fasilitas)
+    public function show(Klinik $klinik)
     {
-        $fasilitas->load(['pasien']);
+        $klinik->load(['pasien']);
 
-        return Inertia::render('SuperAdmin/Fasilitas/Show', [
-            'fasilitas' => $fasilitas,
-            'pasien' => $fasilitas->pasien,
+        return Inertia::render('SuperAdmin/Klinik/Show', [
+            'klinik' => $klinik,
+            'pasien' => $klinik->pasien,
         ]);
     }
 

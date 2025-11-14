@@ -10,33 +10,33 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('fasilitas', function (Blueprint $table) {
+        Schema::create('klinik', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_fasilitas');
-            $table->enum('jenis_fasilitas', ['Rumah Sakit Umum', 'Klinik', 'Puskesmas', 'Dokter Mandiri']);
+            $table->string('nama_klinik');
+            $table->enum('jenis_klinik', [
+                'Umum',
+                'Gigi',
+                'THT',
+                'Kulit',
+                'Kandungan',
+                'Anak',
+                'Bedah',
+                'Mata',
+                'Saraf',
+            ]);
             $table->string('alamat');
             $table->string('kota');
             $table->string('provinsi');
             $table->string('no_telepon');
             $table->string('email')->nullable();
-            $table->integer('kapasitas_total')->default(0);
-            $table->integer('kapasitas_tersedia')->default(0);
-            $table->enum('spesialisasi', [
-                'Umum',
-                'Anak',
-                'Kandungan',
-                'Bedah',
-                'Gigi',
-                'Mata',
-                'Jantung',
-                'Kulit',
-                'Saraf',
-                'Lainnya',
-            ]);
-            $table->text('deskripsi')->nullable();
+            $table->text('deskripsi');
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('gambar')->nullable();
+            $table->float('rating')->default(0);
+            $table->integer('kapasitas_total')->default(0);
+            $table->integer('kapasitas_tersedia')->default(0);
+
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
@@ -47,6 +47,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('fasilitas');
+        Schema::dropIfExists('klinik');
     }
 };

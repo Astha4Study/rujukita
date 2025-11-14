@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('rekam_medis', function (Blueprint $table) {
-            $table->foreignId('antrian_id')->nullable()->constrained('antrian')->onDelete('set null')->after('id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('klinik_id')->nullable()->constrained('klinik')->nullOnDelete()->after('created_by');
         });
     }
 
@@ -20,9 +20,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('rekam_medis', function (Blueprint $table) {
-            $table->dropForeign(['antrian_id']);
-            $table->dropColumn('antrian_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['klinik_id']);
+            $table->dropColumn('klinik_id');
         });
     }
 };

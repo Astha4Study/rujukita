@@ -24,16 +24,16 @@ return new class extends Migration {
             $table->text('alergi')->nullable();
 
             // Kolom foreign key
-            $table->foreignId('fasilitas_id')->nullable(); // <-- pastikan ada
+            $table->foreignId('klinik_id')->nullable(); // <-- pastikan ada
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->timestamps();
         });
 
         Schema::table('pasien', function (Blueprint $table) {
-            $table->foreign('fasilitas_id')
+            $table->foreign('klinik_id')
                 ->references('id')
-                ->on('fasilitas')
+                ->on('klinik')
                 ->onDelete('set null');
         });
     }

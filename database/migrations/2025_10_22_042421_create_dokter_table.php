@@ -13,9 +13,8 @@ return new class extends Migration {
         Schema::create('dokter', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
-            $table->enum('spesialis', ['Umum', 'Anak', 'Kandungan', 'Bedah', 'Gigi', 'Mata', 'Jantung', 'Kulit', 'Saraf', 'Lainnya']);
-            $table->enum('status', ['available', 'tidak tersedia'])->default('available');
+            $table->foreignId('klinik_id')->constrained('klinik')->onDelete('cascade');
+            $table->enum('status', ['tersedia', 'tidak tersedia'])->default('tersedia');
             $table->integer('antrian_saat_ini')->default(0);
             $table->integer('max_antrian_per_hari')->default(7);
             $table->timestamps();
