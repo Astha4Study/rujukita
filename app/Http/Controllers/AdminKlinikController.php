@@ -29,7 +29,7 @@ class AdminKlinikController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/klinik/Create');
+        return Inertia::render('Admin/Klinik/Create');
     }
 
     /**
@@ -41,11 +41,11 @@ class AdminKlinikController extends Controller
 
         $validated = $request->validate([
             'nama_klinik' => 'required|string|max:255',
-            'jenis_klinik' => 'required|in:Umum, Gigi, THT, Kulit, Kandungan, Anak, Bedah, Mata, Saraf',
+            'jenis_klinik' => 'required|in:Umum,Gigi,THT,Kulit,Kandungan,Anak,Bedah,Mata,Saraf',
             'alamat' => 'required|string',
             'kota' => 'required|string',
             'provinsi' => 'nullable|string|max:255',
-            'no_telepon' => 'nullable|string|max:20',
+            'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'deskripsi' => 'required|string',
             'latitude' => 'nullable|numeric',
@@ -76,18 +76,18 @@ class AdminKlinikController extends Controller
      */
     public function show(Klinik $klinik)
     {
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        if ($klinik->created_by !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin melihat data ini.');
-        }
+        // if ($klinik->created_by !== $user->id) {
+        //     abort(403, 'Anda tidak memiliki izin melihat data ini.');
+        // }
 
-        $klinik->load(['pasien']);
+        // $klinik->load(['pasien']);
 
-        return Inertia::render('Admin/Klinik/Show', [
-            'klinik' => $klinik,
-            'pasien' => $klinik->pasien,
-        ]);
+        // return Inertia::render('Admin/Klinik/Show', [
+        //     'klinik' => $klinik,
+        //     'pasien' => $klinik->pasien,
+        // ]);
     }
 
     /**
@@ -119,11 +119,11 @@ class AdminKlinikController extends Controller
 
         $validated = $request->validate([
             'nama_klinik' => 'required|string|max:255',
-            'jenis_klinik' => 'required|in:Umum, Gigi, THT, Kulit, Kandungan, Anak, Bedah, Mata, Saraf',
+            'jenis_klinik' => 'required|in:Umum,Gigi,THT,Kulit,Kandungan,Anak,Bedah,Mata,Saraf',
             'alamat' => 'required|string',
             'kota' => 'required|string',
             'provinsi' => 'nullable|string|max:255',
-            'no_telepon' => 'nullable|string|max:20',
+            'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'deskripsi' => 'required|string',
             'latitude' => 'nullable|numeric',

@@ -13,6 +13,7 @@ class SuperAdminKlinikController extends Controller
      */
     public function index()
     {
+
         $klinik = Klinik::latest()->get();
 
         return Inertia::render('SuperAdmin/Klinik/Index', [

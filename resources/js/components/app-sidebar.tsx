@@ -52,8 +52,8 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         {
-            title: 'Fasilitas',
-            href: `${prefix}/fasilitas`,
+            title: 'Klinik',
+            href: `${prefix}/klinik`,
             icon: Hospital,
         },
         {

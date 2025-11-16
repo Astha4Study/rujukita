@@ -14,7 +14,7 @@ export default function CreateUsersAdmin() {
         name: '',
         email: '',
         password: '',
-        role: availableRoles[0] || '',
+        role: availableRoles[0] ?? '',
     });
 
     const handleSubmit: FormEventHandler = (e) => {

@@ -24,19 +24,6 @@ const FormCreateUser: React.FC<FormCreateUserProps> = ({
         handleSubmit(e);
     };
 
-    const specializations = [
-        'Umum',
-        'Anak',
-        'Kandungan',
-        'Bedah',
-        'Gigi',
-        'Mata',
-        'Jantung',
-        'Kulit',
-        'Saraf',
-        'Lainnya',
-    ];
-
     return (
         <form
             onSubmit={onSubmit}
@@ -117,37 +104,10 @@ const FormCreateUser: React.FC<FormCreateUserProps> = ({
                 )}
             </div>
 
-            {data.role === 'dokter' && (
-                <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Spesialisasi <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                        value={data.spesialis || ''}
-                        onChange={(e) => setData('spesialis', e.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
-                    >
-                        <option value="" disabled>
-                            Pilih spesialisasi
-                        </option>
-                        {specializations.map((spec) => (
-                            <option key={spec} value={spec}>
-                                {spec}
-                            </option>
-                        ))}
-                    </select>
-                    {errors.spesialis && (
-                        <p className="mt-1 text-xs text-red-500">
-                            {errors.spesialis}
-                        </p>
-                    )}
-                </div>
-            )}
-
             {/* Actions */}
             <div className="flex justify-end gap-3">
                 <Link
-                    href="/admin/tambah-user"
+                    href="/admin/users"
                     className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                     Batal

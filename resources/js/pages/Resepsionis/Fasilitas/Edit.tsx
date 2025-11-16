@@ -1,5 +1,5 @@
 import FormEditFasilitas from '@/components/form-edit-fasilitas-resepsionis';
-import PreviewEditFasilitas from '@/components/preview-edit-fasilitas';
+import PreviewEditFasilitas from '@/components/preview-edit-klinik';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, router, useForm } from '@inertiajs/react';
