@@ -102,18 +102,18 @@ class AdminAddResepsionisAndDoktorController extends Controller
      */
     public function edit(string $id)
     {
-        $admin = Auth::user();
-        $user = User::findOrFail($id);
+        // $admin = Auth::user();
+        // $user = User::findOrFail($id);
 
-        if ($user->created_by !== $admin->id) {
-            abort(403, 'Anda tidak boleh mengedit user ini.');
-        }
+        // if ($user->created_by !== $admin->id) {
+        //     abort(403, 'Anda tidak boleh mengedit user ini.');
+        // }
 
-        return Inertia::render('Admin/Users/Edit', [
-            'user' => $user,
-            'role' => $user->getRoleNames()->first(),
-            'dokter' => $user->dokter ?? null,
-        ]);
+        // return Inertia::render('Admin/Users/Edit', [
+        //     'user' => $user,
+        //     'role' => $user->getRoleNames()->first(),
+        //     'dokter' => $user->dokter ?? null,
+        // ]);
     }
 
     /**

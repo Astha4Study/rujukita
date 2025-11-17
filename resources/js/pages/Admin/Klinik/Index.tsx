@@ -1,6 +1,18 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+
 import {
     Activity,
     BedDouble,
@@ -13,11 +25,14 @@ import {
     Trash,
     Users,
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Klinik {
     id: number;
     nama_klinik: string;
     alamat: string;
+    kota?: string;
+    provinsi?: string;
     jenis_klinik?: string;
     no_telepon?: string;
     email?: string;
@@ -84,6 +99,21 @@ export default function AdminKlinikIndex() {
             ? Math.round((kapasitasTerisi / f.kapasitas_total) * 100)
             : 0;
 
+    const handleDelete = () => {
+        router.delete(`/admin/klinik/${f.id}`, {
+            onSuccess: () => {
+                toast.success('Klinik berhasil dihapus', {
+                    description: 'Data klinik telah dihapus dari sistem.',
+                });
+            },
+            onError: () => {
+                toast.error('Gagal menghapus klinik', {
+                    description: 'Terjadi kesalahan. Coba lagi nanti.',
+                });
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard Klinik" />
@@ -108,17 +138,44 @@ export default function AdminKlinikIndex() {
 
                     {/* Edit Button */}
                     <div>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <button className="absolute top-6 right-6 inline-flex items-center gap-2 rounded-xl bg-white/20 px-5 py-2.5 text-sm font-semibold text-white shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-gray-900">
+                                    <Trash className="h-4 w-4" />
+                                    Hapus Klinik
+                                </button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Apakah Anda yakin ingin menghapus klinik
+                                        ini?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Tindakan ini tidak dapat dibatalkan.
+                                        Klinik beserta seluruh data terkait akan
+                                        dihapus secara permanen dari sistem.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Batal</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={handleDelete}
+                                        className="bg-red-500 text-white hover:bg-red-600"
+                                    >
+                                        Ya, Hapus
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+
                         <Link
                             href={`/admin/klinik/${f.id}/edit`}
-                            className="absolute top-6 right-6 inline-flex items-center gap-2 rounded-xl bg-white/20 px-5 py-2.5 text-sm font-semibold text-white shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-gray-900"
+                            className="absolute top-6 right-46 inline-flex items-center gap-2 rounded-xl bg-white/20 px-5 py-2.5 text-sm font-semibold text-white shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-gray-900"
                         >
                             <Pencil className="h-4 w-4" />
                             Edit Klinik
                         </Link>
-                        <button className="absolute top-6 right-40 inline-flex items-center gap-2 rounded-xl bg-white/20 px-5 py-2.5 text-sm font-semibold text-white shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-gray-900">
-                            <Trash className="h-4 w-4" />
-                            Hapus Klinik
-                        </button>
                     </div>
 
                     {/* Facility Info */}
@@ -181,6 +238,8 @@ export default function AdminKlinikIndex() {
                                     <MapPin className="mt-0.5 h-5 w-5 shrink-0" />
                                     <span className="text-base leading-relaxed drop-shadow">
                                         {f.alamat}
+                                        {f.kota ? `, ${f.kota}` : ''}
+                                        {f.provinsi ? `, ${f.provinsi}` : ''}
                                     </span>
                                 </div>
                             )}

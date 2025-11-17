@@ -7,6 +7,7 @@ use App\Http\Controllers\DokterPasienController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ResepsionisAntrianController;
 use App\Http\Controllers\ResepsionisFasilitasController;
+use App\Http\Controllers\ResepsionisKlinikController;
 use App\Http\Controllers\ResepsionisPasienController;
 use App\Http\Controllers\SuperAdminAddAdminController;
 use App\Http\Controllers\SuperAdminKlinikController;
@@ -42,15 +43,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->parameters(['tambah-user' => 'user'])
                 ->names('users')
                 ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-
         });
 
     Route::middleware(['auth', 'role:resepsionis'])
         ->prefix('resepsionis')
         ->as('resepsionis.')
         ->group(function () {
-            Route::resource('fasilitas', ResepsionisFasilitasController::class)
-                ->parameters(['fasilitas' => 'fasilitas'])
+            Route::resource('klinik', ResepsionisKlinikController::class)
+                ->parameters(['klinik' => 'klinik'])
                 ->only(['index', 'edit', 'update']);
             Route::resource('pasien', ResepsionisPasienController::class)
                 ->parameters(['pasien' => 'pasien'])

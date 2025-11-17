@@ -67,11 +67,6 @@ export function AppSidebar() {
             icon: ClipboardList,
         },
         {
-            title: 'Rekam Medis',
-            href: `${prefix}/rekam-medis`,
-            icon: Stethoscope,
-        },
-        {
             title: 'Tambah User',
             href: `${prefix}/tambah-user`,
             icon: UserRoundPlus,
@@ -87,7 +82,6 @@ export function AppSidebar() {
         mainNavItems = mainNavItems.filter(
             (item) =>
                 item.title !== 'Pasien' &&
-                item.title !== 'Rekam Medis' &&
                 item.title !== 'Tambah User' &&
                 item.title !== 'Antrian',
         );
@@ -97,7 +91,6 @@ export function AppSidebar() {
         mainNavItems = mainNavItems.filter(
             (item) =>
                 item.title !== 'Pasien' &&
-                item.title !== 'Rekam Medis' &&
                 item.title !== 'Kelola Admin' &&
                 item.title !== 'Antrian',
         );

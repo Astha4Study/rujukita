@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
-use App\Models\Fasilitas;
+use App\Models\Klinik;
 use App\Models\Pasien;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class ResepsionisAntrianController extends Controller
         }
 
         $antrian = Antrian::with(['pasien:id,nama_lengkap', 'dokter:id,name'])
-            ->where('fasilitas_id', $user->fasilitas_id)
+            ->where('klinik_id', $user->klinik_id)
             ->whereDate('tanggal_kunjungan', now()->toDateString())
             ->orderBy('nomor_antrian', 'asc')
             ->get()
@@ -64,11 +64,11 @@ class ResepsionisAntrianController extends Controller
             abort(403);
         }
 
-        $pasien = Pasien::where('fasilitas_id', $user->fasilitas_id)
+        $pasien = Pasien::where('klinik_id', $user->klinik_id)
             ->findOrFail($pasienId);
 
         $dokter = User::role('dokter')
-            ->where('fasilitas_id', $user->fasilitas_id)
+            ->where('klinik_id', $user->klinik_id)
             ->get(['id', 'name']);
 
         return Inertia::render('Resepsionis/Antrian/Create', [
@@ -88,10 +88,10 @@ class ResepsionisAntrianController extends Controller
             abort(403, 'Hanya resepsionis yang dapat menambahkan antrian.');
         }
 
-        $fasilitas = Fasilitas::where('created_by', $user->created_by)->first();
+        $klinik = Klinik::where('created_by', $user->created_by)->first();
 
-        if (!$fasilitas) {
-            return back()->withErrors(['error' => 'Resepsionis belum terdaftar pada fasilitas mana pun.']);
+        if (!$klinik) {
+            return back()->withErrors(['error' => 'Resepsionis belum terdaftar pada klinik mana pun.']);
         }
 
         $validated = $request->validate([
@@ -103,7 +103,7 @@ class ResepsionisAntrianController extends Controller
         ]);
 
         try {
-            $nomor = Antrian::where('fasilitas_id', $fasilitas->id)
+            $nomor = Antrian::where('klinik_id', $klinik->id)
                 ->whereDate('tanggal_kunjungan', $validated['tanggal_kunjungan'])
                 ->max('nomor_antrian') + 1;
 
@@ -111,7 +111,7 @@ class ResepsionisAntrianController extends Controller
                 'nomor_antrian' => $nomor,
                 'pasien_id' => $validated['pasien_id'],
                 'dokter_id' => $validated['dokter_id'] ?? null,
-                'fasilitas_id' => $fasilitas->id,
+                'klinik_id' => $klinik->id,
                 'spesialis' => $validated['spesialis'],
                 'keluhan' => $validated['keluhan'] ?? null,
                 'tanggal_kunjungan' => $validated['tanggal_kunjungan'],

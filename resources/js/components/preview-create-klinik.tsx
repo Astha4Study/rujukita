@@ -6,7 +6,6 @@ import {
     Mail,
     MapPin,
     Phone,
-    Stethoscope,
     Users,
 } from 'lucide-react';
 import React from 'react';
@@ -31,9 +30,7 @@ interface PreviewCreateKlinikProps {
     data: KlinikData;
 }
 
-const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
-    data,
-}) => {
+const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({ data }) => {
     const kapasitasTerisi =
         (data.kapasitas_total ?? 0) - (data.kapasitas_tersedia ?? 0);
     const okupansi =
@@ -42,7 +39,7 @@ const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
             : 0;
 
     return (
-        <div className="max-w-sm rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+        <div className="rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
             {/* Hero Image */}
             <div className="relative h-48 overflow-hidden rounded-t-2xl">
                 <img
@@ -56,7 +53,7 @@ const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
                 />
                 <div className="absolute inset-0 bg-black/30" />
 
-                {/* Badge */}
+                {/* Badges */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-2">
                     {data.jenis_klinik && (
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/90 px-2 py-1 text-xs font-semibold text-white shadow-sm">
@@ -66,7 +63,7 @@ const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
                     )}
                 </div>
 
-                {/* Nama Klinik & Alamat */}
+                {/* Nama Klinik */}
                 <div className="absolute bottom-3 left-3 max-w-[90%] text-white drop-shadow-lg">
                     {data.alamat && (
                         <div className="mb-1 inline-flex items-center gap-1 text-sm">
@@ -89,7 +86,7 @@ const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
                 {data.deskripsi || 'Belum ada deskripsi klinik.'}
             </div>
 
-            {/* Info Ringkas */}
+            {/* Info Kapasitas */}
             <div className="grid grid-cols-2 gap-2 border-t border-gray-100 p-3 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                     <BedDouble className="h-4 w-4 text-emerald-600" />
@@ -109,7 +106,7 @@ const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
                 </div>
             </div>
 
-            {/* Kontak Ringkas */}
+            {/* Kontak */}
             <div className="grid grid-cols-2 gap-2 border-t border-gray-100 p-3 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                     <Phone className="h-4 w-4 text-emerald-600" />
@@ -119,6 +116,15 @@ const PreviewCreateKlinik: React.FC<PreviewCreateKlinikProps> = ({
                     <Mail className="h-4 w-4 text-emerald-600" />
                     <span>{data.email || '-'}</span>
                 </div>
+            </div>
+
+            {/* Koordinat */}
+            <div className="flex items-center gap-1 border-t border-gray-100 p-3 text-xs text-gray-600">
+                <span>
+                    {data.latitude && data.longitude
+                        ? `${data.latitude}, ${data.longitude}`
+                        : 'Koordinat belum diisi'}
+                </span>
             </div>
         </div>
     );
