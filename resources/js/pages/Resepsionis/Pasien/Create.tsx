@@ -1,10 +1,10 @@
+import FormCreatePasien from '@/components/form-create-pasien';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import FormCreatePasien from '@/components/form-create-pasien';
 
-export default function CreatePasien() {
+export default function PasienCreateResepsionis() {
     const { data, setData, processing, post, reset, errors } = useForm({
         nama_lengkap: '',
         nik: '',

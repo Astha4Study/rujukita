@@ -5,7 +5,7 @@ import { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { ChangeEvent, FormEventHandler } from 'react';
 
-export default function AdminKlinikCreate() {
+export default function KlinikCreateAdmin() {
     const { data, setData, post, processing, reset } = useForm({
         nama_klinik: '',
         jenis_klinik: '',
@@ -50,8 +50,7 @@ export default function AdminKlinikCreate() {
                     Tambah Data Klinik
                 </h1>
                 <p className="mb-6 text-sm text-gray-500">
-                    Lengkapi data klinik di bawah untuk menambahkan ke
-                    daftar.
+                    Lengkapi data klinik di bawah untuk menambahkan ke daftar.
                 </p>
 
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

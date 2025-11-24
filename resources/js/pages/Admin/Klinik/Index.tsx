@@ -51,7 +51,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Klinik Kamu', href: '/resepsionis/klinik' },
 ];
 
-export default function AdminKlinikIndex() {
+export default function KlinikIndexAdmin() {
     const { props } = usePage<PageProps>();
     const currentKlinik = props.klinik[0] || null;
 

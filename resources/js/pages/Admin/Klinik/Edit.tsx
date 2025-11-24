@@ -31,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Edit Klinik Kamu', href: '' },
 ];
 
-export default function AdminKlinikEdit({ klinik }: Props) {
+export default function KlinikEditAdmin({ klinik }: Props) {
     const { data, setData, processing, errors } = useForm({
         nama_klinik: klinik.nama_klinik ?? '',
         jenis_klinik: klinik.jenis_klinik ?? '',

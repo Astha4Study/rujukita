@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminAddResepsionisAndDoktorController;
 use App\Http\Controllers\AdminKlinikController;
+use App\Http\Controllers\DokterAntrianController;
 use App\Http\Controllers\DokterFasilitasController;
+use App\Http\Controllers\DokterKlinikController;
 use App\Http\Controllers\DokterPasienController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ResepsionisAntrianController;
@@ -15,10 +17,10 @@ use App\Http\Controllers\SuperAdminPasienController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', fn () => Inertia::render('welcome'))->name('home');
+Route::get('/', fn() => Inertia::render('welcome'))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', fn () => Inertia::render('dashboard'))->name('dashboard');
+    Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
 
     Route::middleware(['auth', 'role:super_admin'])
         ->prefix('super-admin')
@@ -55,9 +57,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('pasien', ResepsionisPasienController::class)
                 ->parameters(['pasien' => 'pasien'])
                 ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-            Route::resource('rekam-medis', RekamMedisController::class)
-                ->parameters(['rekam-medis' => 'rekamMedis'])
-                ->only(['index', 'create', 'store', 'edit', 'update']);
             Route::get('antrian/create/pasien/{pasien}', [ResepsionisAntrianController::class, 'createForPasien'])
                 ->name('antrian.createForPasien');
             Route::resource('antrian', ResepsionisAntrianController::class)
@@ -68,14 +67,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['auth', 'role:dokter'])
         ->prefix('dokter')
         ->as('dokter.')
-        ->group(function () {
-            Route::resource('fasilitas', DokterFasilitasController::class)
+        ->group(function (): void {
+            Route::resource('klinik', DokterKlinikController::class)
                 ->only(['index']);
             Route::resource('pasien', DokterPasienController::class)
                 ->parameters(['pasien' => 'pasien'])
                 ->only(['index', 'show', 'edit', 'update']);
+            Route::resource('antrian', DokterAntrianController::class)
+                ->parameters(['antrian' => 'antrian'])
+                ->only(['index', 'store', 'edit', 'update', 'destroy']);
         });
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

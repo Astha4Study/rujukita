@@ -26,7 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Edit Pasien', href: '' },
 ];
 
-export default function EditPasien({ pasien }: Props) {
+export default function PasienEditDokter({ pasien }: Props) {
     const { data, setData, put, processing, errors } = useForm({
         nama_lengkap: pasien.nama_lengkap || '',
         nik: pasien.nik || '',

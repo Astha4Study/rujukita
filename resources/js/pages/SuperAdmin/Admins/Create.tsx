@@ -4,7 +4,7 @@ import { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-export default function CreateAdminSuperAdmin() {
+export default function AdminsCreateSuperAdmin() {
     const { data, setData, post, processing, reset } = useForm({
         name: '',
         email: '',

@@ -3,14 +3,23 @@ import AppLayout from '@/layouts/app-layout';
 
 import { BreadcrumbItem } from '@/types';
 import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { Filter, Plus, Search } from 'lucide-react';
+import { Head, usePage } from '@inertiajs/react';
+import { Filter, Search } from 'lucide-react';
 import { useState } from 'react';
 
 type Klinik = {
     id: number;
     nama_klinik: string;
-    jenis_klinik: 'Umum' | 'Gigi' | 'THT' | 'Kulit' | 'Kandungan' | 'Anak' | 'Bedah' | 'Mata' | 'Saraf';
+    jenis_klinik:
+        | 'Umum'
+        | 'Gigi'
+        | 'THT'
+        | 'Kulit'
+        | 'Kandungan'
+        | 'Anak'
+        | 'Bedah'
+        | 'Mata'
+        | 'Saraf';
     alamat: string;
     kota: string;
     provinsi: string;
@@ -45,7 +54,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Daftar Klinik', href: '/klinik' },
 ];
 
-export default function IndexKlinik() {
+export default function KlinikIndexSuperAdmin() {
     const { klinik } = usePage<PageProps>().props;
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -55,7 +64,7 @@ export default function IndexKlinik() {
         }
     };
 
-    const filteredKlinik= klinik.filter(
+    const filteredKlinik = klinik.filter(
         (item) =>
             item.nama_klinik
                 .toLowerCase()
@@ -166,6 +175,11 @@ export default function IndexKlinik() {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
+                                            <div className="text-center text-sm text-gray-600">
+                                                {item.rating}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
                                             {item.gambar ? (
                                                 <img
                                                     src={`/storage/${item.gambar}`}
@@ -181,9 +195,7 @@ export default function IndexKlinik() {
                                         <td className="px-6 py-4 text-center">
                                             <ActionDropdown
                                                 klinik={item}
-                                                deleteKlinik={
-                                                    deleteKlinik
-                                                }
+                                                deleteKlinik={deleteKlinik}
                                             />
                                         </td>
                                     </tr>
@@ -204,8 +216,7 @@ export default function IndexKlinik() {
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                     <div className="text-sm text-gray-600">
-                        Showing 1 - {filteredKlinik.length} from{' '}
-                        {klinik.length}
+                        Showing 1 - {filteredKlinik.length} from {klinik.length}
                     </div>
                 </div>
             </div>

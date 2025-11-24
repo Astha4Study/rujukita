@@ -1,14 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
 
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
-export default function ShowFasilitasSuperAdmin() {
+export default function KlinikShowSuperAdmin() {
     return (
         <AppLayout>
-            <Head title='Show Fasilitas' />
-            <div>
-
-            </div>
+            <Head title="Show Fasilitas" />
+            <div></div>
         </AppLayout>
-    )
+    );
 }

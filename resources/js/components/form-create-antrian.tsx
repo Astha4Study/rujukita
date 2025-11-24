@@ -11,18 +11,10 @@ interface Pasien {
     umur: number;
 }
 
-interface Dokter {
-    id: number;
-    name: string;
-}
-
 interface FormCreateAntrianProps {
     pasien: Pasien;
-    dokter: Dokter[];
     data: {
         pasien_id: number;
-        dokter_id: string;
-        spesialis: string;
         keluhan: string;
         tanggal_kunjungan: string;
     };
@@ -34,7 +26,6 @@ interface FormCreateAntrianProps {
 
 const FormCreateAntrian: React.FC<FormCreateAntrianProps> = ({
     pasien,
-    dokter,
     data,
     setData,
     handleSubmit,
@@ -116,79 +107,14 @@ const FormCreateAntrian: React.FC<FormCreateAntrianProps> = ({
                         </label>
                         <input
                             type="text"
-                            value={pasien.umur + ' Tahun'}
+                            value={`${pasien.umur} Tahun`}
                             disabled
                             className="w-full rounded-lg border border-gray-200 bg-gray-100 px-4 py-2.5 text-sm text-gray-600"
                         />
                     </div>
 
-                    {/* Pilih Dokter */}
-                    <div className="md:col-span-2">
-                        <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Pilih Dokter <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                            name="dokter_id"
-                            value={data.dokter_id}
-                            onChange={(e) =>
-                                setData('dokter_id', e.target.value)
-                            }
-                            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
-                        >
-                            <option value="">-- Pilih Dokter --</option>
-                            {dokter.map((d) => (
-                                <option key={d.id} value={d.id}>
-                                    {d.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.dokter_id && (
-                            <p className="mt-1 text-sm text-red-600">
-                                {errors.dokter_id}
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Spesialis */}
-                    <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Spesialis <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                            name="spesialis"
-                            value={data.spesialis}
-                            onChange={(e) =>
-                                setData('spesialis', e.target.value)
-                            }
-                            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm"
-                        >
-                            <option value="">-- Pilih Spesialis --</option>
-                            {[
-                                'Umum',
-                                'Anak',
-                                'Kandungan',
-                                'Bedah',
-                                'Gigi',
-                                'Mata',
-                                'Jantung',
-                                'Kulit',
-                                'Saraf',
-                                'Lainnya',
-                            ].map((s) => (
-                                <option key={s} value={s}>
-                                    {s}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.spesialis && (
-                            <p className="mt-1 text-sm text-red-600">
-                                {errors.spesialis}
-                            </p>
-                        )}
-                    </div>
-
                     {/* Tanggal Kunjungan */}
-                    <div>
+                    <div className="md:col-span-2">
                         <label className="mb-2 block text-sm font-medium text-gray-700">
                             Tanggal Kunjungan{' '}
                             <span className="text-red-500">*</span>

@@ -10,7 +10,6 @@ import {
     MapPin,
     Pencil,
     Phone,
-    Stethoscope,
     Users,
 } from 'lucide-react';
 
@@ -38,7 +37,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Klinik Kamu', href: '/resepsionis/klinik' },
 ];
 
-export default function ResepsionisKlinikIndex() {
+export default function KlinikIndexResepsionis() {
     const { props } = usePage<PageProps>();
     const f = props.klinik[0] || null;
 

@@ -29,7 +29,7 @@ class Antrian extends Model
 
     public function dokter()
     {
-        return $this->belongsTo(User::class, 'dokter_id');
+        return $this->belongsTo(Dokter::class, 'dokter_id');
     }
 
     public function klinik()
@@ -66,7 +66,7 @@ class Antrian extends Model
                 ->first();
 
             if ($dokter) {
-                $antrian->dokter_id = $dokter->user_id;
+                $antrian->dokter_id = $dokter->id;
 
                 // Update antrian dokter
                 $dokter->increment('antrian_saat_ini');

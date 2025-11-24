@@ -19,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Rekam Medis', href: '/resepsionis/rekam-medis' },
 ];
 
-export default function RekamMedisIndex() {
+export default function RekamMedisIndexResepsionis() {
     const { pasien } = usePage<PageProps>().props;
     const [searchQuery, setSearchQuery] = useState('');
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fasilitas;
+use App\Models\Klinik;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +22,9 @@ class DokterPasienController extends Controller
             abort(403, 'Hanya dokter yang dapat mengakses halaman ini.');
         }
 
-        // Ambil pasien yang berada di fasilitas yang sama dengan dokter
-        $pasien = Pasien::with('fasilitas')
-            ->where('fasilitas_id', $user->fasilitas_id) // sama seperti dokter
+        // Ambil pasien yang berada di klinik yang sama dengan dokter
+        $pasien = Pasien::with('klinik')
+            ->where('klinik_id', $user->klinik_id) // sama seperti dokter
             ->latest()
             ->get();
 
@@ -61,7 +61,7 @@ class DokterPasienController extends Controller
             abort(403);
         }
 
-        $pasien->load('fasilitas');
+        $pasien->load('klinik');
 
         return Inertia::render('Dokter/Pasien/Show', [
             'pasien' => $pasien,
@@ -78,9 +78,9 @@ class DokterPasienController extends Controller
             abort(403);
         }
 
-        $fasilitas = Fasilitas::where('created_by', $user->id)->get();
+        $klinik = Klinik::where('created_by', $user->id)->get();
 
-        return Inertia::render('Dokter/Pasien/Edit', ['pasien' => $pasien, 'fasilitas' => $fasilitas]);
+        return Inertia::render('Dokter/Pasien/Edit', ['pasien' => $pasien, 'klinik' => $klinik]);
     }
 
     /**
@@ -106,7 +106,7 @@ class DokterPasienController extends Controller
             'alergi' => 'nullable|string',
         ]);
 
-        $validated['fasilitas_id'] = $user->fasilitas_id;
+        $validated['klinik_id'] = $user->klinik_id;
         $pasien->update($validated);
 
         return redirect()->route('dokter.pasien.index')->with('success', 'Data pasien berhasil diperbarui.');

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('nomor_antrian')->default(1);
             $table->foreignId('pasien_id')->constrained('pasien')->onDelete('cascade');
-            $table->foreignId('dokter_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('dokter_id')->nullable()->constrained('dokter')->onDelete('set null');
             $table->foreignId('klinik_id')->constrained('klinik')->onDelete('cascade');
             $table->text('keluhan')->nullable();
             $table->enum('status', ['Menunggu', 'Sedang Diperiksa', 'Selesai'])->default('Menunggu');

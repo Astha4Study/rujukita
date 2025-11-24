@@ -41,6 +41,13 @@ class AdminAddResepsionisAndDoktorController extends Controller
      */
     public function create()
     {
+        $admin = Auth::user();
+
+        if (!$admin->klinik_id) {
+            return redirect('/admin/klinik')
+                ->with('error', 'Anda harus membuat fasilitas klinik terlebih dahulu sebelum menambahkan user.');
+        }
+
         $availableRoles = ['resepsionis', 'dokter',];
 
         return Inertia::render('Admin/Users/Create', [
@@ -86,7 +93,7 @@ class AdminAddResepsionisAndDoktorController extends Controller
         }
 
         return redirect()->route('admin.users.index')
-            ->with('success', ucfirst($role).' berhasil ditambahkan.');
+            ->with('success', ucfirst($role) . ' berhasil ditambahkan.');
     }
 
     /**
@@ -130,7 +137,7 @@ class AdminAddResepsionisAndDoktorController extends Controller
 
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
             'max_antrian_per_hari' => 'nullable|integer|min:1|max:50',
         ]);
