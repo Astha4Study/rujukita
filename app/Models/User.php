@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'fasilitas_id',
+        'klinik_id',
         'avatar',
         'created_by',
     ];
@@ -50,9 +50,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function fasilitas()
+    public function klinik()
     {
-        return $this->belongsTo(Fasilitas::class, 'fasilitas_id');
+        return $this->belongsTo(Klinik::class, 'klinik_id');
+    }
+
+    public function dokter()
+    {
+        return $this->hasOne(Dokter::class, 'user_id', 'id');
     }
 
 }

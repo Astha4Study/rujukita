@@ -38,7 +38,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Daftar Pasien', href: '/pasien' },
 ];
 
-export default function IndexPasienResepsionis() {
+export default function PasienIndexResepsionis() {
     const { pasien } = usePage<PageProps>().props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -127,7 +127,7 @@ export default function IndexPasienResepsionis() {
                                             type="checkbox"
                                             checked={
                                                 selectedIds.length ===
-                                                pasien.length &&
+                                                    pasien.length &&
                                                 pasien.length > 0
                                             }
                                             onChange={toggleSelectAll}
@@ -180,15 +180,15 @@ export default function IndexPasienResepsionis() {
                                             <td className="px-6 py-4 text-gray-700">
                                                 {item.tanggal_lahir
                                                     ? new Date(
-                                                        item.tanggal_lahir,
-                                                    ).toLocaleDateString(
-                                                        'id-ID',
-                                                        {
-                                                            day: '2-digit',
-                                                            month: 'long',
-                                                            year: 'numeric',
-                                                        },
-                                                    )
+                                                          item.tanggal_lahir,
+                                                      ).toLocaleDateString(
+                                                          'id-ID',
+                                                          {
+                                                              day: '2-digit',
+                                                              month: 'long',
+                                                              year: 'numeric',
+                                                          },
+                                                      )
                                                     : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-gray-700">

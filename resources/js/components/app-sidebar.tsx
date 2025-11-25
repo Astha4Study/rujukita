@@ -52,8 +52,8 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         {
-            title: 'Fasilitas',
-            href: `${prefix}/fasilitas`,
+            title: 'Klinik',
+            href: `${prefix}/klinik`,
             icon: Hospital,
         },
         {
@@ -65,11 +65,6 @@ export function AppSidebar() {
             title: 'Antrian',
             href: `${prefix}/antrian`,
             icon: ClipboardList,
-        },
-        {
-            title: 'Rekam Medis',
-            href: `${prefix}/rekam-medis`,
-            icon: Stethoscope,
         },
         {
             title: 'Tambah User',
@@ -87,7 +82,6 @@ export function AppSidebar() {
         mainNavItems = mainNavItems.filter(
             (item) =>
                 item.title !== 'Pasien' &&
-                item.title !== 'Rekam Medis' &&
                 item.title !== 'Tambah User' &&
                 item.title !== 'Antrian',
         );
@@ -97,7 +91,6 @@ export function AppSidebar() {
         mainNavItems = mainNavItems.filter(
             (item) =>
                 item.title !== 'Pasien' &&
-                item.title !== 'Rekam Medis' &&
                 item.title !== 'Kelola Admin' &&
                 item.title !== 'Antrian',
         );

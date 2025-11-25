@@ -29,7 +29,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Daftar Antrian', href: '/resepsionis/antrian' },
 ];
 
-export default function IndexResepsionisAntrian() {
+export default function AntrianIndexResepsionis() {
     const { antrian } = usePage<PageProps>().props;
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -121,27 +121,28 @@ export default function IndexResepsionisAntrian() {
                                             <td className="px-6 py-4 text-gray-700">
                                                 {item.created_at
                                                     ? new Date(
-                                                        item.created_at,
-                                                    ).toLocaleDateString(
-                                                        'id-ID',
-                                                        {
-                                                            day: '2-digit',
-                                                            month: 'long',
-                                                            year: 'numeric',
-                                                        },
-                                                    )
+                                                          item.created_at,
+                                                      ).toLocaleDateString(
+                                                          'id-ID',
+                                                          {
+                                                              day: '2-digit',
+                                                              month: 'long',
+                                                              year: 'numeric',
+                                                          },
+                                                      )
                                                     : '-'}
                                             </td>
                                             <td className="px-6 py-4 text-gray-700">
                                                 <span
-                                                    className={`rounded-full px-3 py-1 text-xs font-semibold ${item.status ===
+                                                    className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                                                        item.status ===
                                                         'Menunggu'
-                                                        ? 'bg-yellow-100 text-yellow-700'
-                                                        : item.status ===
-                                                            'Diproses'
-                                                            ? 'bg-blue-100 text-blue-700'
-                                                            : 'bg-green-100 text-green-700'
-                                                        }`}
+                                                            ? 'bg-yellow-100 text-yellow-700'
+                                                            : item.status ===
+                                                                'Diproses'
+                                                              ? 'bg-blue-100 text-blue-700'
+                                                              : 'bg-green-100 text-green-700'
+                                                    }`}
                                                 >
                                                     {item.status}
                                                 </span>

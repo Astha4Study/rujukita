@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Klinik;
 use App\Models\Pasien;
-use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,17 +14,17 @@ class SuperAdminPasienController extends Controller
      */
     public function index(Request $request)
     {
-        $fasilitasId = $request->query('fasilitas');
+        $klinikId = $request->query('klinik');
 
-        $pasien = $fasilitasId
-            ? Pasien::with('fasilitas')->where('fasilitas_id', $fasilitasId)->latest()->get()
+        $pasien = $klinikId
+            ? Pasien::with('klinik')->where('klinik_id', $klinikId)->latest()->get()
             : collect();
 
-        $fasilitas = $fasilitasId ? Fasilitas::find($fasilitasId) : null;
+        $klinik = $klinikId ? Klinik::find($klinikId) : null;
 
         return Inertia::render('SuperAdmin/Pasien/Index', [
             'pasien' => $pasien,
-            'fasilitas' => $fasilitas,
+            'klinik' => $klinik,
             'isSuperAdmin' => true,
         ]);
     }

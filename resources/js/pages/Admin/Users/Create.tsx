@@ -4,7 +4,7 @@ import { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-export default function CreateUsersAdmin() {
+export default function UsersCreateAdmin() {
     const { props } = usePage();
     const availableRoles: string[] = Array.isArray(props.availableRoles)
         ? props.availableRoles
@@ -14,7 +14,7 @@ export default function CreateUsersAdmin() {
         name: '',
         email: '',
         password: '',
-        role: availableRoles[0] || '',
+        role: availableRoles[0] ?? '',
     });
 
     const handleSubmit: FormEventHandler = (e) => {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fasilitas;
+use App\Models\klinik;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ class ResepsionisPasienController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $pasien = Pasien::with('fasilitas')->where('created_by', $user->id)->latest()->get();
+        $pasien = Pasien::with('klinik')->where('created_by', $user->id)->latest()->get();
 
         return Inertia::render('Resepsionis/Pasien/Index', [
             'pasien' => $pasien,
@@ -31,16 +31,16 @@ class ResepsionisPasienController extends Controller
     {
         $user = Auth::user();
 
-        $fasilitas = Fasilitas::where('created_by', $user->created_by)->get();
+        $klinik = Klinik::where('created_by', $user->created_by)->get();
 
-        if ($fasilitas->isEmpty()) {
-            return redirect()->route('resepsionis.fasilitas.index')->with(
+        if ($klinik->isEmpty()) {
+            return redirect()->route('resepsionis.klinik.index')->with(
                 'warning',
-                'Anda belum memiliki fasilitas.'
+                'Anda belum memiliki klinik.'
             );
         }
 
-        return Inertia::render('Resepsionis/Pasien/Create', ['fasilitas' => $fasilitas]);
+        return Inertia::render('Resepsionis/Pasien/Create', ['klinik' => $klinik]);
     }
 
     /**
@@ -49,7 +49,7 @@ class ResepsionisPasienController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $fasilitas = Fasilitas::where('created_by', $user->created_by)->first();
+        $klinik = Klinik::where('created_by', $user->created_by)->first();
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
@@ -64,7 +64,7 @@ class ResepsionisPasienController extends Controller
             'alergi' => 'nullable|string',
         ]);
 
-        $validated['fasilitas_id'] = $fasilitas->id;
+        $validated['klinik_id'] = $klinik->id;
         $validated['created_by'] = $user->id;
 
         $pasien = Pasien::create($validated);
@@ -90,9 +90,9 @@ class ResepsionisPasienController extends Controller
             abort(403);
         }
 
-        $fasilitas = Fasilitas::where('created_by', $user->id)->get();
+        $klinik = Klinik::where('created_by', $user->id)->get();
 
-        return Inertia::render('Resepsionis/Pasien/Edit', ['pasien' => $pasien, 'fasilitas' => $fasilitas]);
+        return Inertia::render('Resepsionis/Pasien/Edit', ['pasien' => $pasien, 'klinik' => $klinik]);
     }
 
     /**
@@ -118,7 +118,7 @@ class ResepsionisPasienController extends Controller
             'alergi' => 'nullable|string',
         ]);
 
-        $validated['fasilitas_id'] = $user->fasilitas_id;
+        $validated['klinik_id'] = $user->klinik_id;
         $pasien->update($validated);
 
         return redirect()->route('resepsionis.pasien.index')->with('success', 'Data pasien berhasil diperbarui.');

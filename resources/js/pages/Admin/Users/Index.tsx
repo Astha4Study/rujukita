@@ -20,7 +20,7 @@ interface PageProps {
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Daftar User', href: '' }];
 
-export default function UsersIndex() {
+export default function UsersIndexAdmin() {
     const { props } = usePage<PageProps>();
     const { users, role } = props;
 

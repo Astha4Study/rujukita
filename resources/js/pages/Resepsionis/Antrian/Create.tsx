@@ -26,11 +26,9 @@ interface CreateProps {
 
 const today = new Date().toISOString().split('T')[0];
 
-export default function Create({ pasien, dokter }: CreateProps) {
+export default function AntrianCreateResepsionis({ pasien }: CreateProps) {
     const { data, setData, post, processing, reset, errors } = useForm({
         pasien_id: pasien.id,
-        dokter_id: '',
-        spesialis: '',
         keluhan: '',
         tanggal_kunjungan: today,
     });
@@ -62,7 +60,6 @@ export default function Create({ pasien, dokter }: CreateProps) {
                 <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
                     <FormCreateAntrian
                         pasien={pasien}
-                        dokter={dokter}
                         data={data}
                         setData={setData}
                         handleSubmit={handleSubmit}

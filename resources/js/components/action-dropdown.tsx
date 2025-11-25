@@ -9,32 +9,40 @@ import {
 import { Link } from '@inertiajs/react';
 import { MoreHorizontal } from 'lucide-react';
 
-interface Fasilitas {
+interface Klinik {
     id: number;
-    nama_fasilitas: string;
-    jenis_fasilitas: 'Rumah Sakit Umum' | 'Klinik' | 'Puskesmas' | 'Dokter Mandiri';
+    nama_klinik: string;
+    jenis_klinik:
+        | 'Umum'
+        | 'Gigi'
+        | 'THT'
+        | 'Kulit'
+        | 'Kandungan'
+        | 'Anak'
+        | 'Bedah'
+        | 'Mata'
+        | 'Saraf';
     alamat: string;
     kota: string;
     provinsi: string;
     no_telepon: string;
     email: string | null;
-    kapasitas_total: number;
-    kapasitas_tersedia: number;
-    spesialisasi: 'Umum' | 'Anak' | 'Kandungan' | 'Bedah' | 'Gigi' | 'Mata' | 'Jantung' | 'Kulit' | 'Saraf' | 'Lainnya';
     deskripsi: string;
     latitude: string;
     longitude: string;
     gambar: string | null;
+    kapasitas_total: number;
+    kapasitas_tersedia: number;
 }
 
 interface ActionDropdownProps {
-    fasilitas: Fasilitas;
-    deletefasilitas: (id: number) => void;
+    klinik: Klinik;
+    deleteKlinik: (id: number) => void;
 }
 
 export default function ActionDropdown({
-    fasilitas,
-    deletefasilitas,
+    klinik,
+    deleteKlinik,
 }: ActionDropdownProps) {
     return (
         <DropdownMenu>
@@ -47,16 +55,16 @@ export default function ActionDropdown({
             <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                     <Link
-                        href={`/fasilitas/${fasilitas.id}/edit`}
+                        href={`/klinik/${klinik.id}/edit`}
                         className="w-full text-yellow-600 hover:text-yellow-700 focus:text-yellow-700"
                     >
-                        Edit Fasilitas
+                        Edit Klinik
                     </Link>
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                    onClick={() => deletefasilitas(fasilitas.id)}
+                    onClick={() => deleteKlinik(klinik.id)}
                     className="w-full cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700"
                 >
                     Hapus

@@ -24,7 +24,7 @@ class Pasien extends Model
         'golongan_darah',
         'riwayat_penyakit',
         'alergi',
-        'fasilitas_id',
+        'klinik_id',
         'created_by',
     ];
 
@@ -47,14 +47,9 @@ class Pasien extends Model
             : '-';
     }
 
-    public function rekamMedis()
+    public function klinik()
     {
-        return $this->hasMany(RekamMedis::class);
-    }
-
-    public function fasilitas()
-    {
-        return $this->belongsTo(Fasilitas::class);
+        return $this->belongsTo(Klinik::class);
     }
 
     protected static function boot()
@@ -66,11 +61,11 @@ class Pasien extends Model
             $user = Auth::user();
 
             if ($user && $user->hasRole('admin')) {
-                // Ambil fasilitas yang dibuat oleh admin tersebut
-                $fasilitas = Fasilitas::where('created_by', $user->id)->first();
+                // Ambil klinik yang dibuat oleh admin tersebut
+                $klinik = Klinik::where('created_by', $user->id)->first();
 
-                if ($fasilitas) {
-                    $pasien->fasilitas_id = $fasilitas->id;
+                if ($klinik) {
+                    $pasien->klinik_id = $klinik->id;
                 }
             }
         });
