@@ -16,12 +16,14 @@ class DokterAntrianController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->hasRole('dokter')) {
-            abort(403);
+        $dokter = $user->dokter;
+
+        if (!$dokter) {
+            abort(404, "Data dokter tidak ditemukan");
         }
 
         $antrian = Antrian::with(['pasien'])
-            ->where('dokter_id', $user->id)
+            ->where('dokter_id', $dokter->id)
             ->orderBy('nomor_antrian', 'asc')
             ->get();
 

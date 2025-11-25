@@ -55,4 +55,9 @@ class User extends Authenticatable
         return $this->belongsTo(Klinik::class, 'klinik_id');
     }
 
+    public function dokter()
+    {
+        return $this->hasOne(Dokter::class, 'user_id', 'id');
+    }
+
 }
