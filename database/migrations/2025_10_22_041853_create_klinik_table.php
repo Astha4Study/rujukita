@@ -16,13 +16,12 @@ return new class extends Migration {
             $table->enum('jenis_klinik', [
                 'Umum',
                 'Gigi',
-                'THT',
-                'Kulit',
-                'Kandungan',
+                'Kebidanan & Kandungan',
                 'Anak',
-                'Bedah',
+                'Kulit & Kelamin',
+                'THT',
                 'Mata',
-                'Saraf',
+                'Fisioterapi',
             ]);
             $table->string('alamat');
             $table->string('kota');
