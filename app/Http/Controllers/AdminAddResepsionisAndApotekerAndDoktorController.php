@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
-class AdminAddResepsionisAndDoktorController extends Controller
+class AdminAddResepsionisAndApotekerAndDoktorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -48,7 +48,13 @@ class AdminAddResepsionisAndDoktorController extends Controller
                 ->with('error', 'Anda harus membuat fasilitas klinik terlebih dahulu sebelum menambahkan user.');
         }
 
+        $klinik = $admin->klinik;
+
         $availableRoles = ['resepsionis', 'dokter',];
+
+        if ($klinik && $klinik->punya_apoteker) {
+            $availableRoles[] = 'apoteker';
+        }
 
         return Inertia::render('Admin/Users/Create', [
             'availableRoles' => $availableRoles,
