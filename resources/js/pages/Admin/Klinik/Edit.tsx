@@ -19,6 +19,7 @@ type Klinik = {
     longitude?: string;
     kapasitas_total?: number;
     kapasitas_tersedia?: number;
+    punya_apoteker?: boolean;
     gambar?: File | null;
 };
 
@@ -45,6 +46,7 @@ export default function KlinikEditAdmin({ klinik }: Props) {
         longitude: klinik.longitude ?? '',
         kapasitas_total: klinik.kapasitas_total ?? 0,
         kapasitas_tersedia: klinik.kapasitas_tersedia ?? 0,
+        punya_apoteker: Boolean(klinik.punya_apoteker),
         gambar: undefined as File | undefined,
     });
 

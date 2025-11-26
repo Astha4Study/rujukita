@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminAddResepsionisAndDoktorController;
+use App\Http\Controllers\AdminAddResepsionisAndApotekerAndDoktorController;
 use App\Http\Controllers\AdminKlinikController;
+use App\Http\Controllers\AdminLayananController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DokterAntrianController;
-use App\Http\Controllers\DokterFasilitasController;
 use App\Http\Controllers\DokterKlinikController;
 use App\Http\Controllers\DokterPasienController;
-use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ResepsionisAntrianController;
-use App\Http\Controllers\ResepsionisFasilitasController;
 use App\Http\Controllers\ResepsionisKlinikController;
 use App\Http\Controllers\ResepsionisPasienController;
 use App\Http\Controllers\SuperAdminAddAdminController;
@@ -41,10 +40,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('klinik', AdminKlinikController::class)
                 ->parameters(['klinik' => 'klinik'])
                 ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-            Route::resource('tambah-user', AdminAddResepsionisAndDoktorController::class)
+            Route::resource('tambah-user', AdminAddResepsionisAndApotekerAndDoktorController::class)
                 ->parameters(['tambah-user' => 'user'])
                 ->names('users')
                 ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+            Route::resource('layanan', AdminLayananController::class)
+                ->parameters(['layanan' => 'layanan'])
+                ->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
         });
 
     Route::middleware(['auth', 'role:resepsionis'])

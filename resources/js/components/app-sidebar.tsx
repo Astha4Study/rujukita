@@ -15,11 +15,11 @@ import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    BookPlus,
     ClipboardList,
     Folder,
     Hospital,
     LayoutGrid,
-    Stethoscope,
     UserRoundPlus,
     Users,
 } from 'lucide-react';
@@ -40,6 +40,8 @@ export function AppSidebar() {
                 return '/resepsionis';
             case 'dokter':
                 return '/dokter';
+            case 'apoteker':
+                return '/apoteker';
             default:
                 return '';
         }
@@ -67,6 +69,11 @@ export function AppSidebar() {
             icon: ClipboardList,
         },
         {
+            title: 'Tambah Layanan',
+            href: `${prefix}/layanan`,
+            icon: BookPlus,
+        },
+        {
             title: 'Tambah User',
             href: `${prefix}/tambah-user`,
             icon: UserRoundPlus,
@@ -83,7 +90,8 @@ export function AppSidebar() {
             (item) =>
                 item.title !== 'Pasien' &&
                 item.title !== 'Tambah User' &&
-                item.title !== 'Antrian',
+                item.title !== 'Antrian' &&
+                item.title !== 'Tambah Layanan',
         );
     }
 
@@ -99,14 +107,27 @@ export function AppSidebar() {
     if (role === 'resepsionis' || role === 'dokter') {
         mainNavItems = mainNavItems.filter(
             (item) =>
-                item.title !== 'Tambah User' && item.title !== 'Kelola Admin',
+                item.title !== 'Tambah User' &&
+                item.title !== 'Kelola Admin' &&
+                item.title !== 'Tambah Layanan',
         );
     }
 
     if (role === 'dokter') {
         mainNavItems = mainNavItems.filter(
             (item) =>
-                item.title !== 'Tambah User' && item.title !== 'Kelola Admin',
+                item.title !== 'Tambah User' &&
+                item.title !== 'Kelola Admin' &&
+                item.title !== 'Tambah Layanan',
+        );
+    }
+
+    if (role === 'resepsionis') {
+        mainNavItems = mainNavItems.filter(
+            (item) =>
+                item.title !== 'Pasien' &&
+                item.title !== 'Kelola Admin' &&
+                item.title !== 'Antrian',
         );
     }
 

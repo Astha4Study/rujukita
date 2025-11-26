@@ -27,8 +27,14 @@ class Klinik extends Model
         'rating',
         'kapasitas_total',
         'kapasitas_tersedia',
+        'punya_apoteker',
         'created_by',
     ];
+
+    protected $casts = [
+        'punya_apoteker' => 'boolean',
+    ];
+
 
     public function owner()
     {
