@@ -41,12 +41,12 @@ export default function AntrianCreateResepsionis({ pasien }: CreateProps) {
     };
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Daftar Pasien', href: '/resepsionis/pasien' },
+        { title: 'Daftar Antrian', href: '/resepsionis/antrian' },
         { title: 'Buat Antrian Pasien', href: '' },
     ];
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Buat Antrian" />
             <div className="p-6">
                 <div className="mb-6">

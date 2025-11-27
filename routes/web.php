@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminKlinikController;
 use App\Http\Controllers\AdminLayananController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DokterAntrianController;
+use App\Http\Controllers\DokterCatatanLayananController;
 use App\Http\Controllers\DokterKlinikController;
 use App\Http\Controllers\DokterPasienController;
 use App\Http\Controllers\ResepsionisAntrianController;
@@ -74,10 +75,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->only(['index']);
             Route::resource('pasien', DokterPasienController::class)
                 ->parameters(['pasien' => 'pasien'])
-                ->only(['index', 'show', 'edit', 'update']);
+                ->only(['index', 'show']);
             Route::resource('antrian', DokterAntrianController::class)
                 ->parameters(['antrian' => 'antrian'])
-                ->only(['index', 'store', 'edit', 'update', 'destroy']);
+                ->only(['index']);
+            Route::get('catatan-layanan', [DokterCatatanLayananController::class, 'index'])
+                ->name('catatan-layanan.index');
+            Route::get('catatan-layanan/{id}', [DokterCatatanLayananController::class, 'show'])
+                ->name('catatan-layanan.show');
+            Route::get('antrian/{antrian}/tangani', [DokterCatatanLayananController::class, 'create'])
+                ->name('tangani.create');
+            Route::post('antrian/{antrian}/tangani', [DokterCatatanLayananController::class, 'store'])
+                ->name('tangani.store');
+
         });
 });
 

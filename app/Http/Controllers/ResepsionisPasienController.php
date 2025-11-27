@@ -16,7 +16,10 @@ class ResepsionisPasienController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $pasien = Pasien::with('klinik')->where('created_by', $user->id)->latest()->get();
+        $pasien = Pasien::with('klinik')
+            ->where('klinik_id', $user->klinik_id)
+            ->latest()
+            ->get();
 
         return Inertia::render('Resepsionis/Pasien/Index', [
             'pasien' => $pasien,

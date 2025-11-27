@@ -9,7 +9,8 @@ type Pasien = {
 
 type Antrian = {
     id: number;
-    pasien: Pasien | null;
+    nomor_antrian: number;
+    pasien_nama: string;
     keluhan: string | null;
     status: string;
     created_at: string;
@@ -20,6 +21,7 @@ type PageProps = {
 };
 
 const listTable = [
+    'No Antrian',
     'Nama Pasien',
     'Keluhan',
     'Tanggal Dibuat',
@@ -37,7 +39,7 @@ export default function AntrianIndexDokter() {
 
     const filteredAntrian = antrian.filter(
         (a) =>
-            (a.pasien?.nama_lengkap || '')
+            (a.pasien_nama || '')
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase()) ||
             (a.keluhan || '').toLowerCase().includes(searchQuery.toLowerCase()),
@@ -82,8 +84,11 @@ export default function AntrianIndexDokter() {
                                             className="transition hover:bg-gray-50"
                                         >
                                             <td className="px-6 py-4 font-medium text-gray-900">
-                                                {item.pasien?.nama_lengkap ??
-                                                    '-'}
+                                                {item.nomor_antrian ?? '-'}
+                                            </td>
+
+                                            <td className="px-6 py-4 font-medium text-gray-900">
+                                                {item.pasien_nama ?? '-'}
                                             </td>
 
                                             <td className="px-6 py-4 text-gray-700">
@@ -124,7 +129,7 @@ export default function AntrianIndexDokter() {
                                             <td className="px-6 py-4 text-gray-700">
                                                 <a
                                                     href={`/dokter/antrian/${item.id}/tangani`}
-                                                    className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+                                                    className="rounded-md bg-emerald-600 px-3 py-1 text-xs font-medium text-white hover:bg-emerald-700"
                                                 >
                                                     Tangani
                                                 </a>
