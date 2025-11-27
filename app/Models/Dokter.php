@@ -32,6 +32,12 @@ class Dokter extends Model
         return $this->belongsTo(Klinik::class);
     }
 
+    public function antrian()
+    {
+        return $this->hasMany(Antrian::class);
+    }
+
+
     protected static function boot()
     {
         parent::boot();

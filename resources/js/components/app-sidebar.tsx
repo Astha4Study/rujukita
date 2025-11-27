@@ -17,9 +17,11 @@ import {
     BookOpen,
     BookPlus,
     ClipboardList,
+    CreditCard,
     Folder,
     Hospital,
     LayoutGrid,
+    Ticket,
     UserRoundPlus,
     Users,
 } from 'lucide-react';
@@ -64,9 +66,19 @@ export function AppSidebar() {
             icon: Users,
         },
         {
+            title: 'Layanan Pasien',
+            href: `${prefix}/catatan-layanan`,
+            icon: ClipboardList,
+        },
+        {
             title: 'Antrian',
             href: `${prefix}/antrian`,
-            icon: ClipboardList,
+            icon: Ticket,
+        },
+        {
+            title: 'Pembayaran',
+            href: `${prefix}/pembayaran`,
+            icon: CreditCard,
         },
         {
             title: 'Tambah Layanan',
@@ -91,7 +103,8 @@ export function AppSidebar() {
                 item.title !== 'Pasien' &&
                 item.title !== 'Tambah User' &&
                 item.title !== 'Antrian' &&
-                item.title !== 'Tambah Layanan',
+                item.title !== 'Tambah Layanan' &&
+                item.title !== 'Pembayaran',
         );
     }
 
@@ -118,16 +131,8 @@ export function AppSidebar() {
             (item) =>
                 item.title !== 'Tambah User' &&
                 item.title !== 'Kelola Admin' &&
-                item.title !== 'Tambah Layanan',
-        );
-    }
-
-    if (role === 'resepsionis') {
-        mainNavItems = mainNavItems.filter(
-            (item) =>
-                item.title !== 'Pasien' &&
-                item.title !== 'Kelola Admin' &&
-                item.title !== 'Antrian',
+                item.title !== 'Tambah Layanan' &&
+                item.title !== 'Pembayaran',
         );
     }
 

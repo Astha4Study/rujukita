@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 type Antrian = {
     id: number;
+    nomor_antrian: number;
     pasien_nama: string;
     dokter_nama: string;
     keluhan: string;
@@ -18,8 +19,9 @@ type PageProps = {
 };
 
 const listTable = [
+    'No Antrian',
     'Nama Pasien',
-    'Dokter',
+    'Nama Dokter',
     'Keluhan',
     'Tanggal Dibuat',
     'Status',
@@ -103,6 +105,9 @@ export default function AntrianIndexResepsionis() {
                                             key={item.id}
                                             className="transition hover:bg-gray-50"
                                         >
+                                            <td className="px-6 py-4 font-medium text-gray-900">
+                                                {item.nomor_antrian ?? '-'}
+                                            </td>
                                             <td className="px-6 py-4 font-medium text-gray-900">
                                                 {item.pasien_nama
                                                     ? item.pasien_nama

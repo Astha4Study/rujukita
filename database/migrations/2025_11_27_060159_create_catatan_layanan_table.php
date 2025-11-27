@@ -16,9 +16,10 @@ return new class extends Migration {
             $table->foreignId('klinik_id')->constrained('klinik')->onDelete('cascade');
             $table->foreignId('dokter_id')->nullable()->constrained('dokter')->onDelete('set null');
             $table->foreignId('antrian_id')->nullable()->constrained('antrian')->onDelete('set null');
-
             $table->date('tanggal_kunjungan')->nullable();
-            $table->text('keluhan')->nullable();
+            $table->text('keluhan_utama')->nullable();
+            $table->text('detail_keluhan')->nullable();
+            $table->text('diagnosa')->nullable();
             $table->text('tindakan')->nullable();
             $table->text('catatan_lain')->nullable();
             $table->timestamps();

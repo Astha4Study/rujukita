@@ -25,9 +25,10 @@ class ResepsionisAntrianController extends Controller
         $antrian = Antrian::with([
             'pasien:id,nama_lengkap',
             'dokter' => function ($q) {
-                $q->select('id', 'klinik_id', 'status', 'antrian_saat_ini');
+                $q->select('id', 'user_id', 'klinik_id', 'status', 'antrian_saat_ini');
                 $q->with(['user:id,name']);
             }
+
         ])
             ->where('klinik_id', $user->klinik_id)
             ->whereDate('tanggal_kunjungan', now()->toDateString())
@@ -109,8 +110,18 @@ class ResepsionisAntrianController extends Controller
         $klinikId = $user->klinik_id;
 
         // Hitung nomor antrian harian
-        $nomor = Antrian::where('klinik_id', $klinikId)
-            ->whereDate('tanggal_kunjungan', $validated['tanggal_kunjungan'])
+        $todayReset = now()->setTime(3, 0, 0);
+
+        if (now()->lessThan($todayReset)) {
+            $start = now()->subDay()->setTime(3, 0, 0);
+            $end = now()->setTime(2, 59, 59);
+        } else {
+            $start = $todayReset;
+            $end = now()->addDay()->setTime(2, 59, 59);
+        }
+
+        $nomor = Antrian::where('klinik_id', $user->klinik_id)
+            ->whereBetween('created_at', [$start, $end])
             ->max('nomor_antrian') + 1;
 
         Antrian::create([
